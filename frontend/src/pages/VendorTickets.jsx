@@ -362,7 +362,7 @@ export default function VendorTickets() {
                         rows={3}
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
-                        placeholder="Write your response to the customer..."
+                        aria-label="Vendor response message"
                         className="w-full px-3 py-2 border border-ice-300 rounded-xl text-xs bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                       />
 

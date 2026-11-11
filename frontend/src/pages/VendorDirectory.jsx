@@ -56,8 +56,8 @@ export default function VendorDirectory() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search vendor or store..."
-                className="w-full pl-9 pr-4 py-2 border border-ice-300 rounded-xl text-sm placeholder-stone-400 bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 text-stone-800 transition-colors"
+                aria-label="Search vendor or store"
+                className="w-full pl-9 pr-4 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 text-stone-800 transition-colors"
               />
             </div>
           </div>

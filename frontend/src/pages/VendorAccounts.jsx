@@ -323,7 +323,6 @@ export default function VendorAccounts() {
                     required
                     value={form.title}
                     onChange={handleFormChange}
-                    placeholder="e.g. Mythic AK-47 Radiance + Level 150 Master"
                     className="w-full px-3 py-2 border border-ice-300 rounded-xl bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                   />
                 </div>
@@ -338,7 +337,6 @@ export default function VendorAccounts() {
                       min="1"
                       value={form.price_amount}
                       onChange={handleFormChange}
-                      placeholder="350000"
                       className="w-full px-3 py-2 border border-ice-300 rounded-xl font-mono bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                     />
                   </div>
@@ -365,7 +363,6 @@ export default function VendorAccounts() {
                     rows={4}
                     value={form.description}
                     onChange={handleFormChange}
-                    placeholder="Detail the mythics, legendaries, player level, server, and Activision linking status..."
                     className="w-full px-3 py-2 border border-ice-300 rounded-xl bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                   />
                 </div>

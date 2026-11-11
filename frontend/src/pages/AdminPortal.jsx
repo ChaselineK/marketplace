@@ -693,7 +693,6 @@ export default function AdminPortal() {
                   required
                   value={vendorForm.store_name}
                   onChange={handleFormChange}
-                  placeholder="e.g. Bravo Armory"
                   className="w-full px-3 py-2 border border-ice-300 rounded-xl bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500"
                 />
               </div>
@@ -718,7 +717,6 @@ export default function AdminPortal() {
                   required
                   value={vendorForm.whatsapp_number}
                   onChange={handleFormChange}
-                  placeholder="e.g. 255712345678"
                   className="w-full px-3 py-2 border border-ice-300 rounded-xl bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500"
                 />
               </div>

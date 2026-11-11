@@ -400,7 +400,7 @@ export default function AdminTickets() {
                         rows={3}
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
-                        placeholder="Write administrative determination or mediation instruction visible to both parties..."
+                        aria-label="Administrative determination message"
                         className="w-full px-3 py-2 border border-ice-300 rounded-xl text-xs bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                       />
 

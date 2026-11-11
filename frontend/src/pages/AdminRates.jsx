@@ -177,7 +177,6 @@ export default function AdminRates() {
                   required
                   value={form.rate}
                   onChange={(e) => setForm({ ...form, rate: e.target.value })}
-                  placeholder={form.quote_currency === 'USD' ? '0.00038' : '0.58'}
                   className="w-full px-3 py-2 border border-ice-300 rounded-xl font-mono bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500"
                 />
                 <span className="text-[11px] text-stone-500 mt-1 block">

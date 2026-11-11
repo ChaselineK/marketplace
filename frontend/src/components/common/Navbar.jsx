@@ -2,7 +2,8 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCurrency } from '../../context/CurrencyContext';
-import { LogOut, Shield, Store, ShoppingBag, Globe } from 'lucide-react';
+import { LogOut, Shield, Store, ShoppingBag, Globe, LifeBuoy } from 'lucide-react';
+import CodmLogo from './CodmLogo';
 
 export default function Navbar() {
   const { user, logout, isSuperAdmin, isVendor, isCustomer } = useAuth();
@@ -23,8 +24,8 @@ export default function Navbar() {
 
   const navLinkClass = (path) => {
     return isActive(path)
-      ? 'text-sm font-semibold text-quantum-600 border-b-2 border-quantum-600 pb-1 transition-all'
-      : 'text-sm font-medium text-stone-600 hover:text-quantum-600 transition-colors pb-1';
+      ? 'text-sm font-semibold text-quantum-600 border-b-2 border-quantum-600 pb-1 transition-all whitespace-nowrap'
+      : 'text-sm font-medium text-stone-600 hover:text-quantum-600 transition-colors pb-1 whitespace-nowrap';
   };
 
   const getRoleBadge = () => {
@@ -57,27 +58,25 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Brand */}
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-6 sm:space-x-8 shrink-0">
             <Link
               to={user ? (isSuperAdmin ? '/admin' : isVendor ? '/vendor' : '/app') : '/login'}
-              className="flex items-center space-x-3 group"
+              className="flex items-center space-x-2.5 group whitespace-nowrap"
             >
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-base tracking-wider glass-button shadow-sm group-hover:scale-105 transition-transform">
-                WS
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center p-1.5 glass-button shadow-xs group-hover:scale-105 transition-transform bg-quantum-50/60 border border-quantum-200">
+                <CodmLogo className="w-full h-full" />
               </div>
-              <div className="flex flex-col">
-                <span className="text-lg font-bold text-stone-900 tracking-tight leading-none group-hover:text-quantum-600 transition-colors">
-                  WILRICH STORE
-                </span>
-                <span className="text-[10px] uppercase font-semibold tracking-wider text-quantum-700">
-                  CODM Marketplace
+              <div className="flex items-center whitespace-nowrap">
+                <span className="text-xl sm:text-2xl font-black tracking-tight whitespace-nowrap select-none">
+                  <span className="text-slate-950">WILRICH</span>
+                  <span className="text-quantum-600 ml-1.5">STORE</span>
                 </span>
               </div>
             </Link>
 
             {/* Role-specific Navigation */}
             {user && (
-              <nav className="hidden md:flex items-center space-x-6">
+              <nav className="hidden lg:flex items-center space-x-5">
                 {isCustomer && (
                   <>
                     <Link to="/app" className={navLinkClass('/app')}>
@@ -94,9 +93,6 @@ export default function Navbar() {
                     </Link>
                     <Link to="/app/orders" className={navLinkClass('/app/orders')}>
                       My Orders
-                    </Link>
-                    <Link to="/app/tickets" className={navLinkClass('/app/tickets')}>
-                      Support
                     </Link>
                   </>
                 )}
@@ -145,50 +141,64 @@ export default function Navbar() {
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             {/* Currency Selector */}
-            <div className="flex items-center space-x-1.5 border border-ice-300 rounded-lg px-2.5 py-1 bg-white/70 text-xs shadow-2xs backdrop-blur-xs">
-              <Globe className="w-3.5 h-3.5 text-quantum-600" />
+            <div className="flex items-center space-x-1.5 border border-ice-300 rounded-xl px-2.5 py-1.5 bg-white/80 text-xs shadow-2xs backdrop-blur-xs">
+              <Globe className="w-3.5 h-3.5 text-quantum-600 shrink-0" />
+              <span className="text-[10px] font-bold text-stone-400 uppercase hidden sm:inline mr-0.5">Currency:</span>
               <select
                 value={displayCurrency}
                 onChange={(e) => setDisplayCurrency(e.target.value)}
-                className="bg-transparent font-semibold text-stone-800 focus:outline-none cursor-pointer"
+                className="bg-transparent font-bold text-stone-800 focus:outline-none cursor-pointer"
                 title="Select Display Currency"
               >
                 {supportedCurrencies.map((c) => (
-                  <option key={c} value={c} className="bg-white text-stone-900">
+                  <option key={c} value={c} className="bg-white text-stone-900 font-medium">
                     {c}
                   </option>
                 ))}
               </select>
             </div>
 
+            {/* Clear Divider to prevent interchangeable confusion */}
+            <div className="h-5 w-px bg-ice-300 hidden sm:block" />
+
+            {/* Dedicated Support Button with clear LifeBuoy Icon & Distinct Styling */}
+            <Link
+              to={user ? (isSuperAdmin ? '/admin/tickets' : isVendor ? '/vendor/tickets' : '/app/tickets') : '/login'}
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-stone-700 hover:text-quantum-600 bg-white/80 hover:bg-white border border-ice-300 hover:border-quantum-300 transition-colors shadow-2xs"
+              title="Customer Support & Disputes"
+            >
+              <LifeBuoy className="w-3.5 h-3.5 text-quantum-600 shrink-0" />
+              <span>Support</span>
+            </Link>
+
             {user ? (
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2 sm:space-x-3 pl-1 sm:pl-2 border-l border-ice-300">
                 {getRoleBadge()}
-                <div className="text-right hidden sm:block">
+                <div className="text-right hidden xl:block">
                   <div className="text-xs font-semibold text-stone-900">{user.name}</div>
                   <div className="text-[11px] text-stone-500 font-mono">{user.email}</div>
                 </div>
                 <button
                   onClick={handleLogout}
                   title="Sign out"
-                  className="p-2 text-stone-500 hover:text-quantum-600 hover:bg-quantum-50 rounded-lg transition-colors"
+                  className="p-2 text-stone-500 hover:text-quantum-600 hover:bg-quantum-50 rounded-xl transition-colors cursor-pointer"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
               </div>
             ) : (
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2 pl-1 sm:pl-2 border-l border-ice-300">
                 <Link
                   to="/login"
-                  className="text-sm font-medium text-stone-700 hover:text-quantum-600 px-3 py-1.5 rounded-lg transition-colors"
+                  className="text-xs font-semibold text-stone-700 hover:text-quantum-600 px-3 py-1.5 rounded-xl transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="text-sm font-semibold glass-button px-4 py-1.5 rounded-lg shadow-sm transition-all"
+                  className="text-xs font-semibold glass-button px-3.5 py-1.5 rounded-xl shadow-xs transition-all"
                 >
                   Register
                 </Link>

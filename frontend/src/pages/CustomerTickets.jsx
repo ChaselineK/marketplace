@@ -406,7 +406,6 @@ export default function CustomerTickets() {
                     required
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    placeholder="Brief description of the problem..."
                     className="w-full px-3 py-2 border border-ice-300 rounded-xl bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                   />
                 </div>
@@ -434,7 +433,6 @@ export default function CustomerTickets() {
                     rows={4}
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Provide full context, chat logs summary, or details for the vendor and moderator..."
                     className="w-full px-3 py-2 border border-ice-300 rounded-xl bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                   />
                 </div>

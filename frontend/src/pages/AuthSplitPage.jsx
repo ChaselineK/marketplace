@@ -1,0 +1,551 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import {
+  Lock,
+  Mail,
+  User,
+  Phone,
+  AlertCircle,
+  ArrowRight,
+  ShieldCheck,
+  Loader2,
+  Gamepad2,
+  Coins,
+  Shield,
+  CheckCircle2,
+} from 'lucide-react';
+import CodmLogo from '../components/common/CodmLogo';
+
+export default function AuthSplitPage({ initialMode = 'login' }) {
+  const [mode, setMode] = useState(initialMode);
+  const { login, register, user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Keep internal mode in sync with route if user navigates back/forward
+  useEffect(() => {
+    if (location.pathname === '/register') {
+      setMode('register');
+    } else if (location.pathname === '/login') {
+      setMode('login');
+    }
+  }, [location.pathname]);
+
+  // Handle switching tabs and updating the URL cleanly
+  const handleSwitchMode = (targetMode) => {
+    setMode(targetMode);
+    if (targetMode === 'login' && location.pathname !== '/login') {
+      navigate('/login', { replace: true, state: location.state });
+    } else if (targetMode === 'register' && location.pathname !== '/register') {
+      navigate('/register', { replace: true, state: location.state });
+    }
+  };
+
+  // Redirect if already logged in
+  const redirectAfterAuth = (authUser) => {
+    const from = location.state?.from?.pathname;
+    if (from && from !== '/login' && from !== '/register') {
+      navigate(from, { replace: true });
+      return;
+    }
+
+    if (authUser.role === 'super_admin') {
+      navigate('/admin', { replace: true });
+    } else if (authUser.role === 'vendor') {
+      navigate('/vendor', { replace: true });
+    } else {
+      navigate('/app', { replace: true });
+    }
+  };
+
+  // Login Form State
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [remember, setRemember] = useState(false);
+  const [loginError, setLoginError] = useState('');
+  const [loginSubmitting, setLoginSubmitting] = useState(false);
+
+  // Register Form State
+  const [registerData, setRegisterData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
+    password_confirmation: '',
+  });
+  const [registerError, setRegisterError] = useState('');
+  const [registerSubmitting, setRegisterSubmitting] = useState(false);
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setLoginError('');
+    setLoginSubmitting(true);
+
+    try {
+      const loggedUser = await login(loginEmail, loginPassword, remember);
+      redirectAfterAuth(loggedUser);
+    } catch (err) {
+      setLoginError(
+        err.response?.data?.errors?.email?.[0] ||
+        err.response?.data?.message ||
+        'Unable to sign in. Please verify your email and password.'
+      );
+    } finally {
+      setLoginSubmitting(false);
+    }
+  };
+
+  const handleQuickLogin = async (demoEmail, demoPassword) => {
+    setLoginEmail(demoEmail);
+    setLoginPassword(demoPassword);
+    setLoginError('');
+    setLoginSubmitting(true);
+
+    try {
+      const loggedUser = await login(demoEmail, demoPassword, false);
+      redirectAfterAuth(loggedUser);
+    } catch (err) {
+      setLoginError(err.response?.data?.message || 'Quick login failed.');
+    } finally {
+      setLoginSubmitting(false);
+    }
+  };
+
+  const handleRegisterChange = (e) => {
+    setRegisterData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    setRegisterError('');
+
+    if (registerData.password !== registerData.password_confirmation) {
+      setRegisterError('Passwords do not match.');
+      return;
+    }
+
+    setRegisterSubmitting(true);
+    try {
+      const createdUser = await register(registerData);
+      redirectAfterAuth(createdUser);
+    } catch (err) {
+      const errors = err.response?.data?.errors;
+      if (errors) {
+        const firstErrorKey = Object.keys(errors)[0];
+        setRegisterError(errors[firstErrorKey][0]);
+      } else {
+        setRegisterError(err.response?.data?.message || 'Registration failed. Please check your inputs.');
+      }
+    } finally {
+      setRegisterSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center p-3 sm:p-6 lg:p-8 page-transition">
+      {/* Split Card Container */}
+      <div className="w-full max-w-6xl glass-panel-elevated rounded-3xl overflow-hidden shadow-2xl border border-ice-200 grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
+        
+        {/* Left Side: Store Intro & Mode Switch Buttons */}
+        <div className="lg:col-span-5 bg-gradient-to-br from-quantum-950 via-slate-900 to-quantum-900 text-white p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden">
+          {/* Subtle Ambient Glow Orbs */}
+          <div className="absolute -top-20 -left-20 w-64 h-64 bg-quantum-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-ice-500/20 rounded-full blur-3xl pointer-events-none" />
+
+          {/* Top Intro Section */}
+          <div className="relative z-10">
+            {/* Official Call of Duty: Mobile Emblem & Branding */}
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-12 h-12 rounded-2xl bg-white/10 p-2 backdrop-blur-md border border-white/15 flex items-center justify-center">
+                <CodmLogo className="w-full h-full" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[11px] font-black uppercase tracking-widest text-quantum-300">
+                  Call of Duty: Mobile
+                </span>
+                <span className="text-[10px] text-ice-200/80 font-medium">
+                  Verified Intermediary Hub
+                </span>
+              </div>
+            </div>
+
+            {/* Store Name - Exactly 1 line, Two-tone, Heavy Font Weight */}
+            <div className="text-2xl sm:text-3xl font-black tracking-tight whitespace-nowrap flex items-center mb-3">
+              <span className="text-white">WILRICH</span>
+              <span className="text-quantum-400 ml-2">STORE</span>
+            </div>
+
+            <p className="text-xs sm:text-sm text-ice-200 leading-relaxed max-w-md">
+              The premier marketplace for verified Call of Duty: Mobile accounts, mythic blueprints, and instant CP packages with secure WhatsApp fulfillment.
+            </p>
+
+            {/* Feature Highlights */}
+            <div className="mt-8 space-y-3.5">
+              <div className="flex items-start space-x-3">
+                <div className="w-7 h-7 rounded-lg bg-quantum-500/20 border border-quantum-400/30 flex items-center justify-center text-quantum-300 shrink-0 mt-0.5">
+                  <Gamepad2 className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white">Verified CODM Accounts</div>
+                  <div className="text-[11px] text-ice-300 leading-tight">Inspect mythic weapons, legendary armories, and confirmed progression.</div>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3">
+                <div className="w-7 h-7 rounded-lg bg-quantum-500/20 border border-quantum-400/30 flex items-center justify-center text-quantum-300 shrink-0 mt-0.5">
+                  <Coins className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white">Competitive CP Bundles</div>
+                  <div className="text-[11px] text-ice-300 leading-tight">Vendor-backed pricing with immediate WhatsApp fulfillment handoffs.</div>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3">
+                <div className="w-7 h-7 rounded-lg bg-quantum-500/20 border border-quantum-400/30 flex items-center justify-center text-quantum-300 shrink-0 mt-0.5">
+                  <ShieldCheck className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white">Direct Dispute Mediation</div>
+                  <div className="text-[11px] text-ice-300 leading-tight">Open support tickets with verified image evidence and admin mediation.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Action Switcher: 2 Buttons (Login & Register) */}
+          <div className="relative z-10 mt-8 pt-6 border-t border-white/15">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-ice-300 mb-2.5">
+              Choose Action
+            </div>
+            <div className="grid grid-cols-2 gap-3 bg-white/10 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md">
+              <button
+                type="button"
+                onClick={() => handleSwitchMode('login')}
+                className={`py-2.5 px-4 rounded-xl text-xs font-bold tracking-wide transition-all cursor-pointer flex items-center justify-center space-x-1.5 ${
+                  mode === 'login'
+                    ? 'bg-quantum-600 text-white shadow-md shadow-quantum-600/40 ring-1 ring-white/20'
+                    : 'text-ice-200 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                <span>Sign In</span>
+                {mode === 'login' && <CheckCircle2 className="w-3.5 h-3.5 ml-1 text-ice-200" />}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleSwitchMode('register')}
+                className={`py-2.5 px-4 rounded-xl text-xs font-bold tracking-wide transition-all cursor-pointer flex items-center justify-center space-x-1.5 ${
+                  mode === 'register'
+                    ? 'bg-quantum-600 text-white shadow-md shadow-quantum-600/40 ring-1 ring-white/20'
+                    : 'text-ice-200 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                <span>Register</span>
+                {mode === 'register' && <CheckCircle2 className="w-3.5 h-3.5 ml-1 text-ice-200" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side: Form (Login or Register with Smooth Transition) */}
+        <div className="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-center bg-white/70 backdrop-blur-md relative">
+          
+          {/* Form Switch Transition */}
+          <div className="max-w-md mx-auto w-full page-transition" key={mode}>
+            {mode === 'login' ? (
+              /* LOGIN FORM */
+              <div>
+                <div className="mb-6">
+                  <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                    Sign In to <span className="whitespace-nowrap"><span className="text-slate-950">WILRICH</span> <span className="text-quantum-600">STORE</span></span>
+                  </h2>
+                  <p className="text-xs sm:text-sm text-stone-600 mt-1">
+                    Enter your account credentials to continue trading or managing storefronts.
+                  </p>
+                </div>
+
+                {loginError && (
+                  <div className="mb-5 p-3.5 bg-red-50 border border-red-200 rounded-xl text-red-800 text-xs flex items-start space-x-2 shadow-2xs">
+                    <AlertCircle className="w-4 h-4 mr-1 mt-0.5 shrink-0 text-red-600" />
+                    <span>{loginError}</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleLoginSubmit} className="space-y-4">
+                  {/* Email */}
+                  <div>
+                    <label className="block text-xs font-bold text-stone-700 mb-1" htmlFor="login-email">
+                      Email Address *
+                    </label>
+                    <div className="relative rounded-xl shadow-2xs">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                        <Mail className="w-4 h-4" />
+                      </div>
+                      <input
+                        id="login-email"
+                        type="email"
+                        required
+                        autoComplete="email"
+                        value={loginEmail}
+                        onChange={(e) => setLoginEmail(e.target.value)}
+                        className="block w-full pl-10 pr-3 py-2.5 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Password */}
+                  <div>
+                    <label className="block text-xs font-bold text-stone-700 mb-1" htmlFor="login-password">
+                      Password *
+                    </label>
+                    <div className="relative rounded-xl shadow-2xs">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                        <Lock className="w-4 h-4" />
+                      </div>
+                      <input
+                        id="login-password"
+                        type="password"
+                        required
+                        autoComplete="current-password"
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}
+                        className="block w-full pl-10 pr-3 py-2.5 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs pt-1">
+                    <label className="flex items-center text-stone-600 select-none cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={remember}
+                        onChange={(e) => setRemember(e.target.checked)}
+                        className="rounded border-ice-300 text-quantum-600 focus:ring-quantum-500 mr-2 cursor-pointer"
+                      />
+                      Remember this session
+                    </label>
+                    <span className="text-[11px] font-mono text-quantum-700">Quantum Auth</span>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loginSubmitting}
+                    className="w-full flex justify-center items-center py-2.5 px-4 rounded-xl text-sm font-bold text-white glass-button disabled:opacity-50 transition-all shadow-md mt-2 cursor-pointer"
+                  >
+                    {loginSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        Authenticating...
+                      </>
+                    ) : (
+                      <>
+                        Sign In <ArrowRight className="w-4 h-4 ml-2" />
+                      </>
+                    )}
+                  </button>
+                </form>
+
+                {/* Quick Seeded Demo Accounts */}
+                <div className="mt-8 pt-6 border-t border-ice-200">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-2.5 flex items-center">
+                    <ShieldCheck className="w-3.5 h-3.5 mr-1.5 text-quantum-600" />
+                    Quick Testing Accounts (Seeded)
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('admin@wilrichstore.com', 'Password123!')}
+                      className="p-2 border border-quantum-200 bg-quantum-50/70 text-stone-900 rounded-xl font-medium text-left hover:bg-quantum-100 transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-quantum-700 text-xs">Super Admin</div>
+                      <div className="text-[10px] text-stone-500 truncate">admin@wilrichstore.com</div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('vendor1@wilrichstore.com', 'Password123!')}
+                      className="p-2 border border-ice-300 bg-white/70 text-stone-900 rounded-xl font-medium text-left hover:bg-white transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-stone-900 text-xs">Vendor 1 (Alpha)</div>
+                      <div className="text-[10px] text-stone-500 truncate">vendor1@wilrichstore.com</div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('vendor2@wilrichstore.com', 'Password123!')}
+                      className="p-2 border border-ice-300 bg-white/70 text-stone-900 rounded-xl font-medium text-left hover:bg-white transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-stone-900 text-xs">Vendor 2 (Bravo)</div>
+                      <div className="text-[10px] text-stone-500 truncate">vendor2@wilrichstore.com</div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('customer@wilrichstore.com', 'Password123!')}
+                      className="p-2 border border-ice-300 bg-white/70 text-stone-900 rounded-xl font-medium text-left hover:bg-white transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-stone-900 text-xs">Customer (John)</div>
+                      <div className="text-[10px] text-stone-500 truncate">customer@wilrichstore.com</div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* REGISTER FORM */
+              <div>
+                <div className="mb-6">
+                  <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                    Create Customer Account
+                  </h2>
+                  <p className="text-xs sm:text-sm text-stone-600 mt-1">
+                    Get started with verified account orders and live WhatsApp vendor handoffs.
+                  </p>
+                </div>
+
+                {registerError && (
+                  <div className="mb-5 p-3.5 bg-red-50 border border-red-200 rounded-xl text-red-800 text-xs flex items-start space-x-2 shadow-2xs">
+                    <AlertCircle className="w-4 h-4 mr-1 mt-0.5 shrink-0 text-red-600" />
+                    <span>{registerError}</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleRegisterSubmit} className="space-y-3.5">
+                  {/* Name */}
+                  <div>
+                    <label className="block text-xs font-bold text-stone-700 mb-1" htmlFor="register-name">
+                      Full Name *
+                    </label>
+                    <div className="relative rounded-xl shadow-2xs">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                        <User className="w-4 h-4" />
+                      </div>
+                      <input
+                        id="register-name"
+                        name="name"
+                        type="text"
+                        required
+                        value={registerData.name}
+                        onChange={handleRegisterChange}
+                        className="block w-full pl-10 pr-3 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label className="block text-xs font-bold text-stone-700 mb-1" htmlFor="register-email">
+                      Email Address *
+                    </label>
+                    <div className="relative rounded-xl shadow-2xs">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                        <Mail className="w-4 h-4" />
+                      </div>
+                      <input
+                        id="register-email"
+                        name="email"
+                        type="email"
+                        required
+                        value={registerData.email}
+                        onChange={handleRegisterChange}
+                        className="block w-full pl-10 pr-3 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  {/* WhatsApp Phone */}
+                  <div>
+                    <label className="block text-xs font-bold text-stone-700 mb-1" htmlFor="register-phone">
+                      WhatsApp Phone Number (Optional)
+                    </label>
+                    <div className="relative rounded-xl shadow-2xs">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                        <Phone className="w-4 h-4" />
+                      </div>
+                      <input
+                        id="register-phone"
+                        name="phone"
+                        type="tel"
+                        value={registerData.phone}
+                        onChange={handleRegisterChange}
+                        className="block w-full pl-10 pr-3 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 transition-colors font-mono"
+                      />
+                    </div>
+                    <span className="text-[10px] text-stone-500 mt-1 block">
+                      Include country code (e.g. 255712345678) for instant WhatsApp handoffs.
+                    </span>
+                  </div>
+
+                  {/* Passwords grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-bold text-stone-700 mb-1" htmlFor="register-password">
+                        Password *
+                      </label>
+                      <div className="relative rounded-xl shadow-2xs">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                          <Lock className="w-4 h-4" />
+                        </div>
+                        <input
+                          id="register-password"
+                          name="password"
+                          type="password"
+                          required
+                          value={registerData.password}
+                          onChange={handleRegisterChange}
+                          className="block w-full pl-10 pr-3 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-stone-700 mb-1" htmlFor="register-confirm">
+                        Confirm Password *
+                      </label>
+                      <div className="relative rounded-xl shadow-2xs">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                          <Lock className="w-4 h-4" />
+                        </div>
+                        <input
+                          id="register-confirm"
+                          name="password_confirmation"
+                          type="password"
+                          required
+                          value={registerData.password_confirmation}
+                          onChange={handleRegisterChange}
+                          className="block w-full pl-10 pr-3 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 transition-colors"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={registerSubmitting}
+                    className="w-full flex justify-center items-center py-2.5 px-4 rounded-xl text-sm font-bold text-white glass-button disabled:opacity-50 transition-all shadow-md mt-4 cursor-pointer"
+                  >
+                    {registerSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        Creating Customer Account...
+                      </>
+                    ) : (
+                      <>
+                        Complete Registration <ArrowRight className="w-4 h-4 ml-2" />
+                      </>
+                    )}
+                  </button>
+                </form>
+
+                <div className="mt-6 text-center text-xs text-stone-500">
+                  By registering, you agree to WILRICH STORE{' '}
+                  <Link to="/policies" className="text-quantum-600 underline hover:text-quantum-700">
+                    Terms of Service &amp; Policies
+                  </Link>.
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
