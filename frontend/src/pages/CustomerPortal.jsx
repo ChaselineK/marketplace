@@ -47,8 +47,8 @@ export default function CustomerPortal() {
               {/* Headline - Single Line, Two-Tone, Heavy Font Weight */}
               <div className="space-y-2">
                 <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
-                  <span className="text-slate-950">WILRICH</span>{' '}
-                  <span className="text-quantum-600">STORE</span>
+                  <span className="text-coca-950">WILRICH</span>{' '}
+                  <span className="text-electric-600">STORE</span>
                 </h1>
                 <p className="text-base sm:text-lg font-bold text-stone-700 tracking-tight">
                   Premium CODM Accounts &amp; Authorized CP Currency
@@ -95,21 +95,21 @@ export default function CustomerPortal() {
               </div>
             </div>
 
-            {/* Right Showcase Card Column */}
+            {/* Right Showcase Card Column: 30% Coca Brown with Electric Blue accents */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="w-full max-w-md bg-gradient-to-br from-slate-900 via-quantum-950 to-slate-900 rounded-3xl p-6 text-white shadow-2xl border border-white/15 relative overflow-hidden">
+              <div className="w-full max-w-md bg-gradient-to-br from-coca-950 via-coca-900 to-coca-950 rounded-3xl p-6 text-white shadow-2xl border border-blush-300/30 relative overflow-hidden">
                 {/* Visual Glow */}
-                <div className="absolute -top-12 -right-12 w-48 h-48 bg-quantum-500/30 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute -top-12 -right-12 w-48 h-48 bg-electric-500/25 rounded-full blur-2xl pointer-events-none" />
 
                 {/* Card Header */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-ice-300">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-blush-200">
                       Live CP Top-Up Feed
                     </span>
                   </div>
-                  <span className="text-[11px] font-mono text-quantum-300 bg-white/10 px-2 py-0.5 rounded-full">
+                  <span className="text-[11px] font-mono text-electric-300 bg-white/10 px-2 py-0.5 rounded-full">
                     Official Rates
                   </span>
                 </div>
@@ -121,7 +121,7 @@ export default function CustomerPortal() {
                     alt="Call of Duty Mobile CP Coins"
                     className="w-full h-full object-contain drop-shadow-lg transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute bottom-2 right-2 bg-quantum-600/90 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-lg shadow-xs">
+                  <div className="absolute bottom-2 right-2 bg-electric-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-lg shadow-xs">
                     Standardized Assets
                   </div>
                 </div>

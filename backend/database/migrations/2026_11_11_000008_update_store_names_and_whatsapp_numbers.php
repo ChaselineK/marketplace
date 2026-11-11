@@ -81,3 +81,4 @@ return new class extends Migration
         // No-op or roll back names
     }
 };
+

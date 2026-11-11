@@ -1,30 +1,81 @@
 @import "tailwindcss";
 
 @theme {
-  /* Quantum Blue Palette */
+  /* 60% Blush Sand Palette (Canvas, Surfacing, Light Neutral Panels) */
+  --color-blush-50: #fdfaf8;
+  --color-blush-100: #f8f1ec;
+  --color-blush-200: #f1e4dc;
+  --color-blush-300: #e7d2c4;
+  --color-blush-400: #d6b8a3;
+  --color-blush-500: #c29980;
+  --color-blush-600: #a97d64;
+  --color-blush-700: #8c634e;
+  --color-blush-800: #6f4d3c;
+  --color-blush-900: #54392c;
+
+  /* 30% Coca Brown Palette (Deep Contrast, Structure, Rich Cards, Primary Headings) */
+  --color-coca-50: #fbf6f3;
+  --color-coca-100: #f5ebe4;
+  --color-coca-200: #ebd8cc;
+  --color-coca-300: #dcbeab;
+  --color-coca-400: #c79a80;
+  --color-coca-500: #ab7659;
+  --color-coca-600: #8d573c;
+  --color-coca-700: #6d402b;
+  --color-coca-800: #4e2c1d;
+  --color-coca-900: #331c12;
+  --color-coca-950: #20110a;
+
+  /* 10% Electric Blue Palette (High-Impact Accents, CTAs, Focus Rings, Active States) */
+  --color-electric-50: #eff6ff;
+  --color-electric-100: #dbeafe;
+  --color-electric-200: #bfdbfe;
+  --color-electric-300: #93c5fd;
+  --color-electric-400: #38bdf8;
+  --color-electric-500: #00d2ff;
+  --color-electric-600: #0066ff;
+  --color-electric-700: #0052cc;
+  --color-electric-800: #003d99;
+  --color-electric-900: #002966;
+  --color-electric-950: #00173d;
+
+  /* Ice Palette Aliased to Blush Sand for Seamless Compatibility */
+  --color-ice-50: #fdfaf8;
+  --color-ice-100: #f8f1ec;
+  --color-ice-200: #f1e4dc;
+  --color-ice-300: #e7d2c4;
+  --color-ice-400: #d6b8a3;
+  --color-ice-500: #c29980;
+  --color-ice-600: #a97d64;
+  --color-ice-700: #8c634e;
+  --color-ice-800: #6f4d3c;
+  --color-ice-900: #54392c;
+
+  /* Quantum Palette Aliased to Electric Blue for Seamless Compatibility */
   --color-quantum-50: #eff6ff;
   --color-quantum-100: #dbeafe;
   --color-quantum-200: #bfdbfe;
   --color-quantum-300: #93c5fd;
-  --color-quantum-400: #60a5fa;
-  --color-quantum-500: #3b82f6;
-  --color-quantum-600: #0062ff;
-  --color-quantum-700: #0050d8;
-  --color-quantum-800: #003bb5;
-  --color-quantum-900: #071e54;
-  --color-quantum-950: #030f2b;
+  --color-quantum-400: #38bdf8;
+  --color-quantum-500: #00d2ff;
+  --color-quantum-600: #0066ff;
+  --color-quantum-700: #0052cc;
+  --color-quantum-800: #003d99;
+  --color-quantum-900: #002966;
+  --color-quantum-950: #00173d;
 
-  /* Ice Glass Palette */
-  --color-ice-50: #f8fafc;
-  --color-ice-100: #f0f7ff;
-  --color-ice-200: #e0f2fe;
-  --color-ice-300: #bae6fd;
-  --color-ice-400: #7dd3fc;
-  --color-ice-500: #38bdf8;
-  --color-ice-600: #0284c7;
-  --color-ice-700: #0369a1;
-  --color-ice-800: #075985;
-  --color-ice-900: #0c4a6e;
+  /* Stone Palette Aliased to Coca Brown for Warm Rich Typography */
+  --color-stone-950: #20110a;
+  --color-stone-900: #2d180f;
+  --color-stone-800: #422518;
+  --color-stone-700: #5c3624;
+  --color-stone-600: #7b4c34;
+  --color-stone-500: #9c684d;
+  --color-stone-400: #bf8d70;
+  --color-stone-300: #dcbeab;
+  --color-stone-200: #ebd8cc;
+  --color-stone-100: #f5ebe4;
+  --color-stone-50: #fbf6f3;
 }
 
 @layer base {
@@ -38,65 +89,66 @@
 
   body {
     font-family: 'Inter', sans-serif !important;
-    background-color: #f0f7ff;
+    background-color: #f8f1ec; /* 60% Dominant: Blush Sand Base */
     background-image: 
-      radial-gradient(at 0% 0%, rgba(224, 242, 254, 0.75) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(219, 234, 254, 0.65) 0px, transparent 50%),
-      radial-gradient(at 50% 100%, rgba(240, 249, 255, 0.85) 0px, transparent 50%);
+      radial-gradient(at 0% 0%, rgba(241, 228, 220, 0.95) 0px, transparent 55%),
+      radial-gradient(at 100% 0%, rgba(248, 241, 236, 0.90) 0px, transparent 55%),
+      radial-gradient(at 50% 100%, rgba(253, 250, 248, 0.95) 0px, transparent 60%);
     background-attachment: fixed;
-    color: #0f172a;
+    color: #2d180f; /* 30% Secondary: Coca Brown Body Text */
     min-height: 100vh;
   }
 }
 
-/* Glassmorphism Design Utilities */
+/* Glassmorphism Design Utilities: 60% Blush Sand Surfacing */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(253, 250, 248, 0.82);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow: 0 10px 30px -5px rgba(0, 98, 255, 0.05), 0 0 0 1px rgba(224, 242, 254, 0.5);
+  border: 1px solid rgba(231, 210, 196, 0.75);
+  box-shadow: 0 10px 30px -5px rgba(51, 28, 18, 0.05), 0 0 0 1px rgba(241, 228, 220, 0.5);
 }
 
 .glass-panel-elevated {
-  background: rgba(255, 255, 255, 0.90);
+  background: rgba(255, 252, 250, 0.92);
   backdrop-filter: blur(20px) saturate(190%);
   -webkit-backdrop-filter: blur(20px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 20px 40px -12px rgba(0, 98, 255, 0.12), 0 0 0 1px rgba(186, 230, 253, 0.6);
+  border: 1px solid rgba(220, 190, 171, 0.85);
+  box-shadow: 0 20px 40px -12px rgba(51, 28, 18, 0.10), 0 0 0 1px rgba(231, 210, 196, 0.7);
 }
 
 .glass-nav {
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(253, 250, 248, 0.88);
   backdrop-filter: blur(20px) saturate(190%);
   -webkit-backdrop-filter: blur(20px) saturate(190%);
-  border-bottom: 1px solid rgba(224, 242, 254, 0.8);
-  box-shadow: 0 4px 20px -2px rgba(0, 98, 255, 0.04);
+  border-bottom: 1px solid rgba(231, 210, 196, 0.8);
+  box-shadow: 0 4px 20px -2px rgba(51, 28, 18, 0.04);
 }
 
 .glass-input {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(186, 230, 253, 0.8);
+  border: 1px solid rgba(220, 190, 171, 0.8);
   transition: all 0.2s ease-in-out;
 }
 
 .glass-input:focus {
   background: #ffffff;
-  border-color: #0062ff;
-  box-shadow: 0 0 0 2px rgba(0, 98, 255, 0.15);
+  border-color: #0066ff; /* 10% Electric Blue Focus */
+  box-shadow: 0 0 0 2px rgba(0, 102, 255, 0.20);
 }
 
+/* 10% Electric Blue High-Impact Call-To-Action Button */
 .glass-button {
-  background: linear-gradient(135deg, #0062ff 0%, #0050d8 100%);
+  background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
   color: #ffffff;
-  box-shadow: 0 4px 14px 0 rgba(0, 98, 255, 0.35);
+  box-shadow: 0 4px 14px 0 rgba(0, 102, 255, 0.35);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-button:hover {
-  background: linear-gradient(135deg, #1a73ff 0%, #0045c2 100%);
-  box-shadow: 0 6px 20px 0 rgba(0, 98, 255, 0.45);
+  background: linear-gradient(135deg, #1a75ff 0%, #0047b3 100%);
+  box-shadow: 0 6px 20px 0 rgba(0, 102, 255, 0.45);
   transform: translateY(-1px);
 }
 
@@ -122,10 +174,10 @@
 
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(0, 98, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0, 102, 255, 0.3);
   }
   50% {
-    box-shadow: 0 0 25px rgba(56, 189, 248, 0.6);
+    box-shadow: 0 0 25px rgba(0, 210, 255, 0.6);
   }
 }
 

@@ -75,8 +75,8 @@ export default function Navbar() {
               </div>
               <div className="flex items-center whitespace-nowrap">
                 <span className="text-lg sm:text-2xl font-black tracking-tight whitespace-nowrap select-none">
-                  <span className="text-slate-950">WILRICH</span>
-                  <span className="text-quantum-600 ml-1.5">STORE</span>
+                  <span className="text-coca-950">WILRICH</span>
+                  <span className="text-electric-600 ml-1.5">STORE</span>
                 </span>
               </div>
             </Link>

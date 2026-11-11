@@ -31,18 +31,18 @@ export default function OrderReceiptModal({ order, isOpen, onClose }) {
     <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-950/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 print:p-0 print:bg-white print:fixed-none page-transition">
       <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden print:shadow-none print:border-none print:w-full print:max-w-none print:rounded-none">
         
-        {/* Modal Top Control Bar (Hidden when printing) */}
-        <div className="print:hidden flex items-center justify-between px-6 py-4 bg-stone-900 text-white border-b border-stone-800">
+        {/* Modal Top Control Bar (Hidden when printing: 30% Coca Brown with Electric Blue) */}
+        <div className="print:hidden flex items-center justify-between px-6 py-4 bg-coca-950 text-white border-b border-coca-800">
           <div className="flex items-center space-x-2">
-            <ShieldCheck className="w-5 h-5 text-quantum-400" />
-            <span className="text-xs font-bold uppercase tracking-wider text-ice-200">
+            <ShieldCheck className="w-5 h-5 text-electric-400" />
+            <span className="text-xs font-bold uppercase tracking-wider text-blush-200">
               Official Purchase Receipt
             </span>
           </div>
           <div className="flex items-center space-x-3">
             <button
               onClick={handlePrint}
-              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-quantum-600 hover:bg-quantum-500 text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-electric-600 hover:bg-electric-500 text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
               title="Print Receipt or Save as PDF"
             >
               <Printer className="w-4 h-4 mr-1" />
@@ -50,7 +50,7 @@ export default function OrderReceiptModal({ order, isOpen, onClose }) {
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 text-stone-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+              className="p-1.5 text-blush-300 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
               title="Close"
             >
               <X className="w-5 h-5" />
@@ -58,34 +58,34 @@ export default function OrderReceiptModal({ order, isOpen, onClose }) {
           </div>
         </div>
 
-        {/* Printable Receipt Body */}
-        <div ref={receiptRef} className="p-6 sm:p-10 space-y-6 print:p-6 bg-white text-stone-900 text-xs">
+        {/* Printable Receipt Body: 60% Blush Sand Surfacing */}
+        <div ref={receiptRef} className="p-6 sm:p-10 space-y-6 print:p-6 bg-blush-50 text-coca-950 text-xs">
           
           {/* Header & Logo */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b-2 border-stone-900">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b-2 border-coca-900">
             <div className="flex items-center space-x-3.5">
               <div className="w-12 h-12 rounded-xl bg-black overflow-hidden shrink-0 shadow-sm">
                 <img src="/codm-logo.jpg" alt="CODM Logo" className="w-full h-full object-cover" />
               </div>
               <div>
                 <div className="text-xl sm:text-2xl font-black tracking-tight leading-none">
-                  <span className="text-black">WILRICH</span>
-                  <span className="text-quantum-600 ml-1.5">STORE</span>
+                  <span className="text-coca-950">WILRICH</span>
+                  <span className="text-electric-600 ml-1.5">STORE</span>
                 </div>
-                <div className="text-[10px] text-stone-500 uppercase tracking-widest font-bold mt-1">
+                <div className="text-[10px] text-coca-700 uppercase tracking-widest font-bold mt-1">
                   Verified CODM Trading &amp; Currency Hub
                 </div>
               </div>
             </div>
 
             <div className="text-left sm:text-right">
-              <div className="text-[10px] font-mono text-stone-400 uppercase tracking-wider">
+              <div className="text-[10px] font-mono text-coca-600 uppercase tracking-wider">
                 Transaction Reference
               </div>
-              <div className="text-base sm:text-lg font-mono font-black text-black">
+              <div className="text-base sm:text-lg font-mono font-black text-coca-950">
                 {order.public_reference}
               </div>
-              <div className="text-[11px] text-stone-500 mt-0.5">
+              <div className="text-[11px] text-coca-700 mt-0.5">
                 Issued: {new Date(order.created_at).toLocaleDateString()} {new Date(order.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
             </div>
@@ -203,22 +203,22 @@ export default function OrderReceiptModal({ order, isOpen, onClose }) {
             </table>
           </div>
 
-          {/* Totals Section */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 rounded-2xl bg-stone-900 text-white">
+          {/* Totals Section: 30% Coca Brown with 10% Electric Blue highlight */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 rounded-2xl bg-coca-950 text-white">
             <div>
-              <div className="text-[10px] text-ice-300 uppercase tracking-wider font-bold">
+              <div className="text-[10px] text-blush-200 uppercase tracking-wider font-bold">
                 Settlement &amp; Verification Note
               </div>
-              <div className="text-xs text-stone-300 mt-0.5">
+              <div className="text-xs text-blush-300 mt-0.5">
                 WhatsApp handoff &amp; direct seller escrow authorization.
               </div>
             </div>
 
             <div className="text-left sm:text-right">
-              <div className="text-[10px] text-ice-300 uppercase tracking-widest font-mono font-bold">
+              <div className="text-[10px] text-blush-200 uppercase tracking-widest font-mono font-bold">
                 Total Amount Paid / Due
               </div>
-              <div className="text-xl sm:text-2xl font-black font-mono text-quantum-300 mt-0.5">
+              <div className="text-xl sm:text-2xl font-black font-mono text-electric-300 mt-0.5">
                 {order.price_currency} {Number(order.total_price_amount).toLocaleString()}
               </div>
             </div>
@@ -261,3 +261,4 @@ export default function OrderReceiptModal({ order, isOpen, onClose }) {
     </div>
   );
 }
+

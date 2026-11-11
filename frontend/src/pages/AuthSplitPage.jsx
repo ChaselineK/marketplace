@@ -131,11 +131,11 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
       {/* Split Card Container */}
       <div className="w-full max-w-6xl glass-panel-elevated rounded-3xl overflow-hidden shadow-2xl border border-ice-200 grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
         
-        {/* Left Side: Store Intro & Mode Switch Buttons */}
-        <div className="lg:col-span-5 bg-gradient-to-br from-quantum-950 via-slate-900 to-quantum-900 text-white p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden">
+        {/* Left Side: Store Intro & Mode Switch Buttons (30% Coca Brown) */}
+        <div className="lg:col-span-5 bg-gradient-to-br from-coca-950 via-coca-900 to-coca-950 text-white p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden">
           {/* Subtle Ambient Glow Orbs */}
-          <div className="absolute -top-20 -left-20 w-64 h-64 bg-quantum-600/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-ice-500/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-20 -left-20 w-64 h-64 bg-electric-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-blush-400/15 rounded-full blur-3xl pointer-events-none" />
 
           {/* Top Intro Section */}
           <div className="relative z-10">
@@ -145,10 +145,10 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
                 <img src="/codm-logo.jpg" alt="Call of Duty: Mobile" className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xs font-black uppercase tracking-widest text-quantum-300">
+                <span className="text-xs font-black uppercase tracking-widest text-electric-300">
                   Call of Duty: Mobile
                 </span>
-                <span className="text-[10px] text-ice-200/80 font-medium">
+                <span className="text-[10px] text-blush-200/80 font-medium">
                   Authoritative Intermediary Hub
                 </span>
               </div>
@@ -157,42 +157,42 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
             {/* Store Name - Exactly 1 line, Two-tone, Heavy Font Weight */}
             <div className="text-2xl sm:text-3xl font-black tracking-tight whitespace-nowrap flex items-center mb-3">
               <span className="text-white">WILRICH</span>
-              <span className="text-quantum-400 ml-2">STORE</span>
+              <span className="text-electric-400 ml-2">STORE</span>
             </div>
 
-            <p className="text-xs sm:text-sm text-ice-200 leading-relaxed max-w-md">
+            <p className="text-xs sm:text-sm text-blush-200 leading-relaxed max-w-md">
               The premier marketplace for verified Call of Duty: Mobile accounts, mythic blueprints, and instant CP packages with secure WhatsApp fulfillment.
             </p>
 
             {/* Feature Highlights */}
             <div className="mt-8 space-y-3.5">
               <div className="flex items-start space-x-3">
-                <div className="w-7 h-7 rounded-lg bg-quantum-500/20 border border-quantum-400/30 flex items-center justify-center text-quantum-300 shrink-0 mt-0.5">
+                <div className="w-7 h-7 rounded-lg bg-electric-500/20 border border-electric-400/30 flex items-center justify-center text-electric-300 shrink-0 mt-0.5">
                   <Gamepad2 className="w-4 h-4" />
                 </div>
                 <div>
                   <div className="text-xs font-bold text-white">Verified CODM Accounts</div>
-                  <div className="text-[11px] text-ice-300 leading-tight">Inspect mythic weapons, legendary armories, and confirmed progression.</div>
+                  <div className="text-[11px] text-blush-200 leading-tight">Inspect mythic weapons, legendary armories, and confirmed progression.</div>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
-                <div className="w-7 h-7 rounded-lg bg-quantum-500/20 border border-quantum-400/30 flex items-center justify-center text-quantum-300 shrink-0 mt-0.5">
+                <div className="w-7 h-7 rounded-lg bg-electric-500/20 border border-electric-400/30 flex items-center justify-center text-electric-300 shrink-0 mt-0.5">
                   <Coins className="w-4 h-4" />
                 </div>
                 <div>
                   <div className="text-xs font-bold text-white">Competitive CP Bundles</div>
-                  <div className="text-[11px] text-ice-300 leading-tight">Vendor-backed pricing with immediate WhatsApp fulfillment handoffs.</div>
+                  <div className="text-[11px] text-blush-200 leading-tight">Vendor-backed pricing with immediate WhatsApp fulfillment handoffs.</div>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
-                <div className="w-7 h-7 rounded-lg bg-quantum-500/20 border border-quantum-400/30 flex items-center justify-center text-quantum-300 shrink-0 mt-0.5">
+                <div className="w-7 h-7 rounded-lg bg-electric-500/20 border border-electric-400/30 flex items-center justify-center text-electric-300 shrink-0 mt-0.5">
                   <ShieldCheck className="w-4 h-4" />
                 </div>
                 <div>
                   <div className="text-xs font-bold text-white">Direct Dispute Mediation</div>
-                  <div className="text-[11px] text-ice-300 leading-tight">Open support tickets with verified image evidence and admin mediation.</div>
+                  <div className="text-[11px] text-blush-200 leading-tight">Open support tickets with verified image evidence and admin mediation.</div>
                 </div>
               </div>
             </div>
@@ -200,7 +200,7 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
 
           {/* Bottom Action Switcher: 2 Buttons (Login & Register) */}
           <div className="relative z-10 mt-8 pt-6 border-t border-white/15">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-ice-300 mb-2.5">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-blush-300 mb-2.5">
               Choose Action
             </div>
             <div className="grid grid-cols-2 gap-3 bg-white/10 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md">
@@ -209,12 +209,12 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
                 onClick={() => handleSwitchMode('login')}
                 className={`py-2.5 px-4 rounded-xl text-xs font-bold tracking-wide transition-all cursor-pointer flex items-center justify-center space-x-1.5 ${
                   mode === 'login'
-                    ? 'bg-quantum-600 text-white shadow-md shadow-quantum-600/40 ring-1 ring-white/20'
-                    : 'text-ice-200 hover:text-white hover:bg-white/10'
+                    ? 'bg-electric-600 text-white shadow-md shadow-electric-600/40 ring-1 ring-white/20'
+                    : 'text-blush-200 hover:text-white hover:bg-white/10'
                 }`}
               >
                 <span>Sign In</span>
-                {mode === 'login' && <CheckCircle2 className="w-3.5 h-3.5 ml-1 text-ice-200" />}
+                {mode === 'login' && <CheckCircle2 className="w-3.5 h-3.5 ml-1 text-blush-200" />}
               </button>
 
               <button
@@ -222,12 +222,12 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
                 onClick={() => handleSwitchMode('register')}
                 className={`py-2.5 px-4 rounded-xl text-xs font-bold tracking-wide transition-all cursor-pointer flex items-center justify-center space-x-1.5 ${
                   mode === 'register'
-                    ? 'bg-quantum-600 text-white shadow-md shadow-quantum-600/40 ring-1 ring-white/20'
-                    : 'text-ice-200 hover:text-white hover:bg-white/10'
+                    ? 'bg-electric-600 text-white shadow-md shadow-electric-600/40 ring-1 ring-white/20'
+                    : 'text-blush-200 hover:text-white hover:bg-white/10'
                 }`}
               >
                 <span>Register</span>
-                {mode === 'register' && <CheckCircle2 className="w-3.5 h-3.5 ml-1 text-ice-200" />}
+                {mode === 'register' && <CheckCircle2 className="w-3.5 h-3.5 ml-1 text-blush-200" />}
               </button>
             </div>
           </div>
@@ -242,8 +242,8 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
               /* LOGIN FORM */
               <div>
                 <div className="mb-6">
-                  <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-                    Sign In to <span className="whitespace-nowrap"><span className="text-slate-950">WILRICH</span> <span className="text-quantum-600">STORE</span></span>
+                  <h2 className="text-2xl sm:text-3xl font-black text-coca-950 tracking-tight">
+                    Sign In to <span className="whitespace-nowrap"><span className="text-coca-950">WILRICH</span> <span className="text-electric-600">STORE</span></span>
                   </h2>
                   <p className="text-xs sm:text-sm text-stone-600 mt-1">
                     Enter your account credentials to continue trading or managing storefronts.
