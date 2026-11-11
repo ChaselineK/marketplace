@@ -70,11 +70,11 @@ export default function Navbar() {
               to={user ? (isSuperAdmin ? '/admin' : isVendor ? '/vendor' : '/app') : '/login'}
               className="flex items-center space-x-2.5 group whitespace-nowrap"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center p-1.5 glass-button shadow-xs group-hover:scale-105 transition-transform bg-quantum-50/60 border border-quantum-200">
-                <CodmLogo className="w-full h-full" />
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden bg-black shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+                <img src="/codm-logo.jpg" alt="WILRICH STORE" className="w-full h-full object-cover" />
               </div>
               <div className="flex items-center whitespace-nowrap">
-                <span className="text-xl sm:text-2xl font-black tracking-tight whitespace-nowrap select-none">
+                <span className="text-lg sm:text-2xl font-black tracking-tight whitespace-nowrap select-none">
                   <span className="text-slate-950">WILRICH</span>
                   <span className="text-quantum-600 ml-1.5">STORE</span>
                 </span>

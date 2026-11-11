@@ -16,7 +16,10 @@ import {
   Copy,
   Loader2,
   ExternalLink,
+  Printer,
+  Download,
 } from 'lucide-react';
+import OrderReceiptModal from '../components/common/OrderReceiptModal';
 
 export default function CustomerOrderDetail() {
   const { reference } = useParams();
@@ -27,6 +30,7 @@ export default function CustomerOrderDetail() {
   const [actionSuccess, setActionSuccess] = useState('');
   const [actionError, setActionError] = useState('');
   const [copiedRef, setCopiedRef] = useState(false);
+  const [showReceipt, setShowReceipt] = useState(false);
 
   const fetchOrder = async () => {
     try {
@@ -325,6 +329,16 @@ export default function CustomerOrderDetail() {
                 </p>
               )}
 
+              {/* Download / Print Official Receipt */}
+              <button
+                type="button"
+                onClick={() => setShowReceipt(true)}
+                className="w-full flex items-center justify-center px-4 py-2.5 rounded-xl text-xs font-bold text-stone-800 bg-white/80 hover:bg-white border border-ice-300 hover:border-quantum-400 transition-all shadow-2xs mb-3 cursor-pointer"
+              >
+                <Printer className="w-4 h-4 mr-2 text-quantum-600" />
+                Download Official Receipt
+              </button>
+
               {/* Cancel Button (only allowed if pending) */}
               {order.status === 'pending' && (
                 <button
@@ -372,6 +386,12 @@ export default function CustomerOrderDetail() {
             </div>
           </div>
         </div>
+
+        <OrderReceiptModal
+          order={order}
+          isOpen={showReceipt}
+          onClose={() => setShowReceipt(false)}
+        />
       </main>
 
       <footer className="glass-panel border-t border-ice-200 py-6 text-center text-xs text-stone-500 mt-12">

@@ -79,7 +79,7 @@ export default function CustomerPortal() {
               </div>
 
               {/* Trust Indicators */}
-              <div className="pt-4 border-t border-ice-200/80 grid grid-cols-3 gap-4 text-xs">
+              <div className="pt-4 border-t border-ice-200/80 grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 text-xs">
                 <div className="flex items-center space-x-2 text-stone-700 font-semibold">
                   <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>Escrow Protected</span>
@@ -130,7 +130,7 @@ export default function CustomerPortal() {
                 <div className="space-y-2.5 text-xs">
                   <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 border border-white/10">
                     <span className="text-ice-200">Authorized Sellers:</span>
-                    <span className="font-bold text-white">Super Admin &amp; Storefronts</span>
+                    <span className="font-bold text-white">Snow's Store, REX CP &amp; 007 CP</span>
                   </div>
                   <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 border border-white/10">
                     <span className="text-ice-200">Authoritative Base Currency:</span>

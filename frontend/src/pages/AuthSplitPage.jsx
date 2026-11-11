@@ -141,7 +141,7 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
           <div className="relative z-10">
             {/* Official Call of Duty: Mobile Black Logo & Branding */}
             <div className="flex items-center space-x-3.5 mb-6">
-              <div className="w-14 h-14 rounded-2xl bg-black overflow-hidden border border-white/20 flex items-center justify-center shadow-lg shrink-0">
+              <div className="w-14 h-14 rounded-2xl bg-black overflow-hidden flex items-center justify-center shadow-lg shrink-0">
                 <img src="/codm-logo.jpg" alt="Call of Duty: Mobile" className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col">
@@ -411,7 +411,7 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
                       />
                     </div>
                     <span className="text-[10px] text-stone-500 mt-1 block">
-                      Include country code (e.g. 255712345678) for instant WhatsApp handoffs.
+                      Include country code (e.g. 255682850544) for instant WhatsApp handoffs.
                     </span>
                   </div>
 

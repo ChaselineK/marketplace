@@ -180,7 +180,7 @@ export default function VendorSettings() {
                   />
                 </div>
                 <span className="text-[11px] text-stone-500 mt-1 block">
-                  Format: Country code + number (e.g., 255712345678). Used for automated handoff chat links.
+                  Format: Country code + number (e.g., 255682850544). Used for automated handoff chat links.
                 </span>
               </div>
 

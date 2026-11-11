@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
 import PriceDisplay from '../components/common/PriceDisplay';
 import apiClient from '../api/client';
-import { ShoppingBag, ArrowRight, Clock, CheckCircle2, AlertCircle, XCircle, Loader2 } from 'lucide-react';
+import { ShoppingBag, ArrowRight, Clock, CheckCircle2, AlertCircle, XCircle, Loader2, Printer } from 'lucide-react';
+import OrderReceiptModal from '../components/common/OrderReceiptModal';
 
 export default function CustomerOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [receiptOrder, setReceiptOrder] = useState(null);
 
   const fetchOrders = async () => {
     try {
@@ -198,7 +200,16 @@ export default function CustomerOrders() {
                       <td className="px-6 py-4 whitespace-nowrap text-xs text-stone-500 font-mono">
                         {new Date(order.created_at).toLocaleDateString()}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-xs">
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-xs space-x-2">
+                        <button
+                          type="button"
+                          onClick={() => setReceiptOrder(order)}
+                          className="inline-flex items-center font-semibold text-stone-700 hover:text-stone-900 bg-white hover:bg-ice-50 px-2.5 py-1.5 rounded-lg border border-ice-300 transition-colors shadow-2xs cursor-pointer"
+                          title="Print / Download Receipt"
+                        >
+                          <Printer className="w-3.5 h-3.5 mr-1 text-quantum-600" />
+                          Receipt
+                        </button>
                         <Link
                           to={`/app/orders/${order.public_reference}`}
                           className="inline-flex items-center font-semibold text-quantum-700 hover:text-quantum-900 bg-quantum-50 hover:bg-quantum-100 px-3 py-1.5 rounded-lg border border-quantum-200 transition-colors"
@@ -213,6 +224,12 @@ export default function CustomerOrders() {
             </div>
           </div>
         )}
+
+        <OrderReceiptModal
+          order={receiptOrder}
+          isOpen={Boolean(receiptOrder)}
+          onClose={() => setReceiptOrder(null)}
+        />
       </main>
 
       <footer className="glass-panel border-t border-ice-200 py-6 text-center text-xs text-stone-500 mt-12">

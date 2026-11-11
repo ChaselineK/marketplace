@@ -38,7 +38,7 @@ export default function CpMarketplace() {
 
   const fetchVendors = async () => {
     try {
-      const res = await apiClient.get('/vendors');
+      const res = await apiClient.get('/vendors', { params: { has_cp: 1, per_page: 50 } });
       setVendors(res.data.data);
     } catch (err) {
       console.warn('Failed to load vendors for filter:', err);
@@ -138,12 +138,14 @@ export default function CpMarketplace() {
                 onChange={(e) => setSelectedVendor(e.target.value)}
                 className="w-full px-3 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 text-stone-800 transition-colors cursor-pointer"
               >
-                <option value="">All Approved Vendors</option>
-                {vendors.map((v) => (
-                  <option key={v.id} value={v.store_slug}>
-                    {v.store_name}
-                  </option>
-                ))}
+                <option value="">All Stores</option>
+                {vendors
+                  .filter((v) => v.store_slug === 'rex-cp-store' || v.store_slug === '007-cp-store')
+                  .map((v) => (
+                    <option key={v.id} value={v.store_slug}>
+                      {v.store_name}
+                    </option>
+                  ))}
               </select>
             </div>
 

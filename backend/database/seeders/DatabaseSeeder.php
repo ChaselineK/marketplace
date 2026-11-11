@@ -22,68 +22,68 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Super Admin (Sells Accounts Only)
-        $admin = User::firstOrCreate(
+        // 1. Super Admin: Snow's Store (Sells Accounts Only)
+        $admin = User::updateOrCreate(
             ['email' => 'admin@wilrichstore.com'],
             [
-                'name' => 'Wilrich Super Admin',
-                'phone' => '+255700000001',
+                'name' => 'Snow',
+                'phone' => '+255682850544',
                 'password' => Hash::make('Password123!'),
                 'role' => UserRole::SUPER_ADMIN,
                 'is_active' => true,
             ]
         );
-        VendorProfile::firstOrCreate(
+        VendorProfile::updateOrCreate(
             ['user_id' => $admin->id],
             [
-                'store_name' => 'WILRICH STORE Official',
-                'store_slug' => 'wilrich-official',
-                'whatsapp_number' => '255700000001',
-                'description' => 'Official WILRICH STORE executive inventory. Exclusive mythics and verified legendary CODM accounts.',
+                'store_name' => "Snow's Store",
+                'store_slug' => 'snows-store',
+                'whatsapp_number' => '255682850544',
+                'description' => "Exclusive executive inventory from Snow's Store. High-tier mythic and legendary CODM accounts.",
                 'is_published' => true,
             ]
         );
 
-        // 2. Vendor 1
-        $vendor1 = User::firstOrCreate(
+        // 2. Vendor 1: REX CP STORE
+        $vendor1 = User::updateOrCreate(
             ['email' => 'vendor1@wilrichstore.com'],
             [
-                'name' => 'Alpha Vendor',
-                'phone' => '+255712345678',
+                'name' => 'REX CP STORE',
+                'phone' => '+255740866470',
                 'password' => Hash::make('Password123!'),
                 'role' => UserRole::VENDOR,
                 'is_active' => true,
             ]
         );
-        VendorProfile::firstOrCreate(
+        VendorProfile::updateOrCreate(
             ['user_id' => $vendor1->id],
             [
-                'store_name' => 'Alpha CODM Store',
-                'store_slug' => 'alpha-codm-store',
-                'whatsapp_number' => '255712345678',
-                'description' => 'Top-tier CODM accounts, legendary weapons, and fast CP top-ups.',
+                'store_name' => 'REX CP STORE',
+                'store_slug' => 'rex-cp-store',
+                'whatsapp_number' => '255740866470',
+                'description' => 'Official REX CP STORE. Fast CP delivery and top-rated CODM accounts.',
                 'is_published' => true,
             ]
         );
 
-        // 3. Vendor 2
-        $vendor2 = User::firstOrCreate(
+        // 3. Vendor 2: 007 CP STORE
+        $vendor2 = User::updateOrCreate(
             ['email' => 'vendor2@wilrichstore.com'],
             [
-                'name' => 'Bravo Armory',
-                'phone' => '+255787654321',
+                'name' => '007 CP STORE',
+                'phone' => '+255621447537',
                 'password' => Hash::make('Password123!'),
                 'role' => UserRole::VENDOR,
                 'is_active' => true,
             ]
         );
-        VendorProfile::firstOrCreate(
+        VendorProfile::updateOrCreate(
             ['user_id' => $vendor2->id],
             [
-                'store_name' => 'Bravo Armory',
-                'store_slug' => 'bravo-armory',
-                'whatsapp_number' => '255787654321',
-                'description' => 'Verified mythic accounts and competitive CP bundles.',
+                'store_name' => '007 CP STORE',
+                'store_slug' => '007-cp-store',
+                'whatsapp_number' => '255621447537',
+                'description' => 'Official 007 CP STORE. Competitive rates on CP packages and verified accounts.',
                 'is_published' => true,
             ]
         );
@@ -161,7 +161,7 @@ class DatabaseSeeder extends Seeder
             ['title' => 'Mythic DL Q33 Lotus Flames + 14 Legendaries Master Account'],
             [
                 'vendor_id' => $admin->id,
-                'description' => 'Direct from WILRICH STORE Official. Max-level Mythic DL Q33 Lotus Flames, Damascus sniper mastery, Legendary Ghost character, and 14 Legendary blueprints. Safe Activision handoff guaranteed.',
+                'description' => "Direct from Snow's Store. Max-level Mythic DL Q33 Lotus Flames, Damascus sniper mastery, Legendary Ghost character, and 14 Legendary blueprints. Safe Activision handoff guaranteed.",
                 'price_amount' => 680000,
                 'price_currency' => 'TZS',
                 'status' => ListingStatus::PUBLISHED,
@@ -178,10 +178,10 @@ class DatabaseSeeder extends Seeder
             ['rate' => 0.58, 'source' => 'Admin Managed', 'effective_at' => now()]
         );
 
-        // 7. CP Bundles for Vendor 1 (Alpha CODM Store)
+        // 7. CP Bundles for Vendor 1 (REX CP STORE)
         $v1Bundles = [
-            ['cp' => 80, 'price' => 2500, 'desc' => 'Direct Activision UID top-up. Ideal for lucky draws and daily crate opens.'],
-            ['cp' => 420, 'price' => 12000, 'desc' => 'Instant battle pass unlock package. Dispatched within 5 minutes over WhatsApp.'],
+            ['cp' => 80, 'price' => 2500, 'desc' => 'Direct Activision UID top-up from REX CP STORE. Fast delivery guarantee.'],
+            ['cp' => 420, 'price' => 12000, 'desc' => 'Instant battle pass unlock package from REX CP STORE. Dispatched within 5 minutes over WhatsApp.'],
             ['cp' => 880, 'price' => 24000, 'desc' => 'Battle pass plus crate tier progression. Fast delivery guarantee.'],
             ['cp' => 2400, 'price' => 65000, 'desc' => 'Popular mythic draw package. Direct UID top-up with receipt confirmation.'],
             ['cp' => 5000, 'price' => 130000, 'desc' => 'High-tier lucky draw pack with bonus CP calculation included.'],
@@ -194,14 +194,14 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        // 8. CP Bundles for Vendor 2 (Bravo Armory)
+        // 8. CP Bundles for Vendor 2 (007 CP STORE)
         $v2Bundles = [
-            ['cp' => 80, 'price' => 2400, 'desc' => 'Bravo Armory discount starter CP. Global server instant credit.'],
+            ['cp' => 80, 'price' => 2400, 'desc' => '007 CP STORE discount starter CP. Global server instant credit.'],
             ['cp' => 420, 'price' => 11800, 'desc' => 'Premium Pass activation pack. Zero login credentials required - UID only.'],
             ['cp' => 880, 'price' => 23500, 'desc' => 'Mid-tier bundle for draw spins and crate milestones.'],
-            ['cp' => 2400, 'price' => 64000, 'desc' => 'Competitive rate mythic package. Verified Activision authorized handoff.'],
+            ['cp' => 2400, 'price' => 64000, 'desc' => 'Competitive rate mythic package from 007 CP STORE. Verified Activision authorized handoff.'],
             ['cp' => 5000, 'price' => 128000, 'desc' => 'High-roller bundle for legendary operators and vehicle skins.'],
-            ['cp' => 10800, 'price' => 265000, 'desc' => 'Best value in East Africa. Full mythic weapon max out package.'],
+            ['cp' => 10800, 'price' => 265000, 'desc' => 'Best value in East Africa from 007 CP STORE. Full mythic weapon max out package.'],
         ];
         foreach ($v2Bundles as $b) {
             CpBundle::updateOrCreate(

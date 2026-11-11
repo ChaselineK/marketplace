@@ -53,4 +53,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(VendorProfile::class);
     }
+
+    public function cpBundles(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CpBundle::class, 'vendor_id');
+    }
+
+    public function accountListings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AccountListing::class, 'vendor_id');
+    }
 }

@@ -28,9 +28,9 @@ class SellerRolesAndPermissionsTest extends TestCase
         ]);
         VendorProfile::create([
             'user_id' => $this->superAdmin->id,
-            'store_name' => 'WILRICH STORE Official',
-            'store_slug' => 'wilrich-official',
-            'whatsapp_number' => '255700000001',
+            'store_name' => "Snow's Store",
+            'store_slug' => 'snows-store',
+            'whatsapp_number' => '255682850544',
             'is_published' => true,
         ]);
 
@@ -40,9 +40,9 @@ class SellerRolesAndPermissionsTest extends TestCase
         ]);
         VendorProfile::create([
             'user_id' => $this->vendor->id,
-            'store_name' => 'Alpha CODM Store',
-            'store_slug' => 'alpha-codm-store',
-            'whatsapp_number' => '255712345678',
+            'store_name' => 'REX CP STORE',
+            'store_slug' => 'rex-cp-store',
+            'whatsapp_number' => '255740866470',
             'is_published' => true,
         ]);
     }

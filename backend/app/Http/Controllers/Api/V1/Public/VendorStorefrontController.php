@@ -21,6 +21,12 @@ class VendorStorefrontController extends Controller
             })
             ->with('user');
 
+        if ($request->boolean('has_cp')) {
+            $query->whereHas('user.cpBundles', function ($q) {
+                $q->where('status', 'published');
+            });
+        }
+
         if ($search = $request->input('q')) {
             $query->where(function ($q) use ($search) {
                 $q->where('store_name', 'like', "%{$search}%")

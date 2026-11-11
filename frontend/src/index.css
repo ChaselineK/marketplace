@@ -132,3 +132,31 @@
 .pulse-glow {
   animation: pulseGlow 2.5s infinite ease-in-out;
 }
+
+/* Print Styles for Receipts */
+@media print {
+  body {
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #000000 !important;
+  }
+  header, footer, nav, .print\:hidden {
+    display: none !important;
+  }
+  .print\:p-0 {
+    padding: 0 !important;
+  }
+  .print\:shadow-none {
+    box-shadow: none !important;
+  }
+  .print\:border-none {
+    border: none !important;
+  }
+}
+
+/* Mobile-Friendly Optimizations */
+@media (max-width: 640px) {
+  input, select, textarea {
+    font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
+  }
+}
