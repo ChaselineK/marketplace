@@ -48,45 +48,45 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="w-12 h-12 bg-slate-900 text-white rounded-lg flex items-center justify-center font-bold text-xl mx-auto tracking-wider shadow-xs">
+    <div className="min-h-screen bg-cream-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <div className="w-12 h-12 bg-torch-500 text-white rounded-lg flex items-center justify-center font-bold text-xl mx-auto tracking-wider shadow-xs">
           WS
         </div>
-        <h2 className="mt-4 text-center text-2xl font-bold tracking-tight text-slate-900">
+        <h2 className="mt-4 text-center text-2xl font-bold tracking-tight text-stone-900">
           Create customer account
         </h2>
-        <p className="mt-1 text-center text-sm text-slate-600">
+        <p className="mt-1 text-center text-sm text-stone-600">
           Already registered?{' '}
-          <Link to="/login" className="font-medium text-slate-900 underline hover:text-slate-700">
+          <Link to="/login" className="font-semibold text-torch-600 hover:text-torch-700 underline">
             Sign in here
           </Link>
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
-        <div className="bg-white py-8 px-6 shadow-xs border border-slate-200 sm:rounded-lg sm:px-10">
-          <div className="mb-6 p-3 bg-blue-50 border border-blue-200 rounded text-blue-900 text-xs flex items-start">
-            <Shield className="w-4 h-4 mr-2 mt-0.5 shrink-0 text-blue-700" />
+        <div className="bg-white py-8 px-6 shadow-xs border border-cream-300 sm:rounded-lg sm:px-10">
+          <div className="mb-6 p-3 bg-cream-200 border border-cream-300 rounded text-stone-800 text-xs flex items-start">
+            <Shield className="w-4 h-4 mr-2 mt-0.5 shrink-0 text-torch-600" />
             <div>
               <strong>Security Policy:</strong> Public registration assigns the <strong>Customer</strong> role. Vendor accounts are exclusively created by the Super Admin.
             </div>
           </div>
 
           {error && (
-            <div className="mb-6 p-3 bg-rose-50 border border-rose-200 rounded text-rose-800 text-sm flex items-start">
-              <AlertCircle className="w-4 h-4 mr-2 mt-0.5 shrink-0 text-rose-600" />
+            <div className="mb-6 p-3 bg-torch-50 border border-torch-200 rounded text-torch-800 text-sm flex items-start">
+              <AlertCircle className="w-4 h-4 mr-2 mt-0.5 shrink-0 text-torch-600" />
               <span>{error}</span>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="name">
+              <label className="block text-sm font-medium text-stone-800 mb-1" htmlFor="name">
                 Full name
               </label>
-              <div className="relative rounded-md shadow-xs">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <div className="relative rounded-md shadow-2xs">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
                   <User className="w-4 h-4" />
                 </div>
                 <input
@@ -97,17 +97,17 @@ export default function Register() {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="John Doe"
-                  className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded text-sm placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900"
+                  className="block w-full pl-10 pr-3 py-2 border border-cream-300 rounded text-sm placeholder-stone-400 bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 transition-colors"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="email">
+              <label className="block text-sm font-medium text-stone-800 mb-1" htmlFor="email">
                 Email address
               </label>
-              <div className="relative rounded-md shadow-xs">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <div className="relative rounded-md shadow-2xs">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
                   <Mail className="w-4 h-4" />
                 </div>
                 <input
@@ -118,17 +118,17 @@ export default function Register() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="name@example.com"
-                  className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded text-sm placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900"
+                  className="block w-full pl-10 pr-3 py-2 border border-cream-300 rounded text-sm placeholder-stone-400 bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 transition-colors"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="phone">
+              <label className="block text-sm font-medium text-stone-800 mb-1" htmlFor="phone">
                 Phone number (optional)
               </label>
-              <div className="relative rounded-md shadow-xs">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <div className="relative rounded-md shadow-2xs">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
                   <Phone className="w-4 h-4" />
                 </div>
                 <input
@@ -138,17 +138,17 @@ export default function Register() {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+255 700 000 000"
-                  className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded text-sm placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900"
+                  className="block w-full pl-10 pr-3 py-2 border border-cream-300 rounded text-sm placeholder-stone-400 bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 transition-colors"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="password">
+              <label className="block text-sm font-medium text-stone-800 mb-1" htmlFor="password">
                 Password (min 8 characters)
               </label>
-              <div className="relative rounded-md shadow-xs">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <div className="relative rounded-md shadow-2xs">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -160,17 +160,17 @@ export default function Register() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded text-sm placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900"
+                  className="block w-full pl-10 pr-3 py-2 border border-cream-300 rounded text-sm placeholder-stone-400 bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 transition-colors"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="password_confirmation">
+              <label className="block text-sm font-medium text-stone-800 mb-1" htmlFor="password_confirmation">
                 Confirm password
               </label>
-              <div className="relative rounded-md shadow-xs">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <div className="relative rounded-md shadow-2xs">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -181,7 +181,7 @@ export default function Register() {
                   value={formData.password_confirmation}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded text-sm placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900"
+                  className="block w-full pl-10 pr-3 py-2 border border-cream-300 rounded text-sm placeholder-stone-400 bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 transition-colors"
                 />
               </div>
             </div>
@@ -189,7 +189,7 @@ export default function Register() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full mt-2 flex justify-center items-center py-2.5 px-4 border border-transparent rounded text-sm font-medium text-white bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 disabled:opacity-50 transition-colors shadow-xs"
+              className="w-full mt-2 flex justify-center items-center py-2.5 px-4 rounded text-sm font-semibold text-white bg-torch-500 hover:bg-torch-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-torch-500 disabled:opacity-50 transition-colors shadow-xs"
             >
               {submitting ? 'Creating account...' : 'Complete Registration'}
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -200,4 +200,3 @@ export default function Register() {
     </div>
   );
 }
-

@@ -33,8 +33,8 @@ function RootRedirect() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <Loader2 className="w-8 h-8 animate-spin text-slate-700" />
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
+        <Loader2 className="w-8 h-8 animate-spin text-torch-600" />
       </div>
     );
   }

@@ -31,28 +31,28 @@ export default function VendorDirectory() {
   }, [search]);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-between">
+    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         {/* Header & Search */}
-        <div className="bg-white border border-slate-200 rounded-lg p-6 sm:p-8 mb-8 shadow-xs">
+        <div className="bg-white border border-cream-300 rounded-xl p-6 sm:p-8 mb-8 shadow-xs">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded border border-blue-200">
+              <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
                 Verified Storefronts
               </span>
-              <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-2">
+              <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
                 CODM Vendor Directory
               </h1>
-              <p className="text-sm text-slate-600 mt-1">
+              <p className="text-sm text-stone-600 mt-1">
                 Explore approved vendors with verified WhatsApp fulfilment.
               </p>
             </div>
 
             {/* Search Input */}
             <div className="relative w-full md:w-80">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
                 <Search className="w-4 h-4" />
               </div>
               <input
@@ -60,7 +60,7 @@ export default function VendorDirectory() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search vendor or store..."
-                className="w-full pl-9 pr-4 py-2 border border-slate-300 rounded text-sm placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900"
+                className="w-full pl-9 pr-4 py-2 border border-cream-300 rounded text-sm placeholder-stone-400 bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800 transition-colors"
               />
             </div>
           </div>
@@ -68,12 +68,12 @@ export default function VendorDirectory() {
 
         {/* Vendors Grid */}
         {loading ? (
-          <div className="py-12 text-center text-sm text-slate-500">Loading storefronts...</div>
+          <div className="py-12 text-center text-sm text-stone-500 font-medium">Loading storefronts...</div>
         ) : vendors.length === 0 ? (
-          <div className="bg-white border border-slate-200 rounded-lg p-12 text-center shadow-xs">
-            <Store className="w-10 h-10 text-slate-400 mx-auto mb-3" />
-            <h3 className="text-base font-bold text-slate-900">No vendors found</h3>
-            <p className="text-sm text-slate-500 mt-1">
+          <div className="bg-white border border-cream-300 rounded-xl p-12 text-center shadow-xs">
+            <Store className="w-10 h-10 text-stone-400 mx-auto mb-3" />
+            <h3 className="text-base font-bold text-stone-900">No vendors found</h3>
+            <p className="text-sm text-stone-500 mt-1">
               Try adjusting your search criteria.
             </p>
           </div>
@@ -82,11 +82,11 @@ export default function VendorDirectory() {
             {vendors.map((vendor) => (
               <div
                 key={vendor.id}
-                className="bg-white border border-slate-200 rounded-lg p-6 flex flex-col justify-between hover:border-slate-400 transition-colors shadow-xs"
+                className="group bg-white border border-cream-300 rounded-xl p-6 flex flex-col justify-between hover:border-torch-400 hover:shadow-sm transition-all"
               >
                 <div>
                   <div className="flex items-start justify-between mb-3">
-                    <div className="w-10 h-10 bg-slate-100 rounded flex items-center justify-center text-slate-900 font-bold text-sm">
+                    <div className="w-10 h-10 bg-cream-200 rounded-lg flex items-center justify-center text-torch-600 font-bold text-sm group-hover:bg-torch-500 group-hover:text-white transition-colors">
                       {vendor.store_name?.charAt(0) || 'V'}
                     </div>
                     <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
@@ -94,26 +94,26 @@ export default function VendorDirectory() {
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-slate-900 tracking-tight">
+                  <h3 className="text-lg font-bold text-stone-900 tracking-tight group-hover:text-torch-600 transition-colors">
                     {vendor.store_name}
                   </h3>
-                  <div className="text-xs font-mono text-slate-500 mb-3">
+                  <div className="text-xs font-mono text-stone-500 mb-3">
                     @{vendor.store_slug}
                   </div>
 
-                  <p className="text-sm text-slate-600 line-clamp-3 mb-4 leading-relaxed">
+                  <p className="text-sm text-stone-600 line-clamp-3 mb-4 leading-relaxed">
                     {vendor.description || 'Specializing in verified Call of Duty: Mobile accounts and in-game CP bundles.'}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <span className="flex items-center text-xs text-emerald-700 font-mono">
-                    <Phone className="w-3.5 h-3.5 mr-1" />
+                <div className="pt-4 border-t border-cream-200 flex items-center justify-between">
+                  <span className="flex items-center text-xs text-stone-600 font-mono">
+                    <Phone className="w-3.5 h-3.5 mr-1 text-torch-600" />
                     +{vendor.whatsapp_number}
                   </span>
                   <Link
                     to={`/app/vendors/${vendor.store_slug}`}
-                    className="inline-flex items-center text-xs font-semibold text-slate-900 hover:text-slate-700"
+                    className="inline-flex items-center text-xs font-semibold text-torch-700 hover:text-torch-800 group-hover:translate-x-0.5 transition-transform"
                   >
                     View Storefront <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </Link>
@@ -124,10 +124,9 @@ export default function VendorDirectory() {
         )}
       </main>
 
-      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
         <p>&copy; {new Date().getFullYear()} WILRICH STORE. Vendor Directory.</p>
       </footer>
     </div>
   );
 }
-

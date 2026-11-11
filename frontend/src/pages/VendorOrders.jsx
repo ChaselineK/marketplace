@@ -57,7 +57,6 @@ export default function VendorOrders() {
         status: targetStatus,
       });
 
-      // Update in local state
       setOrders((prev) =>
         prev.map((o) => (o.id === orderId ? res.data.data : o))
       );
@@ -92,13 +91,13 @@ export default function VendorOrders() {
         );
       case 'cancelled':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-300">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-700 border border-cream-300">
             <XCircle className="w-3 h-3 mr-1" /> Cancelled
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-slate-100 text-slate-700">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-700">
             {status}
           </span>
         );
@@ -111,35 +110,35 @@ export default function VendorOrders() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-between">
+    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         {/* Header */}
-        <div className="bg-white border border-slate-200 rounded-lg p-6 mb-8 shadow-xs">
+        <div className="bg-white border border-cream-300 rounded-xl p-6 mb-8 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
                 Vendor Workspace
               </span>
-              <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-1">
+              <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
                 Customer Orders Received
               </h1>
-              <p className="text-sm text-slate-600 mt-1">
+              <p className="text-sm text-stone-600 mt-1">
                 Fulfill customer orders, track payments on WhatsApp, and update fulfillment progress.
               </p>
             </div>
 
             {/* Filter buttons */}
-            <div className="flex items-center space-x-1.5 bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-medium">
+            <div className="flex items-center space-x-1.5 bg-cream-200 p-1 rounded-lg border border-cream-300 text-xs font-medium">
               {['all', 'pending', 'processing', 'completed', 'cancelled'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setStatusFilter(tab)}
                   className={`px-3 py-1.5 rounded capitalize transition-colors ${
                     statusFilter === tab
-                      ? 'bg-white text-slate-900 shadow-xs font-semibold'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-torch-500 text-white shadow-xs font-semibold'
+                      : 'text-stone-700 hover:text-torch-600'
                   }`}
                 >
                   {tab}
@@ -151,15 +150,15 @@ export default function VendorOrders() {
 
         {/* Success / Alert Banner */}
         {successMessage && (
-          <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-xs font-semibold text-emerald-800 mb-6 flex items-center">
+          <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 mb-6 flex items-center">
             <Check className="w-4 h-4 mr-2" />
             {successMessage}
           </div>
         )}
 
         {/* Invariant Policy Notice */}
-        <div className="mb-6 p-4 bg-slate-100 border border-slate-200 rounded-lg text-xs text-slate-600 flex items-start space-x-2">
-          <Info className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 bg-cream-200 border border-cream-300 rounded-xl text-xs text-stone-700 flex items-start space-x-2">
+          <Info className="w-4 h-4 text-torch-600 shrink-0 mt-0.5" />
           <span>
             <strong>Automatic Inventory Sync:</strong> Transitioning an account order to <strong>Completed</strong> will atomically transition the listed CODM account to <code>sold</code> status, immediately removing it from public search.
           </span>
@@ -167,27 +166,27 @@ export default function VendorOrders() {
 
         {/* Content */}
         {loading ? (
-          <div className="py-20 text-center text-sm text-slate-500">Loading received orders...</div>
+          <div className="py-20 text-center text-sm text-stone-500 font-medium">Loading received orders...</div>
         ) : error ? (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 mb-6 flex items-center">
-            <AlertCircle className="w-5 h-5 mr-2 shrink-0" />
+          <div className="p-4 bg-torch-50 border border-torch-200 rounded-xl text-sm text-torch-800 mb-6 flex items-center">
+            <AlertCircle className="w-5 h-5 mr-2 shrink-0 text-torch-600" />
             {error}
           </div>
         ) : filteredOrders.length === 0 ? (
-          <div className="bg-white border border-slate-200 rounded-lg p-12 text-center shadow-xs">
-            <ShoppingBag className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-            <h3 className="text-base font-bold text-slate-900">No customer orders</h3>
-            <p className="text-sm text-slate-500 mt-1">
+          <div className="bg-white border border-cream-300 rounded-xl p-12 text-center shadow-xs">
+            <ShoppingBag className="w-12 h-12 text-stone-400 mx-auto mb-3" />
+            <h3 className="text-base font-bold text-stone-900">No customer orders</h3>
+            <p className="text-sm text-stone-500 mt-1">
               {statusFilter === 'all'
                 ? "You haven't received any customer orders yet."
                 : `No orders currently in "${statusFilter}" status.`}
             </p>
           </div>
         ) : (
-          <div className="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-xs">
+          <div className="bg-white border border-cream-300 rounded-xl overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
-                <thead className="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
+              <table className="min-w-full divide-y divide-cream-200 text-left text-sm">
+                <thead className="bg-cream-100 text-stone-700 text-xs uppercase font-semibold">
                   <tr>
                     <th scope="col" className="px-6 py-3.5">Reference</th>
                     <th scope="col" className="px-6 py-3.5">Customer</th>
@@ -198,11 +197,11 @@ export default function VendorOrders() {
                     <th scope="col" className="px-6 py-3.5 text-right">Fulfillment Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200">
+                <tbody className="divide-y divide-cream-200">
                   {filteredOrders.map((order) => (
-                    <tr key={order.id} className="hover:bg-slate-50/75 transition-colors">
+                    <tr key={order.id} className="hover:bg-cream-50/75 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="font-mono font-bold text-slate-900 text-xs">
+                        <span className="font-mono font-bold text-torch-700 text-xs">
                           {order.public_reference}
                         </span>
                         {order.whatsapp_opened_at && (
@@ -212,18 +211,18 @@ export default function VendorOrders() {
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="font-semibold text-slate-900 text-xs sm:text-sm">
+                        <div className="font-semibold text-stone-900 text-xs sm:text-sm">
                           {order.customer?.name || 'Customer'}
                         </div>
-                        <div className="text-[11px] font-mono text-slate-500">
+                        <div className="text-[11px] font-mono text-stone-500">
                           {order.customer?.email}
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="font-semibold text-slate-900 text-xs">
+                        <div className="font-semibold text-stone-900 text-xs">
                           {order.item_title_snapshot}
                         </div>
-                        <div className="text-[11px] text-slate-500">
+                        <div className="text-[11px] text-stone-500">
                           Qty: {order.quantity} &bull; {order.item_type === 'account' ? 'CODM Account' : 'CP Currency'}
                         </div>
                       </td>
@@ -237,7 +236,7 @@ export default function VendorOrders() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         {getStatusBadge(order.status)}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-xs text-slate-500 font-mono">
+                      <td className="px-6 py-4 whitespace-nowrap text-xs text-stone-500 font-mono">
                         {new Date(order.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-xs">
@@ -247,14 +246,14 @@ export default function VendorOrders() {
                               <button
                                 onClick={() => handleUpdateStatus(order.id, 'processing')}
                                 disabled={actionLoading === order.id}
-                                className="inline-flex items-center px-2.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded font-medium text-xs transition-colors disabled:opacity-50"
+                                className="inline-flex items-center px-2.5 py-1.5 bg-torch-500 hover:bg-torch-600 text-white rounded font-medium text-xs transition-colors shadow-xs disabled:opacity-50"
                               >
                                 <Play className="w-3 h-3 mr-1" /> Process
                               </button>
                               <button
                                 onClick={() => handleUpdateStatus(order.id, 'cancelled')}
                                 disabled={actionLoading === order.id}
-                                className="inline-flex items-center px-2.5 py-1.5 border border-red-200 text-red-700 hover:bg-red-50 rounded font-medium text-xs transition-colors disabled:opacity-50"
+                                className="inline-flex items-center px-2.5 py-1.5 border border-torch-200 text-torch-700 hover:bg-torch-50 rounded font-medium text-xs transition-colors disabled:opacity-50"
                               >
                                 <Ban className="w-3 h-3 mr-1" /> Cancel
                               </button>
@@ -266,14 +265,14 @@ export default function VendorOrders() {
                               <button
                                 onClick={() => handleUpdateStatus(order.id, 'completed')}
                                 disabled={actionLoading === order.id}
-                                className="inline-flex items-center px-2.5 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded font-medium text-xs transition-colors disabled:opacity-50"
+                                className="inline-flex items-center px-2.5 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded font-medium text-xs transition-colors shadow-xs disabled:opacity-50"
                               >
                                 <Check className="w-3 h-3 mr-1" /> Complete Order
                               </button>
                               <button
                                 onClick={() => handleUpdateStatus(order.id, 'cancelled')}
                                 disabled={actionLoading === order.id}
-                                className="inline-flex items-center px-2.5 py-1.5 border border-red-200 text-red-700 hover:bg-red-50 rounded font-medium text-xs transition-colors disabled:opacity-50"
+                                className="inline-flex items-center px-2.5 py-1.5 border border-torch-200 text-torch-700 hover:bg-torch-50 rounded font-medium text-xs transition-colors disabled:opacity-50"
                               >
                                 <Ban className="w-3 h-3 mr-1" /> Cancel
                               </button>
@@ -287,7 +286,7 @@ export default function VendorOrders() {
                           )}
 
                           {order.status === 'cancelled' && (
-                            <span className="text-[11px] font-semibold text-slate-500 bg-slate-100 px-2 py-1 rounded">
+                            <span className="text-[11px] font-semibold text-stone-500 bg-cream-200 px-2 py-1 rounded border border-cream-300">
                               Cancelled
                             </span>
                           )}
@@ -302,10 +301,9 @@ export default function VendorOrders() {
         )}
       </main>
 
-      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
         <p>&copy; {new Date().getFullYear()} WILRICH STORE. Vendor Orders Management.</p>
       </footer>
     </div>
   );
 }
-

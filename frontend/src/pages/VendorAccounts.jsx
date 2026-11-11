@@ -124,27 +124,27 @@ export default function VendorAccounts() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-between">
+    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         {/* Header */}
-        <div className="bg-white border border-slate-200 rounded-lg p-6 sm:p-8 mb-8 shadow-xs">
+        <div className="bg-white border border-cream-300 rounded-xl p-6 sm:p-8 mb-8 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded border border-indigo-200">
+              <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
                 Inventory Management
               </span>
-              <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-2">
+              <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
                 CODM Account Inventory
               </h1>
-              <p className="text-sm text-slate-600 mt-1">
+              <p className="text-sm text-stone-600 mt-1">
                 Create, manage, and monitor your listed Call of Duty: Mobile accounts.
               </p>
             </div>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white rounded text-sm font-medium hover:bg-slate-800 transition-colors shadow-xs"
+              className="inline-flex items-center justify-center px-4 py-2.5 bg-torch-500 hover:bg-torch-600 text-white rounded text-sm font-semibold transition-colors shadow-xs"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Account Listing
@@ -153,25 +153,25 @@ export default function VendorAccounts() {
         </div>
 
         {successMessage && (
-          <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-sm flex items-center justify-between">
+          <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-sm flex items-center justify-between">
             <div className="flex items-center">
               <CheckCircle className="w-4 h-4 mr-2 text-emerald-600" />
               <span>{successMessage}</span>
             </div>
-            <button onClick={() => setSuccessMessage('')} className="text-xs text-emerald-700 underline">
+            <button onClick={() => setSuccessMessage('')} className="text-xs text-emerald-700 underline font-semibold cursor-pointer">
               Dismiss
             </button>
           </div>
         )}
 
         {/* Filter bar */}
-        <div className="bg-white border border-slate-200 rounded-lg p-4 mb-6 shadow-xs flex items-center justify-between">
+        <div className="bg-white border border-cream-300 rounded-xl p-4 mb-6 shadow-xs flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <span className="text-xs font-semibold text-slate-500 uppercase">Filter Status:</span>
+            <span className="text-xs font-bold text-stone-500 uppercase">Filter Status:</span>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-2.5 py-1 text-xs border border-slate-300 rounded bg-white focus:outline-none focus:ring-1 focus:ring-slate-900"
+              className="px-2.5 py-1 text-xs border border-cream-300 rounded bg-cream-50/50 text-stone-800 focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 cursor-pointer"
             >
               <option value="">All Statuses</option>
               <option value="published">Published</option>
@@ -182,7 +182,7 @@ export default function VendorAccounts() {
           </div>
           <button
             onClick={fetchListings}
-            className="p-1.5 text-slate-500 hover:text-slate-900 rounded hover:bg-slate-100"
+            className="p-1.5 text-stone-500 hover:text-torch-600 rounded hover:bg-cream-200 transition-colors"
             title="Refresh"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -190,37 +190,37 @@ export default function VendorAccounts() {
         </div>
 
         {/* Listings Table */}
-        <div className="bg-white border border-slate-200 rounded-lg shadow-xs overflow-hidden">
+        <div className="bg-white border border-cream-300 rounded-xl shadow-xs overflow-hidden">
           {loading ? (
-            <div className="p-12 text-center text-sm text-slate-500">Loading inventory...</div>
+            <div className="p-12 text-center text-sm text-stone-500 font-medium">Loading inventory...</div>
           ) : listings.length === 0 ? (
-            <div className="p-12 text-center text-sm text-slate-500">
-              <Gamepad2 className="w-10 h-10 text-slate-400 mx-auto mb-3" />
-              <h3 className="text-base font-bold text-slate-900">No account listings found</h3>
-              <p className="text-xs text-slate-500 mt-1">
+            <div className="p-12 text-center text-sm text-stone-500">
+              <Gamepad2 className="w-10 h-10 text-stone-400 mx-auto mb-3" />
+              <h3 className="text-base font-bold text-stone-900">No account listings found</h3>
+              <p className="text-xs text-stone-500 mt-1">
                 Click &quot;Add Account Listing&quot; to publish your first account to the marketplace.
               </p>
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
-                <thead className="bg-slate-50 text-slate-600 font-semibold text-xs uppercase tracking-wider">
+              <table className="min-w-full divide-y divide-cream-200 text-left text-sm">
+                <thead className="bg-cream-100 text-stone-700 font-semibold text-xs uppercase tracking-wider">
                   <tr>
-                    <th className="px-6 py-3">Listing Title</th>
-                    <th className="px-6 py-3">Price</th>
-                    <th className="px-6 py-3">Status</th>
-                    <th className="px-6 py-3">Created</th>
-                    <th className="px-6 py-3 text-right">Actions</th>
+                    <th className="px-6 py-3.5">Listing Title</th>
+                    <th className="px-6 py-3.5">Price</th>
+                    <th className="px-6 py-3.5">Status</th>
+                    <th className="px-6 py-3.5">Created</th>
+                    <th className="px-6 py-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200">
+                <tbody className="divide-y divide-cream-200">
                   {listings.map((item) => (
-                    <tr key={item.id} className="hover:bg-slate-50">
+                    <tr key={item.id} className="hover:bg-cream-50/75 transition-colors">
                       <td className="px-6 py-4">
-                        <div className="font-semibold text-slate-900">{item.title}</div>
-                        <div className="text-xs text-slate-500 line-clamp-1">{item.description}</div>
+                        <div className="font-semibold text-stone-900">{item.title}</div>
+                        <div className="text-xs text-stone-500 line-clamp-1">{item.description}</div>
                       </td>
-                      <td className="px-6 py-4 font-mono font-medium text-slate-900">
+                      <td className="px-6 py-4 font-mono font-medium text-stone-900">
                         {formatPrice(item.price_amount, item.price_currency)}
                       </td>
                       <td className="px-6 py-4">
@@ -230,7 +230,7 @@ export default function VendorAccounts() {
                           </span>
                         )}
                         {item.status === 'sold' && (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-300">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-800 border border-cream-300">
                             Sold Out
                           </span>
                         )}
@@ -240,19 +240,19 @@ export default function VendorAccounts() {
                           </span>
                         )}
                         {item.status === 'unavailable' && (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-torch-50 text-torch-800 border border-torch-200">
                             Unavailable
                           </span>
                         )}
                       </td>
-                      <td className="px-6 py-4 text-xs text-slate-500">
+                      <td className="px-6 py-4 text-xs text-stone-500 font-mono">
                         {new Date(item.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 text-right space-x-2">
                         {item.status === 'published' && (
                           <button
                             onClick={() => handleMarkSold(item.id)}
-                            className="text-xs px-2.5 py-1 rounded border border-slate-300 text-slate-700 hover:bg-slate-100"
+                            className="text-xs px-2.5 py-1 rounded border border-torch-200 bg-torch-50 text-torch-700 hover:bg-torch-100 font-semibold cursor-pointer"
                             title="Mark Sold"
                           >
                             Mark Sold
@@ -261,14 +261,14 @@ export default function VendorAccounts() {
                         <Link
                           to={`/app/accounts/${item.id}`}
                           target="_blank"
-                          className="text-xs px-2 py-1 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                          className="text-xs px-2 py-1 rounded text-stone-600 hover:text-torch-600 hover:bg-cream-200 inline-flex items-center"
                           title="Preview"
                         >
                           <Eye className="w-3.5 h-3.5 inline" />
                         </Link>
                         <button
                           onClick={() => handleDelete(item.id)}
-                          className="text-xs px-2 py-1 rounded text-rose-600 hover:bg-rose-50"
+                          className="text-xs px-2 py-1 rounded text-stone-500 hover:text-torch-600 hover:bg-cream-200 inline-flex items-center cursor-pointer"
                           title="Delete"
                         >
                           <Trash2 className="w-3.5 h-3.5 inline" />
@@ -284,41 +284,41 @@ export default function VendorAccounts() {
 
         {/* Modal: Create Account Listing */}
         {showCreateModal && (
-          <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg max-w-xl w-full p-6 border border-slate-200 shadow-lg">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                <h3 className="text-lg font-bold text-slate-900">Add CODM Account Listing</h3>
+          <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-900/60 flex items-center justify-center p-4">
+            <div className="bg-white rounded-xl max-w-xl w-full p-6 border border-cream-300 shadow-xl">
+              <div className="flex items-center justify-between pb-4 border-b border-cream-200">
+                <h3 className="text-lg font-bold text-stone-900">Add CODM Account Listing</h3>
                 <button
                   onClick={() => setShowCreateModal(false)}
-                  className="text-slate-400 hover:text-slate-600 font-bold"
+                  className="text-stone-400 hover:text-stone-600 font-bold"
                 >
                   ✕
                 </button>
               </div>
 
               {formError && (
-                <div className="mt-4 p-3 bg-rose-50 border border-rose-200 rounded text-rose-800 text-xs flex items-start">
-                  <AlertCircle className="w-4 h-4 mr-2 mt-0.5 shrink-0 text-rose-600" />
+                <div className="mt-4 p-3 bg-torch-50 border border-torch-200 rounded text-torch-800 text-xs flex items-start">
+                  <AlertCircle className="w-4 h-4 mr-2 mt-0.5 shrink-0 text-torch-600" />
                   <span>{formError}</span>
                 </div>
               )}
 
               <form onSubmit={handleCreateListing} className="mt-4 space-y-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">Listing Title</label>
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">Listing Title</label>
                   <input
                     name="title"
                     required
                     value={form.title}
                     onChange={handleFormChange}
                     placeholder="e.g. Mythic AK-47 Radiance + Level 150 Master"
-                    className="w-full px-3 py-1.5 border border-slate-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-slate-900"
+                    className="w-full px-3 py-1.5 border border-cream-300 rounded text-sm bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-medium text-slate-700 mb-1">Sale Price</label>
+                    <label className="block text-xs font-semibold text-stone-700 mb-1">Sale Price</label>
                     <input
                       name="price_amount"
                       type="number"
@@ -327,16 +327,16 @@ export default function VendorAccounts() {
                       value={form.price_amount}
                       onChange={handleFormChange}
                       placeholder="350000"
-                      className="w-full px-3 py-1.5 border border-slate-300 rounded text-sm font-mono focus:outline-none focus:ring-1 focus:ring-slate-900"
+                      className="w-full px-3 py-1.5 border border-cream-300 rounded text-sm font-mono bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-slate-700 mb-1">Currency</label>
+                    <label className="block text-xs font-semibold text-stone-700 mb-1">Currency</label>
                     <select
                       name="price_currency"
                       value={form.price_currency}
                       onChange={handleFormChange}
-                      className="w-full px-3 py-1.5 border border-slate-300 rounded text-sm bg-white focus:outline-none focus:ring-1 focus:ring-slate-900"
+                      className="w-full px-3 py-1.5 border border-cream-300 rounded text-sm bg-cream-50/50 text-stone-800 focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500"
                     >
                       <option value="TZS">TZS (Tanzanian Shilling)</option>
                       <option value="USD">USD (US Dollar)</option>
@@ -346,7 +346,7 @@ export default function VendorAccounts() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">Description &amp; Specs</label>
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">Description &amp; Specs</label>
                   <textarea
                     name="description"
                     required
@@ -354,12 +354,12 @@ export default function VendorAccounts() {
                     value={form.description}
                     onChange={handleFormChange}
                     placeholder="Detail the mythics, legendaries, player level, server, and Activision linking status..."
-                    className="w-full px-3 py-1.5 border border-slate-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-slate-900"
+                    className="w-full px-3 py-1.5 border border-cream-300 rounded text-sm bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">
                     Upload Images (JPEG, PNG, WebP — Max 5MB)
                   </label>
                   <input
@@ -367,25 +367,25 @@ export default function VendorAccounts() {
                     multiple
                     accept="image/jpeg,image/png,image/webp"
                     onChange={handleImageChange}
-                    className="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-medium file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer"
+                    className="w-full text-xs text-stone-500 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-cream-200 file:text-stone-800 hover:file:bg-cream-300 cursor-pointer"
                   />
-                  <span className="text-[11px] text-slate-400 mt-1 block">
+                  <span className="text-[11px] text-stone-500 mt-1 block">
                     Images are verified server-side for valid MIME and dimensions.
                   </span>
                 </div>
 
-                <div className="flex items-center justify-end space-x-3 pt-3 border-t border-slate-100">
+                <div className="flex items-center justify-end space-x-3 pt-3 border-t border-cream-200">
                   <button
                     type="button"
                     onClick={() => setShowCreateModal(false)}
-                    className="px-4 py-2 border border-slate-300 rounded text-sm font-medium text-slate-700 hover:bg-slate-50"
+                    className="px-4 py-2 border border-cream-300 rounded text-xs font-semibold text-stone-700 hover:bg-cream-100"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded text-sm font-medium disabled:opacity-50"
+                    className="px-4 py-2 bg-torch-500 hover:bg-torch-600 text-white rounded text-xs font-semibold shadow-xs disabled:opacity-50"
                   >
                     {submitting ? 'Publishing...' : 'Publish Listing'}
                   </button>
@@ -396,10 +396,9 @@ export default function VendorAccounts() {
         )}
       </main>
 
-      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
         <p>&copy; {new Date().getFullYear()} WILRICH STORE. Vendor Accounts.</p>
       </footer>
     </div>
   );
 }
-

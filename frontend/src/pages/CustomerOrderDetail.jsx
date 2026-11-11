@@ -45,13 +45,11 @@ export default function CustomerOrderDetail() {
     if (!order?.whatsapp_handoff_url) return;
 
     try {
-      // Record WhatsApp handoff event on server
       await apiClient.post(`/orders/${reference}/whatsapp-opened`);
     } catch (err) {
       console.warn('Failed to record WhatsApp handoff event:', err);
     }
 
-    // Open WhatsApp in new tab
     window.open(order.whatsapp_handoff_url, '_blank', 'noopener,noreferrer');
   };
 
@@ -74,24 +72,24 @@ export default function CustomerOrderDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col justify-between">
+      <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
         <Navbar />
-        <div className="py-24 text-center text-sm text-slate-500">Loading order details...</div>
+        <div className="py-24 text-center text-sm text-stone-500 font-medium">Loading order details...</div>
       </div>
     );
   }
 
   if (error || !order) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col justify-between">
+      <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
         <Navbar />
         <main className="max-w-md mx-auto px-4 py-16 text-center">
-          <AlertCircle className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-slate-900 mb-2">Order Not Found</h2>
-          <p className="text-sm text-slate-600 mb-6">{error || 'This order does not exist or you do not have permission to view it.'}</p>
+          <AlertCircle className="w-12 h-12 text-torch-500 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-stone-900 mb-2">Order Not Found</h2>
+          <p className="text-sm text-stone-600 mb-6">{error || 'This order does not exist or you do not have permission to view it.'}</p>
           <Link
             to="/app/orders"
-            className="inline-flex items-center px-4 py-2 bg-slate-900 text-white rounded text-sm font-medium hover:bg-slate-800"
+            className="inline-flex items-center px-4 py-2 bg-torch-500 text-white rounded text-sm font-semibold hover:bg-torch-600 shadow-xs"
           >
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to My Orders
           </Link>
@@ -104,7 +102,7 @@ export default function CustomerOrderDetail() {
     switch (order.status) {
       case 'pending':
         return (
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 sm:p-5 flex items-start space-x-3 mb-6">
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 sm:p-5 flex items-start space-x-3 mb-6">
             <Clock className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
             <div>
               <h3 className="text-sm font-bold text-amber-900">Order Initiated — Pending WhatsApp Contact</h3>
@@ -116,7 +114,7 @@ export default function CustomerOrderDetail() {
         );
       case 'processing':
         return (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 sm:p-5 flex items-start space-x-3 mb-6">
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 sm:p-5 flex items-start space-x-3 mb-6">
             <Clock className="w-5 h-5 text-blue-700 shrink-0 mt-0.5" />
             <div>
               <h3 className="text-sm font-bold text-blue-900">Order In Progress</h3>
@@ -128,7 +126,7 @@ export default function CustomerOrderDetail() {
         );
       case 'completed':
         return (
-          <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 sm:p-5 flex items-start space-x-3 mb-6">
+          <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 sm:p-5 flex items-start space-x-3 mb-6">
             <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
             <div>
               <h3 className="text-sm font-bold text-emerald-900">Order Completed</h3>
@@ -140,11 +138,11 @@ export default function CustomerOrderDetail() {
         );
       case 'cancelled':
         return (
-          <div className="bg-slate-100 border border-slate-300 rounded-lg p-4 sm:p-5 flex items-start space-x-3 mb-6">
-            <XCircle className="w-5 h-5 text-slate-700 shrink-0 mt-0.5" />
+          <div className="bg-cream-200 border border-cream-300 rounded-xl p-4 sm:p-5 flex items-start space-x-3 mb-6">
+            <XCircle className="w-5 h-5 text-stone-700 shrink-0 mt-0.5" />
             <div>
-              <h3 className="text-sm font-bold text-slate-900">Order Cancelled</h3>
-              <p className="text-xs text-slate-700 mt-1">
+              <h3 className="text-sm font-bold text-stone-900">Order Cancelled</h3>
+              <p className="text-xs text-stone-700 mt-1">
                 This order was cancelled on {new Date(order.cancelled_at).toLocaleString()}. The inventory has been released.
               </p>
             </div>
@@ -156,7 +154,7 @@ export default function CustomerOrderDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-between">
+    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
       <Navbar />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
@@ -164,18 +162,18 @@ export default function CustomerOrderDetail() {
         <div className="mb-6 flex items-center justify-between">
           <Link
             to="/app/orders"
-            className="inline-flex items-center text-xs font-semibold text-slate-600 hover:text-slate-900"
+            className="inline-flex items-center text-xs font-semibold text-stone-600 hover:text-torch-600 transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Back to My Orders
           </Link>
 
-          <span className="text-xs font-mono text-slate-500">
+          <span className="text-xs font-mono text-stone-500">
             Created: {new Date(order.created_at).toLocaleString()}
           </span>
         </div>
 
         {actionSuccess && (
-          <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-xs font-semibold text-emerald-800 mb-6 flex items-center">
+          <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 mb-6 flex items-center">
             <CheckCircle2 className="w-4 h-4 mr-2" />
             {actionSuccess}
           </div>
@@ -188,61 +186,63 @@ export default function CustomerOrderDetail() {
           {/* Left Column: Order Snapshots & Handoff Guide */}
           <div className="lg:col-span-2 space-y-6">
             {/* Order Items Card */}
-            <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="bg-white border border-cream-300 rounded-xl p-6 shadow-xs">
+              <div className="flex items-center justify-between pb-4 border-b border-cream-200">
                 <div>
-                  <div className="text-xs uppercase font-bold text-slate-400">Order Reference</div>
-                  <div className="text-lg font-mono font-bold text-slate-900 mt-0.5">
+                  <div className="text-xs uppercase font-bold text-stone-400">Order Reference</div>
+                  <div className="text-lg font-mono font-bold text-torch-700 mt-0.5">
                     {order.public_reference}
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-slate-100 text-slate-800 border border-slate-200">
+                  <span className="text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded bg-cream-200 text-stone-800 border border-cream-300">
                     {order.item_type === 'account' ? 'CODM Account' : 'CP In-Game Currency'}
                   </span>
                 </div>
               </div>
 
               <div className="py-6">
-                <h2 className="text-base font-bold text-slate-900 mb-2">
+                <h2 className="text-base font-bold text-stone-900 mb-2">
                   {order.item_title_snapshot}
                 </h2>
                 {order.item_description_snapshot && (
-                  <p className="text-xs text-slate-600 whitespace-pre-line leading-relaxed bg-slate-50 p-3 rounded-md border border-slate-100">
+                  <p className="text-xs text-stone-600 whitespace-pre-line leading-relaxed bg-cream-50 p-3.5 rounded-lg border border-cream-200">
                     {order.item_description_snapshot}
                   </p>
                 )}
               </div>
 
               {/* Price Calculation Table */}
-              <div className="pt-4 border-t border-slate-100 space-y-2 text-xs">
-                <div className="flex justify-between text-slate-600">
+              <div className="pt-4 border-t border-cream-200 space-y-2 text-xs">
+                <div className="flex justify-between text-stone-600">
                   <span>Unit Snapshot Price</span>
-                  <span>{order.price_currency} {Number(order.unit_price_amount).toLocaleString()}</span>
+                  <span className="font-semibold text-stone-900">
+                    {order.price_currency} {Number(order.unit_price_amount).toLocaleString()}
+                  </span>
                 </div>
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-stone-600">
                   <span>Quantity</span>
-                  <span>{order.quantity}</span>
+                  <span className="font-semibold text-stone-900">{order.quantity}</span>
                 </div>
-                <div className="flex justify-between items-center text-sm font-bold text-slate-900 pt-3 border-t border-slate-100">
+                <div className="flex justify-between items-center text-sm font-bold text-stone-900 pt-3 border-t border-cream-200">
                   <span>Total Authoritative Price</span>
                   <PriceDisplay
                     amount={order.total_price_amount}
                     baseCurrency={order.price_currency}
-                    size="medium"
+                    size="normal"
                   />
                 </div>
               </div>
             </div>
 
             {/* Step-by-Step Instructions */}
-            <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs">
-              <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center">
-                <ShieldCheck className="w-4 h-4 text-emerald-600 mr-2" />
+            <div className="bg-white border border-cream-300 rounded-xl p-6 shadow-xs">
+              <h3 className="text-sm font-bold text-stone-900 mb-4 flex items-center">
+                <ShieldCheck className="w-4 h-4 text-torch-600 mr-2" />
                 Next Steps for Fulfilling This Order
               </h3>
 
-              <ol className="space-y-4 text-xs text-slate-600 list-decimal list-inside">
+              <ol className="space-y-4 text-xs text-stone-600 list-decimal list-inside">
                 <li className="leading-relaxed">
                   <strong>Click "Continue on WhatsApp":</strong> A secure chat with the verified seller will open with your order reference pre-populated.
                 </li>
@@ -262,13 +262,13 @@ export default function CustomerOrderDetail() {
           {/* Right Column: Actions & Vendor Card */}
           <div className="space-y-6">
             {/* Primary Action Card */}
-            <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs">
-              <h3 className="text-xs uppercase font-bold text-slate-400 mb-4">Handoff Actions</h3>
+            <div className="bg-white border border-cream-300 rounded-xl p-6 shadow-xs">
+              <h3 className="text-xs uppercase font-bold text-stone-400 mb-4">Handoff Actions</h3>
 
               {order.status !== 'cancelled' && order.whatsapp_handoff_url ? (
                 <button
                   onClick={handleWhatsappOpen}
-                  className="w-full flex items-center justify-center px-4 py-3 rounded text-sm font-semibold text-white bg-emerald-700 hover:bg-emerald-800 transition-colors shadow-xs mb-3"
+                  className="w-full flex items-center justify-center px-4 py-3 rounded-lg text-sm font-semibold text-white bg-emerald-700 hover:bg-emerald-800 transition-colors shadow-xs mb-3"
                 >
                   <MessageSquare className="w-4 h-4 mr-2" />
                   Continue on WhatsApp
@@ -276,7 +276,7 @@ export default function CustomerOrderDetail() {
               ) : null}
 
               {order.whatsapp_opened_at && (
-                <p className="text-[11px] text-center text-slate-400 mb-3">
+                <p className="text-[11px] text-center text-stone-400 mb-3">
                   WhatsApp opened on {new Date(order.whatsapp_opened_at).toLocaleTimeString()}
                 </p>
               )}
@@ -286,7 +286,7 @@ export default function CustomerOrderDetail() {
                 <button
                   onClick={handleCancelOrder}
                   disabled={cancelling}
-                  className="w-full py-2 px-3 border border-red-200 text-red-700 hover:bg-red-50 rounded text-xs font-semibold transition-colors disabled:opacity-50"
+                  className="w-full py-2 px-3 border border-torch-200 text-torch-700 hover:bg-torch-50 rounded text-xs font-semibold transition-colors disabled:opacity-50"
                 >
                   {cancelling ? 'Cancelling...' : 'Cancel Order'}
                 </button>
@@ -294,17 +294,17 @@ export default function CustomerOrderDetail() {
             </div>
 
             {/* Vendor Profile Card */}
-            <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs">
-              <div className="text-xs uppercase font-bold text-slate-400 mb-3">Assigned Vendor</div>
+            <div className="bg-white border border-cream-300 rounded-xl p-6 shadow-xs">
+              <div className="text-xs uppercase font-bold text-stone-400 mb-3">Assigned Vendor</div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 rounded bg-slate-900 text-white font-bold flex items-center justify-center text-sm">
+                <div className="w-10 h-10 rounded-lg bg-torch-500 text-white font-bold flex items-center justify-center text-sm shadow-xs">
                   {order.vendor?.store_name?.charAt(0) || 'V'}
                 </div>
                 <div>
-                  <div className="font-bold text-slate-900 text-sm">
+                  <div className="font-bold text-stone-900 text-sm">
                     {order.vendor?.store_name || order.vendor?.name}
                   </div>
-                  <div className="text-xs font-mono text-slate-500">
+                  <div className="text-xs font-mono text-stone-500">
                     {order.vendor?.whatsapp_number ? `+${order.vendor.whatsapp_number}` : 'WhatsApp Verified'}
                   </div>
                 </div>
@@ -313,17 +313,17 @@ export default function CustomerOrderDetail() {
               {order.vendor?.store_slug && (
                 <Link
                   to={`/app/vendors/${order.vendor.store_slug}`}
-                  className="w-full inline-flex items-center justify-center px-3 py-2 border border-slate-200 rounded text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                  className="w-full inline-flex items-center justify-center px-3 py-2 border border-cream-300 rounded text-xs font-semibold text-stone-800 bg-cream-100 hover:bg-cream-200 transition-colors"
                 >
-                  <Store className="w-3.5 h-3.5 mr-1.5" /> View Vendor Storefront
+                  <Store className="w-3.5 h-3.5 mr-1.5 text-torch-600" /> View Vendor Storefront
                 </Link>
               )}
             </div>
 
             {/* Support Notice */}
-            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs text-slate-600">
-              <div className="font-semibold text-slate-900 mb-1 flex items-center">
-                <HelpCircle className="w-4 h-4 text-slate-500 mr-1.5" />
+            <div className="bg-cream-50 border border-cream-300 rounded-xl p-4 text-xs text-stone-600">
+              <div className="font-semibold text-stone-900 mb-1 flex items-center">
+                <HelpCircle className="w-4 h-4 text-torch-600 mr-1.5" />
                 Need Assistance?
               </div>
               Have questions regarding this order? Our support team can inspect the audit trail and resolve disputes.
@@ -332,10 +332,9 @@ export default function CustomerOrderDetail() {
         </div>
       </main>
 
-      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
         <p>&copy; {new Date().getFullYear()} WILRICH STORE. Order Reference: {order.public_reference}.</p>
       </footer>
     </div>
   );
 }
-

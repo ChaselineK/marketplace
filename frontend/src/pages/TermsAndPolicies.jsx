@@ -5,27 +5,27 @@ import { Link } from 'react-router-dom';
 
 export default function TermsAndPolicies() {
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-between">
+    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-8">
         {/* Header */}
-        <div className="bg-white border border-slate-200 rounded-lg p-6 sm:p-8 shadow-xs">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+        <div className="bg-white border border-cream-300 rounded-xl p-6 sm:p-8 shadow-xs">
+          <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
             Legal, Privacy &amp; Marketplace Governance
           </span>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-1">
+          <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
             Terms of Service, Privacy Policy &amp; Dispute Rules
           </h1>
-          <p className="text-sm text-slate-600 mt-2 leading-relaxed">
+          <p className="text-sm text-stone-600 mt-2 leading-relaxed">
             Please read these terms carefully. By accessing or using WILRICH STORE, you agree to abide by our marketplace trading standards and dispute resolution policies.
           </p>
         </div>
 
         {/* Publisher Compliance Notice */}
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 text-xs text-amber-900 space-y-2">
-          <div className="font-bold flex items-center text-amber-950">
-            <AlertTriangle className="w-4 h-4 mr-1.5 text-amber-700" />
+        <div className="bg-cream-200 border border-cream-300 rounded-xl p-5 text-xs text-stone-800 space-y-2 shadow-2xs">
+          <div className="font-bold flex items-center text-stone-900">
+            <AlertTriangle className="w-4 h-4 mr-1.5 text-torch-600" />
             Publisher &amp; Trademark Notice
           </div>
           <p className="leading-relaxed">
@@ -37,10 +37,10 @@ export default function TermsAndPolicies() {
         </div>
 
         {/* Terms of Service Sections */}
-        <div className="bg-white border border-slate-200 rounded-lg p-6 sm:p-8 shadow-xs space-y-6 text-xs text-slate-700 leading-relaxed">
+        <div className="bg-white border border-cream-300 rounded-xl p-6 sm:p-8 shadow-xs space-y-6 text-xs text-stone-700 leading-relaxed">
           <section className="space-y-2">
-            <h2 className="text-sm font-bold text-slate-900 flex items-center">
-              <Scale className="w-4 h-4 mr-2 text-slate-600" />
+            <h2 className="text-sm font-bold text-stone-900 flex items-center">
+              <Scale className="w-4 h-4 mr-2 text-torch-600" />
               1. Marketplace Structure &amp; WhatsApp Handoff
             </h2>
             <p>
@@ -51,9 +51,9 @@ export default function TermsAndPolicies() {
             </p>
           </section>
 
-          <section className="space-y-2 pt-4 border-t border-slate-100">
-            <h2 className="text-sm font-bold text-slate-900 flex items-center">
-              <Shield className="w-4 h-4 mr-2 text-slate-600" />
+          <section className="space-y-2 pt-4 border-t border-cream-200">
+            <h2 className="text-sm font-bold text-stone-900 flex items-center">
+              <Shield className="w-4 h-4 mr-2 text-torch-600" />
               2. Authoritative Pricing &amp; Currency Estimates
             </h2>
             <p>
@@ -64,9 +64,9 @@ export default function TermsAndPolicies() {
             </p>
           </section>
 
-          <section className="space-y-2 pt-4 border-t border-slate-100">
-            <h2 className="text-sm font-bold text-slate-900 flex items-center">
-              <Lock className="w-4 h-4 mr-2 text-slate-600" />
+          <section className="space-y-2 pt-4 border-t border-cream-200">
+            <h2 className="text-sm font-bold text-stone-900 flex items-center">
+              <Lock className="w-4 h-4 mr-2 text-torch-600" />
               3. Privacy Policy &amp; Evidence Storage
             </h2>
             <p>
@@ -77,9 +77,9 @@ export default function TermsAndPolicies() {
             </p>
           </section>
 
-          <section className="space-y-2 pt-4 border-t border-slate-100">
-            <h2 className="text-sm font-bold text-slate-900 flex items-center">
-              <HelpCircle className="w-4 h-4 mr-2 text-slate-600" />
+          <section className="space-y-2 pt-4 border-t border-cream-200">
+            <h2 className="text-sm font-bold text-stone-900 flex items-center">
+              <HelpCircle className="w-4 h-4 mr-2 text-torch-600" />
               4. Dispute Resolution &amp; Refunds
             </h2>
             <p>
@@ -95,10 +95,9 @@ export default function TermsAndPolicies() {
         </div>
       </main>
 
-      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
         <p>&copy; {new Date().getFullYear()} WILRICH STORE. All rights reserved.</p>
       </footer>
     </div>
   );
 }
-

@@ -50,13 +50,13 @@ export default function CustomerOrders() {
         );
       case 'cancelled':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-300">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-700 border border-cream-300">
             <XCircle className="w-3 h-3 mr-1" /> Cancelled
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-slate-100 text-slate-700">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-700">
             {status}
           </span>
         );
@@ -69,35 +69,35 @@ export default function CustomerOrders() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-between">
+    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         {/* Header */}
-        <div className="bg-white border border-slate-200 rounded-lg p-6 mb-8 shadow-xs">
+        <div className="bg-white border border-cream-300 rounded-xl p-6 mb-8 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
                 Customer Account
               </span>
-              <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-1">
+              <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
                 My Orders
               </h1>
-              <p className="text-sm text-slate-600 mt-1">
+              <p className="text-sm text-stone-600 mt-1">
                 Track your active purchases, verify order references, and continue WhatsApp handoffs.
               </p>
             </div>
 
             {/* Filter buttons */}
-            <div className="flex items-center space-x-1.5 bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-medium">
+            <div className="flex items-center space-x-1.5 bg-cream-200 p-1 rounded-lg border border-cream-300 text-xs font-medium">
               {['all', 'pending', 'processing', 'completed', 'cancelled'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setStatusFilter(tab)}
                   className={`px-3 py-1.5 rounded capitalize transition-colors ${
                     statusFilter === tab
-                      ? 'bg-white text-slate-900 shadow-xs font-semibold'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-torch-500 text-white shadow-xs font-semibold'
+                      : 'text-stone-700 hover:text-torch-600'
                   }`}
                 >
                   {tab}
@@ -109,17 +109,17 @@ export default function CustomerOrders() {
 
         {/* Content */}
         {loading ? (
-          <div className="py-20 text-center text-sm text-slate-500">Loading your orders...</div>
+          <div className="py-20 text-center text-sm text-stone-500 font-medium">Loading your orders...</div>
         ) : error ? (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 mb-6 flex items-center">
-            <AlertCircle className="w-5 h-5 mr-2 shrink-0" />
+          <div className="p-4 bg-torch-50 border border-torch-200 rounded-xl text-sm text-torch-800 mb-6 flex items-center">
+            <AlertCircle className="w-5 h-5 mr-2 shrink-0 text-torch-600" />
             {error}
           </div>
         ) : filteredOrders.length === 0 ? (
-          <div className="bg-white border border-slate-200 rounded-lg p-12 text-center shadow-xs">
-            <ShoppingBag className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-            <h3 className="text-base font-bold text-slate-900">No orders found</h3>
-            <p className="text-sm text-slate-500 mt-1 mb-6">
+          <div className="bg-white border border-cream-300 rounded-xl p-12 text-center shadow-xs">
+            <ShoppingBag className="w-12 h-12 text-stone-400 mx-auto mb-3" />
+            <h3 className="text-base font-bold text-stone-900">No orders found</h3>
+            <p className="text-sm text-stone-500 mt-1 mb-6">
               {statusFilter === 'all'
                 ? "You haven't placed any orders yet."
                 : `No orders currently matching status "${statusFilter}".`}
@@ -127,23 +127,23 @@ export default function CustomerOrders() {
             <div className="flex justify-center space-x-4">
               <Link
                 to="/app/accounts"
-                className="px-4 py-2 bg-slate-900 text-white rounded text-xs font-semibold hover:bg-slate-800"
+                className="px-4 py-2 bg-torch-500 text-white rounded text-xs font-semibold hover:bg-torch-600 shadow-xs transition-colors"
               >
                 Browse CODM Accounts
               </Link>
               <Link
                 to="/app/cp"
-                className="px-4 py-2 border border-slate-300 text-slate-700 rounded text-xs font-semibold hover:bg-slate-50"
+                className="px-4 py-2 border border-cream-300 bg-cream-200 text-stone-800 rounded text-xs font-semibold hover:bg-cream-300 transition-colors"
               >
                 Browse CP Bundles
               </Link>
             </div>
           </div>
         ) : (
-          <div className="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-xs">
+          <div className="bg-white border border-cream-300 rounded-xl overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
-                <thead className="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
+              <table className="min-w-full divide-y divide-cream-200 text-left text-sm">
+                <thead className="bg-cream-100 text-stone-700 text-xs uppercase font-semibold">
                   <tr>
                     <th scope="col" className="px-6 py-3.5">Order Reference</th>
                     <th scope="col" className="px-6 py-3.5">Item Details</th>
@@ -154,24 +154,24 @@ export default function CustomerOrders() {
                     <th scope="col" className="px-6 py-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200">
+                <tbody className="divide-y divide-cream-200">
                   {filteredOrders.map((order) => (
-                    <tr key={order.id} className="hover:bg-slate-50/75 transition-colors">
+                    <tr key={order.id} className="hover:bg-cream-50/75 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="font-mono font-bold text-slate-900 text-xs">
+                        <span className="font-mono font-bold text-torch-700 text-xs">
                           {order.public_reference}
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="font-semibold text-slate-900 text-xs sm:text-sm">
+                        <div className="font-semibold text-stone-900 text-xs sm:text-sm">
                           {order.item_title_snapshot}
                         </div>
-                        <div className="text-[11px] text-slate-500">
+                        <div className="text-[11px] text-stone-500">
                           {order.item_type === 'account' ? 'Unique CODM Account' : `CP Bundle (${order.quantity}x)`}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-xs font-medium text-slate-900">
+                        <div className="text-xs font-medium text-stone-900">
                           {order.vendor?.store_name || 'Vendor'}
                         </div>
                       </td>
@@ -185,13 +185,13 @@ export default function CustomerOrders() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         {getStatusBadge(order.status)}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-xs text-slate-500 font-mono">
+                      <td className="px-6 py-4 whitespace-nowrap text-xs text-stone-500 font-mono">
                         {new Date(order.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-xs">
                         <Link
                           to={`/app/orders/${order.public_reference}`}
-                          className="inline-flex items-center font-semibold text-slate-900 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded transition-colors"
+                          className="inline-flex items-center font-semibold text-torch-700 hover:text-torch-800 bg-cream-200 hover:bg-cream-300 px-3 py-1.5 rounded transition-colors"
                         >
                           View Details <ArrowRight className="w-3.5 h-3.5 ml-1" />
                         </Link>
@@ -205,10 +205,9 @@ export default function CustomerOrders() {
         )}
       </main>
 
-      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
         <p>&copy; {new Date().getFullYear()} WILRICH STORE. Customer Orders.</p>
       </footer>
     </div>
   );
 }
-

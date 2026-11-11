@@ -16,26 +16,26 @@ export default function CustomerPortal() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-between">
+    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         {/* Welcome Banner */}
-        <div className="bg-white border border-slate-200 rounded-lg p-6 sm:p-8 mb-8 shadow-xs">
+        <div className="bg-white border border-cream-300 rounded-xl p-6 sm:p-8 mb-8 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded border border-blue-200">
+              <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
                 Customer Marketplace
               </span>
-              <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-2">
+              <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
                 Welcome back, {user?.name}
               </h1>
-              <p className="text-sm text-slate-600 mt-1">
+              <p className="text-sm text-stone-600 mt-1">
                 Browse verified Call of Duty: Mobile accounts and competitive CP bundles from verified vendors.
               </p>
             </div>
             {portalStatus && (
-              <div className="inline-flex items-center text-xs font-medium text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded border border-emerald-200">
+              <div className="inline-flex items-center text-xs font-semibold text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded border border-emerald-200 self-start sm:self-auto">
                 <ShieldCheck className="w-4 h-4 mr-1.5 text-emerald-600" />
                 Customer Access Verified
               </div>
@@ -48,20 +48,22 @@ export default function CustomerPortal() {
           {/* CODM Accounts Card */}
           <Link
             to="/app/accounts"
-            className="bg-white border border-slate-200 rounded-lg p-6 hover:border-slate-400 transition-colors shadow-xs flex flex-col justify-between"
+            className="group bg-white border border-cream-300 rounded-xl p-6 hover:border-torch-400 hover:shadow-sm transition-all flex flex-col justify-between"
           >
             <div>
-              <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center text-slate-900 mb-4">
+              <div className="w-12 h-12 rounded-lg bg-cream-200 flex items-center justify-center text-torch-600 mb-4 group-hover:bg-torch-500 group-hover:text-white transition-colors">
                 <Gamepad2 className="w-6 h-6" />
               </div>
-              <h2 className="text-lg font-bold text-slate-900 mb-1">CODM Accounts</h2>
-              <p className="text-xs text-slate-600 mb-4 leading-relaxed">
+              <h2 className="text-lg font-bold text-stone-900 mb-1 group-hover:text-torch-600 transition-colors">
+                CODM Accounts
+              </h2>
+              <p className="text-xs text-stone-600 mb-4 leading-relaxed">
                 Explore vendor-listed accounts featuring mythic weapons, legendary skins, and verified level progression.
               </p>
             </div>
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-              <span className="text-slate-500 font-medium">Browse Stock</span>
-              <span className="inline-flex items-center font-semibold text-slate-900">
+            <div className="pt-4 border-t border-cream-200 flex items-center justify-between text-xs">
+              <span className="text-stone-500 font-medium">Browse Stock</span>
+              <span className="inline-flex items-center font-semibold text-torch-600 group-hover:translate-x-0.5 transition-transform">
                 View Accounts <ArrowRight className="w-3.5 h-3.5 ml-1" />
               </span>
             </div>
@@ -70,20 +72,22 @@ export default function CustomerPortal() {
           {/* CP Currency Card */}
           <Link
             to="/app/cp"
-            className="bg-white border border-slate-200 rounded-lg p-6 hover:border-slate-400 transition-colors shadow-xs flex flex-col justify-between"
+            className="group bg-white border border-cream-300 rounded-xl p-6 hover:border-torch-400 hover:shadow-sm transition-all flex flex-col justify-between"
           >
             <div>
-              <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center text-slate-900 mb-4">
+              <div className="w-12 h-12 rounded-lg bg-cream-200 flex items-center justify-center text-torch-600 mb-4 group-hover:bg-torch-500 group-hover:text-white transition-colors">
                 <Coins className="w-6 h-6" />
               </div>
-              <h2 className="text-lg font-bold text-slate-900 mb-1">CODM Points (CP)</h2>
-              <p className="text-xs text-slate-600 mb-4 leading-relaxed">
+              <h2 className="text-lg font-bold text-stone-900 mb-1 group-hover:text-torch-600 transition-colors">
+                CODM Points (CP)
+              </h2>
+              <p className="text-xs text-stone-600 mb-4 leading-relaxed">
                 Compare vendor prices across various CP bundle amounts (2,400 CP, 5,000 CP, 10,800 CP) with WhatsApp handoff.
               </p>
             </div>
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-              <span className="text-slate-500 font-medium">Compare Pricing</span>
-              <span className="inline-flex items-center font-semibold text-slate-900">
+            <div className="pt-4 border-t border-cream-200 flex items-center justify-between text-xs">
+              <span className="text-stone-500 font-medium">Compare Pricing</span>
+              <span className="inline-flex items-center font-semibold text-torch-600 group-hover:translate-x-0.5 transition-transform">
                 View Bundles <ArrowRight className="w-3.5 h-3.5 ml-1" />
               </span>
             </div>
@@ -92,20 +96,22 @@ export default function CustomerPortal() {
           {/* My Orders Card */}
           <Link
             to="/app/orders"
-            className="bg-white border border-slate-200 rounded-lg p-6 hover:border-slate-400 transition-colors shadow-xs flex flex-col justify-between"
+            className="group bg-white border border-cream-300 rounded-xl p-6 hover:border-torch-400 hover:shadow-sm transition-all flex flex-col justify-between"
           >
             <div>
-              <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center text-slate-900 mb-4">
+              <div className="w-12 h-12 rounded-lg bg-cream-200 flex items-center justify-center text-torch-600 mb-4 group-hover:bg-torch-500 group-hover:text-white transition-colors">
                 <ShoppingBag className="w-6 h-6" />
               </div>
-              <h2 className="text-lg font-bold text-slate-900 mb-1">My Orders</h2>
-              <p className="text-xs text-slate-600 mb-4 leading-relaxed">
+              <h2 className="text-lg font-bold text-stone-900 mb-1 group-hover:text-torch-600 transition-colors">
+                My Orders
+              </h2>
+              <p className="text-xs text-stone-600 mb-4 leading-relaxed">
                 View your active order references, access direct vendor WhatsApp links, and track fulfillment status.
               </p>
             </div>
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-              <span className="text-slate-500 font-medium">Track Purchases</span>
-              <span className="inline-flex items-center font-semibold text-slate-900">
+            <div className="pt-4 border-t border-cream-200 flex items-center justify-between text-xs">
+              <span className="text-stone-500 font-medium">Track Purchases</span>
+              <span className="inline-flex items-center font-semibold text-torch-600 group-hover:translate-x-0.5 transition-transform">
                 View Orders <ArrowRight className="w-3.5 h-3.5 ml-1" />
               </span>
             </div>
@@ -113,21 +119,20 @@ export default function CustomerPortal() {
         </div>
 
         {/* Phase 1 Verification Callout */}
-        <div className="border border-slate-200 bg-white rounded-lg p-6 text-sm">
-          <div className="font-semibold text-slate-900 flex items-center mb-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-600 mr-2" />
-            Phase 1 Role Isolation Active
+        <div className="border border-cream-300 bg-white rounded-xl p-6 text-sm shadow-xs">
+          <div className="font-semibold text-stone-900 flex items-center mb-2">
+            <ShieldCheck className="w-4 h-4 text-torch-600 mr-2" />
+            Verified Customer Protection Active
           </div>
-          <p className="text-slate-600 text-xs leading-relaxed">
-            As a Customer, you have access exclusively to public listings and your personal order history. Attempts to query Super Admin or Vendor endpoints return <code>403 Forbidden</code> enforced by backend policy middleware.
+          <p className="text-stone-600 text-xs leading-relaxed">
+            As a customer, you have access to verified listings and your personal order history. Server-side policies strictly prevent cross-vendor leakage and ensure safe fulfillment handoff.
           </p>
         </div>
       </main>
 
-      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
         <p>&copy; {new Date().getFullYear()} WILRICH STORE. All rights reserved.</p>
       </footer>
     </div>
   );
 }
-

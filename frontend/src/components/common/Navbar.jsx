@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCurrency } from '../../context/CurrencyContext';
 import { LogOut, Shield, Store, ShoppingBag, Globe } from 'lucide-react';
@@ -8,10 +8,23 @@ export default function Navbar() {
   const { user, logout, isSuperAdmin, isVendor, isCustomer } = useAuth();
   const { displayCurrency, setDisplayCurrency, supportedCurrencies } = useCurrency();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
     await logout();
     navigate('/login');
+  };
+
+  const isActive = (path) => {
+    if (path === '/app' && location.pathname === '/app') return true;
+    if (path !== '/app' && location.pathname.startsWith(path)) return true;
+    return false;
+  };
+
+  const navLinkClass = (path) => {
+    return isActive(path)
+      ? 'text-sm font-semibold text-torch-600 border-b-2 border-torch-500 pb-1 transition-colors'
+      : 'text-sm font-medium text-stone-600 hover:text-torch-600 transition-colors pb-1';
   };
 
   const getRoleBadge = () => {
@@ -19,37 +32,47 @@ export default function Navbar() {
     switch (user.role) {
       case 'super_admin':
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-torch-50 text-torch-700 border border-torch-200">
             <Shield className="w-3 h-3 mr-1" /> Super Admin
           </span>
         );
       case 'vendor':
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-indigo-100 text-indigo-800 border border-indigo-200">
-            <Store className="w-3 h-3 mr-1" /> Vendor
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-800 border border-cream-300">
+            <Store className="w-3 h-3 mr-1 text-torch-600" /> Vendor
           </span>
         );
       case 'customer':
       default:
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200">
-            <ShoppingBag className="w-3 h-3 mr-1" /> Customer
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-800 border border-cream-300">
+            <ShoppingBag className="w-3 h-3 mr-1 text-torch-600" /> Customer
           </span>
         );
     }
   };
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <header className="bg-cream-50/95 backdrop-blur-xs border-b border-cream-300 sticky top-0 z-30 shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Brand */}
           <div className="flex items-center space-x-8">
-            <Link to={user ? (isSuperAdmin ? '/admin' : isVendor ? '/vendor' : '/app') : '/login'} className="flex items-center space-x-3">
-              <div className="w-9 h-9 bg-slate-900 text-white rounded flex items-center justify-center font-bold text-base tracking-wider">
+            <Link
+              to={user ? (isSuperAdmin ? '/admin' : isVendor ? '/vendor' : '/app') : '/login'}
+              className="flex items-center space-x-3 group"
+            >
+              <div className="w-9 h-9 bg-torch-500 text-white rounded flex items-center justify-center font-bold text-base tracking-wider shadow-xs group-hover:bg-torch-600 transition-colors">
                 WS
               </div>
-              <span className="text-lg font-bold text-slate-900 tracking-tight">WILRICH STORE</span>
+              <div className="flex flex-col">
+                <span className="text-lg font-bold text-stone-900 tracking-tight leading-none group-hover:text-torch-600 transition-colors">
+                  WILRICH STORE
+                </span>
+                <span className="text-[10px] uppercase font-semibold tracking-wider text-stone-500">
+                  CODM Marketplace
+                </span>
+              </div>
             </Link>
 
             {/* Role-specific Navigation */}
@@ -57,22 +80,22 @@ export default function Navbar() {
               <nav className="hidden md:flex items-center space-x-6">
                 {isCustomer && (
                   <>
-                    <Link to="/app" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/app" className={navLinkClass('/app')}>
                       Marketplace
                     </Link>
-                    <Link to="/app/vendors" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/app/vendors" className={navLinkClass('/app/vendors')}>
                       Vendors
                     </Link>
-                    <Link to="/app/accounts" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/app/accounts" className={navLinkClass('/app/accounts')}>
                       CODM Accounts
                     </Link>
-                    <Link to="/app/cp" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/app/cp" className={navLinkClass('/app/cp')}>
                       CP Bundles
                     </Link>
-                    <Link to="/app/orders" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/app/orders" className={navLinkClass('/app/orders')}>
                       My Orders
                     </Link>
-                    <Link to="/app/tickets" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/app/tickets" className={navLinkClass('/app/tickets')}>
                       Support
                     </Link>
                   </>
@@ -80,22 +103,22 @@ export default function Navbar() {
 
                 {isVendor && (
                   <>
-                    <Link to="/vendor" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/vendor" className={navLinkClass('/vendor')}>
                       Dashboard
                     </Link>
-                    <Link to="/vendor/accounts" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/vendor/accounts" className={navLinkClass('/vendor/accounts')}>
                       Account Inventory
                     </Link>
-                    <Link to="/vendor/cp" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/vendor/cp" className={navLinkClass('/vendor/cp')}>
                       CP Bundles
                     </Link>
-                    <Link to="/vendor/orders" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/vendor/orders" className={navLinkClass('/vendor/orders')}>
                       Orders
                     </Link>
-                    <Link to="/vendor/tickets" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/vendor/tickets" className={navLinkClass('/vendor/tickets')}>
                       Tickets
                     </Link>
-                    <Link to="/vendor/store-settings" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/vendor/store-settings" className={navLinkClass('/vendor/store-settings')}>
                       Store Settings
                     </Link>
                   </>
@@ -103,16 +126,16 @@ export default function Navbar() {
 
                 {isSuperAdmin && (
                   <>
-                    <Link to="/admin" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/admin" className={navLinkClass('/admin')}>
                       Admin Overview
                     </Link>
-                    <Link to="/admin/vendors" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/admin/vendors" className={navLinkClass('/admin/vendors')}>
                       Vendors Management
                     </Link>
-                    <Link to="/admin/rates" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/admin/rates" className={navLinkClass('/admin/rates')}>
                       Exchange Rates
                     </Link>
-                    <Link to="/admin/tickets" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                    <Link to="/admin/tickets" className={navLinkClass('/admin/tickets')}>
                       Disputes &amp; Tickets
                     </Link>
                   </>
@@ -124,16 +147,16 @@ export default function Navbar() {
           {/* Right Actions */}
           <div className="flex items-center space-x-3 sm:space-x-4">
             {/* Currency Selector */}
-            <div className="flex items-center space-x-1 border border-slate-200 rounded px-2 py-1 bg-slate-50 text-xs">
-              <Globe className="w-3.5 h-3.5 text-slate-400" />
+            <div className="flex items-center space-x-1.5 border border-cream-300 rounded px-2.5 py-1 bg-cream-100 text-xs shadow-2xs">
+              <Globe className="w-3.5 h-3.5 text-torch-600" />
               <select
                 value={displayCurrency}
                 onChange={(e) => setDisplayCurrency(e.target.value)}
-                className="bg-transparent font-semibold text-slate-700 focus:outline-none cursor-pointer"
+                className="bg-transparent font-semibold text-stone-800 focus:outline-none cursor-pointer"
                 title="Select Display Currency"
               >
                 {supportedCurrencies.map((c) => (
-                  <option key={c} value={c}>
+                  <option key={c} value={c} className="bg-cream-50 text-stone-900">
                     {c}
                   </option>
                 ))}
@@ -144,13 +167,13 @@ export default function Navbar() {
               <div className="flex items-center space-x-3">
                 {getRoleBadge()}
                 <div className="text-right hidden sm:block">
-                  <div className="text-xs font-semibold text-slate-900">{user.name}</div>
-                  <div className="text-[11px] text-slate-500 font-mono">{user.email}</div>
+                  <div className="text-xs font-semibold text-stone-900">{user.name}</div>
+                  <div className="text-[11px] text-stone-500 font-mono">{user.email}</div>
                 </div>
                 <button
                   onClick={handleLogout}
                   title="Sign out"
-                  className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors"
+                  className="p-2 text-stone-500 hover:text-torch-600 hover:bg-cream-200 rounded transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -159,13 +182,13 @@ export default function Navbar() {
               <div className="flex items-center space-x-3">
                 <Link
                   to="/login"
-                  className="text-sm font-medium text-slate-700 hover:text-slate-900 px-3 py-1.5 rounded"
+                  className="text-sm font-medium text-stone-700 hover:text-torch-600 px-3 py-1.5 rounded transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="text-sm font-medium text-white bg-slate-900 hover:bg-slate-800 px-3.5 py-1.5 rounded transition-colors"
+                  className="text-sm font-semibold text-white bg-torch-500 hover:bg-torch-600 px-3.5 py-1.5 rounded shadow-xs transition-colors"
                 >
                   Register
                 </Link>
