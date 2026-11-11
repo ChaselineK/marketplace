@@ -161,10 +161,7 @@ export default function VendorTickets() {
         <div className="glass-panel-elevated rounded-2xl p-6 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
-                Vendor Dispute Center
-              </span>
-              <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
+              <h1 className="text-2xl font-bold text-stone-900 tracking-tight">
                 Support &amp; Dispute Inquiries
               </h1>
               <p className="text-sm text-stone-600 mt-1">

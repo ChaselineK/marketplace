@@ -21,12 +21,8 @@ export default function NotFound() {
             <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-ice-400 border-2 border-white" />
           </div>
 
-          <span className="inline-block text-xs font-bold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-3 py-1 rounded-full border border-quantum-200 mb-3">
-            Error 404 &bull; Resource Unreachable
-          </span>
-
           <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight mb-3">
-            Lost in the Grid
+            Page Not Found
           </h1>
 
           <p className="text-sm text-stone-600 max-w-md mx-auto mb-8 leading-relaxed">

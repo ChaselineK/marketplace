@@ -65,14 +65,11 @@ export default function AccountMarketplace() {
         {/* Header & Filters */}
         <div className="glass-panel-elevated rounded-2xl p-6 sm:p-8 mb-8 shadow-xs">
           <div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
-              Verified Marketplace
-            </span>
-            <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
+            <h1 className="text-2xl font-bold text-stone-900 tracking-tight">
               CODM Account Listings
             </h1>
             <p className="text-sm text-stone-600 mt-1">
-              Browse and purchase verified Activision Call of Duty: Mobile accounts from approved vendors.
+              Browse and purchase Activision Call of Duty: Mobile accounts from approved vendors.
             </p>
           </div>
 
@@ -165,7 +162,7 @@ export default function AccountMarketplace() {
                   ) : (
                     <div className="text-center p-4">
                       <Gamepad2 className="w-10 h-10 text-stone-600 mx-auto mb-2" />
-                      <span className="text-xs font-medium text-stone-400">Verified CODM Account</span>
+                      <span className="text-xs font-medium text-stone-400">CODM Account</span>
                     </div>
                   )}
                   <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-quantum-600 text-white shadow-xs">
@@ -178,7 +175,7 @@ export default function AccountMarketplace() {
                   <div>
                     <div className="flex items-center space-x-1.5 text-xs text-stone-500 mb-2">
                       <Store className="w-3.5 h-3.5 text-quantum-600" />
-                      <span className="font-medium">{account.vendor?.store_name || 'Verified Vendor'}</span>
+                      <span className="font-medium">{account.vendor?.store_name || 'Vendor'}</span>
                     </div>
 
                     <h3 className="text-base font-bold text-stone-900 line-clamp-1 mb-2 group-hover:text-quantum-600 transition-colors">

@@ -11,10 +11,7 @@ export default function TermsAndPolicies() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-8">
         {/* Header */}
         <div className="glass-panel-elevated rounded-2xl p-6 sm:p-8 shadow-xs">
-          <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
-            Legal, Privacy &amp; Marketplace Governance
-          </span>
-          <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
+          <h1 className="text-2xl font-bold text-stone-900 tracking-tight">
             Terms of Service, Privacy Policy &amp; Dispute Rules
           </h1>
           <p className="text-sm text-stone-600 mt-2 leading-relaxed">

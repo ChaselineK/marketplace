@@ -63,10 +63,7 @@ export default function AdminRates() {
         {/* Header */}
         <div className="glass-panel-elevated rounded-2xl p-6 sm:p-8 shadow-xs">
           <div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
-              Platform Configuration
-            </span>
-            <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
+            <h1 className="text-2xl font-bold text-stone-900 tracking-tight">
               Exchange Rate Management
             </h1>
             <p className="text-sm text-stone-600 mt-1">

@@ -156,7 +156,7 @@ export default function AccountDetail() {
                 ) : (
                   <div className="text-center p-8">
                     <Gamepad2 className="w-16 h-16 text-ice-400 mx-auto mb-3" />
-                    <span className="text-sm font-medium text-stone-400">Verified CODM Account Asset</span>
+                    <span className="text-sm font-medium text-stone-400">CODM Account Asset</span>
                   </div>
                 )}
               </div>

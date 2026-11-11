@@ -14,23 +14,12 @@ export default function CustomerPortal() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         {/* Welcome Banner */}
         <div className="glass-panel-elevated rounded-2xl p-6 sm:p-8 mb-8 shadow-xs">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
-                Customer Marketplace
-              </span>
-              <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
-                Welcome back, {user?.name}
-              </h1>
-              <p className="text-sm text-stone-600 mt-1">
-                Browse verified Call of Duty: Mobile accounts and competitive CP bundles from verified vendors.
-              </p>
-            </div>
-            <div className="inline-flex items-center text-xs font-semibold text-quantum-800 bg-quantum-50/80 px-3 py-1.5 rounded-full border border-quantum-200">
-              <ShieldCheck className="w-4 h-4 mr-1.5 text-quantum-600" />
-              Verified Buyer Escrow Protected
-            </div>
-          </div>
+          <h1 className="text-2xl font-bold text-stone-900 tracking-tight">
+            Welcome back, {user?.name}
+          </h1>
+          <p className="text-sm text-stone-600 mt-1.5 max-w-2xl">
+            Browse verified Call of Duty: Mobile accounts and competitive CP bundles from verified vendors.
+          </p>
         </div>
 
         {/* Categories Grid */}
