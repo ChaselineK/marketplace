@@ -107,5 +107,78 @@ class DailyReportingService
             ];
         });
     }
+
+    /**
+     * Get dynamic sales chart data for Super Admin dashboard.
+     * Records all orders marked completed/sold as sales.
+     */
+    public static function getSalesChartData(int $days = 14): array
+    {
+        $now = Carbon::now(self::BUSINESS_TIMEZONE);
+        $dailyPoints = [];
+
+        for ($i = $days - 1; $i >= 0; $i--) {
+            $day = $now->copy()->subDays($i);
+            $dateStr = $day->toDateString();
+            $startUtc = $day->copy()->startOfDay()->setTimezone('UTC');
+            $endUtc = $day->copy()->endOfDay()->setTimezone('UTC');
+
+            $dayQuery = Order::where('status', OrderStatus::COMPLETED)
+                ->whereBetween('completed_at', [$startUtc, $endUtc]);
+
+            $count = (int) $dayQuery->count();
+            $amount = (float) $dayQuery->sum('total_price_amount');
+
+            $dailyPoints[] = [
+                'date' => $dateStr,
+                'short_label' => $day->format('M j'),
+                'day_name' => $day->format('D'),
+                'orders_count' => $count,
+                'sales_amount' => $amount,
+                'is_today' => $i === 0,
+            ];
+        }
+
+        // Category breakdown (completed sales)
+        $accountSales = [
+            'count' => (int) Order::where('status', OrderStatus::COMPLETED)->where('item_type', 'account')->count(),
+            'amount' => (float) Order::where('status', OrderStatus::COMPLETED)->where('item_type', 'account')->sum('total_price_amount'),
+        ];
+
+        $cpSales = [
+            'count' => (int) Order::where('status', OrderStatus::COMPLETED)->where('item_type', 'cp_bundle')->count(),
+            'amount' => (float) Order::where('status', OrderStatus::COMPLETED)->where('item_type', 'cp_bundle')->sum('total_price_amount'),
+        ];
+
+        // Recent sold orders
+        $recentSold = Order::where('status', OrderStatus::COMPLETED)
+            ->with(['vendor.vendorProfile', 'customer'])
+            ->latest('completed_at')
+            ->limit(8)
+            ->get()
+            ->map(function ($order) {
+                return [
+                    'id' => $order->id,
+                    'reference' => $order->public_reference,
+                    'title' => $order->item_title_snapshot,
+                    'item_type' => $order->item_type,
+                    'quantity' => $order->quantity,
+                    'total_price_amount' => $order->total_price_amount,
+                    'price_currency' => $order->price_currency,
+                    'completed_at' => $order->completed_at?->toIso8601String(),
+                    'vendor_name' => $order->vendor?->vendorProfile?->store_name ?: $order->vendor?->name,
+                    'customer_name' => $order->customer?->name,
+                ];
+            });
+
+        return [
+            'timeline' => $dailyPoints,
+            'categories' => [
+                'accounts' => $accountSales,
+                'cp_bundles' => $cpSales,
+            ],
+            'recent_sold' => $recentSold,
+        ];
+    }
 }
 

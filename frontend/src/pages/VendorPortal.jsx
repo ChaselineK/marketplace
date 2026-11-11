@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   AlertCircle,
   LifeBuoy,
+  Loader2,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -51,15 +52,15 @@ export default function VendorPortal() {
   const profile = user?.vendor_profile;
 
   return (
-    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between page-transition">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
         {/* Storefront Banner */}
-        <div className="bg-white border border-cream-300 rounded-xl p-6 sm:p-8 mb-8 shadow-xs">
+        <div className="glass-panel-elevated rounded-2xl p-6 sm:p-8 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
+              <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
                 Vendor Workspace
               </span>
               <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
@@ -70,7 +71,7 @@ export default function VendorPortal() {
                   <span>Store Slug: <strong className="text-stone-800">@{profile.store_slug}</strong></span>
                 )}
                 {profile?.whatsapp_number && (
-                  <span className="flex items-center text-torch-700 font-semibold">
+                  <span className="flex items-center text-quantum-700 font-semibold">
                     <Phone className="w-3.5 h-3.5 mr-1" /> WhatsApp: +{profile.whatsapp_number}
                   </span>
                 )}
@@ -78,202 +79,178 @@ export default function VendorPortal() {
             </div>
 
             {/* Date filter for daily sales */}
-            <div className="flex items-center space-x-2 bg-cream-100 border border-cream-300 rounded-lg p-2 text-xs">
-              <Calendar className="w-4 h-4 text-torch-600" />
+            <div className="flex items-center space-x-2 glass-panel rounded-xl p-2 text-xs">
+              <Calendar className="w-4 h-4 text-quantum-600" />
               <span className="font-semibold text-stone-700">Business Date:</span>
               <input
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="bg-white border border-cream-300 rounded px-2 py-1 text-stone-900 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500"
+                className="bg-white/80 border border-ice-300 rounded-lg px-2.5 py-1 text-stone-900 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500"
               />
             </div>
           </div>
         </div>
 
         {error && (
-          <div className="p-4 bg-torch-50 border border-torch-200 rounded-xl text-sm text-torch-800 mb-6 flex items-center">
-            <AlertCircle className="w-5 h-5 mr-2 shrink-0 text-torch-600" />
+          <div className="p-4 bg-red-50 border border-red-200 rounded-2xl text-xs text-red-800 flex items-center shadow-xs">
+            <AlertCircle className="w-5 h-5 mr-2 shrink-0 text-red-600" />
             {error}
           </div>
         )}
 
-        {/* Daily Sales & Revenue Aggregates */}
-        {dashboardData && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {/* Today Completed Sales */}
-            <div className="bg-white border border-cream-300 rounded-xl p-5 shadow-xs">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-bold text-stone-400 uppercase tracking-wider">
-                  Daily Completed Sales
-                </span>
-                <span className="text-[10px] font-mono text-stone-400">
-                  {dashboardData.daily_sales.timezone}
-                </span>
+        {/* Dashboard Metrics (Daily Sales & Lifetime Totals) */}
+        {loading ? (
+          <div className="py-20 text-center text-sm font-medium">
+            <div className="glass-panel p-8 rounded-2xl max-w-sm mx-auto flex flex-col items-center">
+              <Loader2 className="w-8 h-8 animate-spin text-quantum-600 mb-3" />
+              <p className="text-stone-700">Loading performance data...</p>
+            </div>
+          </div>
+        ) : dashboardData ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="glass-panel rounded-2xl p-5 shadow-xs">
+              <div className="flex items-center justify-between text-xs font-bold text-stone-400 uppercase tracking-wider mb-1">
+                <span>Daily Sales</span>
+                <span className="text-[10px] font-mono text-quantum-700">{dashboardData.daily_sales.timezone}</span>
               </div>
               <div className="text-2xl font-extrabold text-stone-900 mt-2">
                 TZS {Number(dashboardData.daily_sales.total_sales_amount).toLocaleString()}
               </div>
               <div className="text-xs text-stone-500 mt-1">
-                <strong>{dashboardData.daily_sales.completed_orders_count}</strong> orders completed on {dashboardData.daily_sales.date}
+                <strong>{dashboardData.daily_sales.completed_orders_count}</strong> fulfilled orders on {dashboardData.daily_sales.date}
               </div>
             </div>
 
-            {/* All Time Sales */}
-            <div className="bg-white border border-cream-300 rounded-xl p-5 shadow-xs">
+            <div className="glass-panel rounded-2xl p-5 shadow-xs">
               <span className="text-xs font-bold text-stone-400 uppercase tracking-wider block mb-1">
-                All-Time Revenue
+                All-Time Sales Volume
               </span>
               <div className="text-2xl font-extrabold text-stone-900 mt-2">
                 TZS {Number(dashboardData.all_time_sales.total_sales_amount).toLocaleString()}
               </div>
               <div className="text-xs text-stone-500 mt-1">
-                <strong>{dashboardData.all_time_sales.completed_orders_count}</strong> lifetime fulfilled orders
+                <strong>{dashboardData.all_time_sales.completed_orders_count}</strong> lifetime fulfilled transactions
               </div>
             </div>
 
-            {/* Inventory Status */}
-            <div className="bg-white border border-cream-300 rounded-xl p-5 shadow-xs">
+            <div className="glass-panel rounded-2xl p-5 shadow-xs">
               <span className="text-xs font-bold text-stone-400 uppercase tracking-wider block mb-1">
-                Inventory Stock
+                Live Inventory Status
               </span>
               <div className="text-2xl font-extrabold text-stone-900 mt-2">
-                {dashboardData.inventory.accounts_published} <span className="text-sm font-normal text-stone-500">Live Accounts</span>
+                {dashboardData.inventory_counts.active_accounts} <span className="text-sm font-normal text-stone-500">Live Accounts</span>
               </div>
               <div className="text-xs text-stone-500 mt-1">
-                {dashboardData.inventory.accounts_sold} sold &bull; {dashboardData.inventory.cp_bundles_total} CP bundles
+                {dashboardData.inventory_counts.sold_accounts} sold &bull; {dashboardData.inventory_counts.total_cp_bundles} CP bundles configured
               </div>
             </div>
 
-            {/* Active Tickets */}
-            <div className="bg-white border border-cream-300 rounded-xl p-5 shadow-xs">
+            <div className="glass-panel rounded-2xl p-5 shadow-xs">
               <span className="text-xs font-bold text-stone-400 uppercase tracking-wider block mb-1">
-                Active Disputes / Tickets
+                Orders &amp; Disputes
               </span>
-              <div className="text-2xl font-extrabold text-torch-700 mt-2">
-                {dashboardData.tickets.open + dashboardData.tickets.in_progress} <span className="text-sm font-normal text-stone-500">Active</span>
+              <div className="text-2xl font-extrabold text-stone-900 mt-2">
+                {dashboardData.order_counts.pending_orders} <span className="text-sm font-normal text-stone-500">Pending Orders</span>
               </div>
               <div className="text-xs text-stone-500 mt-1">
-                {dashboardData.tickets.resolved} resolved &bull; {dashboardData.tickets.closed} closed
+                {dashboardData.ticket_counts.open_tickets} active dispute tickets
               </div>
             </div>
           </div>
-        )}
+        ) : null}
 
-        {/* Quick Links & Management Navigation */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+        {/* Quick Management Links */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Link
             to="/vendor/accounts"
-            className="group bg-white border border-cream-300 rounded-xl p-5 hover:border-torch-400 hover:shadow-sm transition-all flex items-center justify-between"
+            className="group glass-panel rounded-2xl p-6 hover:border-quantum-400 hover:shadow-md transition-all flex flex-col justify-between"
           >
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-lg bg-cream-200 flex items-center justify-center text-torch-600 group-hover:bg-torch-500 group-hover:text-white transition-colors">
-                <Package className="w-5 h-5" />
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-quantum-50 border border-quantum-200 flex items-center justify-center text-quantum-600 mb-4 group-hover:scale-105 group-hover:bg-quantum-600 group-hover:text-white transition-all">
+                <Package className="w-6 h-6" />
               </div>
-              <div>
-                <h3 className="text-sm font-bold text-stone-900 group-hover:text-torch-600 transition-colors">
-                  Manage Accounts
-                </h3>
-                <p className="text-[11px] text-stone-500">Add, edit, or upload images</p>
-              </div>
+              <h2 className="text-lg font-bold text-stone-900 mb-1 group-hover:text-quantum-600 transition-colors">
+                Account Inventory
+              </h2>
+              <p className="text-xs text-stone-600 mb-4 leading-relaxed">
+                Add new CODM accounts, upload screenshots, specify pricing, and manage inventory statuses.
+              </p>
             </div>
-            <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-torch-600 group-hover:translate-x-0.5 transition-all" />
+            <div className="pt-4 border-t border-ice-200 flex items-center justify-between text-xs">
+              <span className="text-stone-500 font-medium">Manage Stock</span>
+              <span className="inline-flex items-center font-semibold text-quantum-600 group-hover:translate-x-1 transition-transform">
+                Manage Accounts <ArrowRight className="w-3.5 h-3.5 ml-1" />
+              </span>
+            </div>
           </Link>
 
           <Link
             to="/vendor/cp"
-            className="group bg-white border border-cream-300 rounded-xl p-5 hover:border-torch-400 hover:shadow-sm transition-all flex items-center justify-between"
+            className="group glass-panel rounded-2xl p-6 hover:border-quantum-400 hover:shadow-md transition-all flex flex-col justify-between"
           >
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-lg bg-cream-200 flex items-center justify-center text-torch-600 group-hover:bg-torch-500 group-hover:text-white transition-colors">
-                <Coins className="w-5 h-5" />
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-quantum-50 border border-quantum-200 flex items-center justify-center text-quantum-600 mb-4 group-hover:scale-105 group-hover:bg-quantum-600 group-hover:text-white transition-all">
+                <Coins className="w-6 h-6" />
               </div>
-              <div>
-                <h3 className="text-sm font-bold text-stone-900 group-hover:text-torch-600 transition-colors">
-                  CP Pricing
-                </h3>
-                <p className="text-[11px] text-stone-500">Configure bundle packages</p>
-              </div>
+              <h2 className="text-lg font-bold text-stone-900 mb-1 group-hover:text-quantum-600 transition-colors">
+                CP Bundle Pricing
+              </h2>
+              <p className="text-xs text-stone-600 mb-4 leading-relaxed">
+                Set authoritative TZS unit prices across standard CP bundle denominations (80 to 10,800 CP).
+              </p>
             </div>
-            <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-torch-600 group-hover:translate-x-0.5 transition-all" />
+            <div className="pt-4 border-t border-ice-200 flex items-center justify-between text-xs">
+              <span className="text-stone-500 font-medium">Configure Bundles</span>
+              <span className="inline-flex items-center font-semibold text-quantum-600 group-hover:translate-x-1 transition-transform">
+                Set CP Rates <ArrowRight className="w-3.5 h-3.5 ml-1" />
+              </span>
+            </div>
           </Link>
 
           <Link
             to="/vendor/orders"
-            className="group bg-white border border-cream-300 rounded-xl p-5 hover:border-torch-400 hover:shadow-sm transition-all flex items-center justify-between"
+            className="group glass-panel rounded-2xl p-6 hover:border-quantum-400 hover:shadow-md transition-all flex flex-col justify-between"
           >
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-lg bg-cream-200 flex items-center justify-center text-torch-600 group-hover:bg-torch-500 group-hover:text-white transition-colors">
-                <ShoppingBag className="w-5 h-5" />
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-quantum-50 border border-quantum-200 flex items-center justify-center text-quantum-600 mb-4 group-hover:scale-105 group-hover:bg-quantum-600 group-hover:text-white transition-all">
+                <ShoppingBag className="w-6 h-6" />
               </div>
-              <div>
-                <h3 className="text-sm font-bold text-stone-900 group-hover:text-torch-600 transition-colors">
-                  Order Queue
-                </h3>
-                <p className="text-[11px] text-stone-500">
-                  {dashboardData?.orders.pending || 0} pending contact
-                </p>
-              </div>
+              <h2 className="text-lg font-bold text-stone-900 mb-1 group-hover:text-quantum-600 transition-colors">
+                Customer Orders
+              </h2>
+              <p className="text-xs text-stone-600 mb-4 leading-relaxed">
+                Process customer purchases, record WhatsApp payments, and fulfill account or CP deliveries.
+              </p>
             </div>
-            <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-torch-600 group-hover:translate-x-0.5 transition-all" />
+            <div className="pt-4 border-t border-ice-200 flex items-center justify-between text-xs">
+              <span className="text-stone-500 font-medium">Orders Queue</span>
+              <span className="inline-flex items-center font-semibold text-quantum-600 group-hover:translate-x-1 transition-transform">
+                View Orders <ArrowRight className="w-3.5 h-3.5 ml-1" />
+              </span>
+            </div>
           </Link>
         </div>
 
-        {/* Recent Orders Stream */}
-        {dashboardData?.recent_orders?.length > 0 && (
-          <div className="bg-white border border-cream-300 rounded-xl p-6 shadow-xs mb-8">
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-cream-200">
-              <h2 className="text-sm font-bold text-stone-900 uppercase tracking-wider">
-                Recent Orders Received
-              </h2>
-              <Link
-                to="/vendor/orders"
-                className="text-xs font-semibold text-torch-700 hover:text-torch-800 flex items-center"
-              >
-                View all orders <ArrowRight className="w-3.5 h-3.5 ml-1" />
-              </Link>
-            </div>
-
-            <div className="divide-y divide-cream-100">
-              {dashboardData.recent_orders.map((o) => (
-                <div key={o.id} className="py-3 flex items-center justify-between text-xs">
-                  <div>
-                    <span className="font-mono font-bold text-torch-700 mr-2">
-                      {o.public_reference}
-                    </span>
-                    <span className="font-medium text-stone-800">
-                      {o.item_title_snapshot}
-                    </span>
-                    <span className="text-stone-400 ml-2">
-                      &bull; Customer: {o.customer?.name}
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <span className="font-bold text-stone-900">
-                      {o.price_currency} {Number(o.total_price_amount).toLocaleString()}
-                    </span>
-                    <span className="capitalize px-2 py-0.5 rounded bg-cream-200 text-stone-800 text-[11px] font-semibold border border-cream-300">
-                      {o.status}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* Operational Timezone Callout */}
+        <div className="p-4 glass-panel rounded-2xl text-xs text-stone-700 flex items-center justify-between shadow-2xs">
+          <div className="flex items-center space-x-2">
+            <Clock className="w-4 h-4 text-quantum-600 shrink-0" />
+            <span>
+              <strong>Authoritative Reporting Boundary:</strong> All daily sales summaries and reporting resets occur at midnight in <code>Africa/Dar_es_Salaam</code> (EAT).
+            </span>
           </div>
-        )}
-
-        {/* Timezone & Security Guarantee Banner */}
-        <div className="border border-cream-300 bg-white rounded-xl p-6 text-xs text-stone-600 shadow-xs">
-          <div className="font-semibold text-stone-900 flex items-center mb-1">
-            <ShieldCheck className="w-4 h-4 text-torch-600 mr-2" />
-            Timezone-Safe Reporting Policy
-          </div>
-          All completed daily sales aggregations are calculated using the <code>Africa/Dar_es_Salaam</code> business timezone. Historical sales records remain permanent and immutable across all business periods.
+          <Link
+            to="/vendor/store-settings"
+            className="text-quantum-700 hover:text-quantum-900 font-semibold underline shrink-0 ml-4"
+          >
+            Store Settings
+          </Link>
         </div>
       </main>
 
-      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
-        <p>&copy; {new Date().getFullYear()} WILRICH STORE. Vendor Management Workspace.</p>
+      <footer className="glass-panel border-t border-ice-200 py-6 text-center text-xs text-stone-500 mt-12">
+        <p>&copy; {new Date().getFullYear()} WILRICH STORE. Vendor Portal.</p>
       </footer>
     </div>
   );

@@ -15,6 +15,7 @@ import {
   User,
   Download,
   Lock,
+  Loader2,
 } from 'lucide-react';
 
 export default function CustomerTicketDetail() {
@@ -88,20 +89,61 @@ export default function CustomerTicketDetail() {
     switch (role) {
       case 'super_admin':
         return (
-          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-torch-50 text-torch-700 border border-torch-200">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-quantum-50 text-quantum-700 border border-quantum-200">
             <Shield className="w-2.5 h-2.5 mr-1" /> Support Moderator
           </span>
         );
       case 'vendor':
         return (
-          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-cream-200 text-stone-800 border border-cream-300">
-            <Store className="w-2.5 h-2.5 mr-1 text-torch-600" /> Vendor
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-ice-100 text-stone-800 border border-ice-300">
+            <Store className="w-2.5 h-2.5 mr-1 text-quantum-600" /> Vendor
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-cream-100 text-stone-800 border border-cream-300">
-            <User className="w-2.5 h-2.5 mr-1 text-torch-600" /> Customer (You)
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-stone-100 text-stone-700 border border-stone-200">
+            <User className="w-2.5 h-2.5 mr-1" /> Customer
+          </span>
+        );
+    }
+  };
+
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case 'open':
+        return (
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+            <Clock className="w-3 h-3 mr-1" /> Open
+          </span>
+        );
+      case 'in_progress':
+        return (
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-quantum-50 text-quantum-800 border border-quantum-200">
+            <Clock className="w-3 h-3 mr-1 text-quantum-600" /> In Progress
+          </span>
+        );
+      case 'waiting_for_customer':
+        return (
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-800 border border-purple-200">
+            Waiting for Reply
+          </span>
+        );
+      case 'resolved':
+        return (
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+            <CheckCircle2 className="w-3 h-3 mr-1" /> Resolved
+          </span>
+        );
+      case 'closed':
+        return (
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-700 border border-stone-200">
+            Closed
+          </span>
+        );
+      default:
+        return (
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-ice-100 text-stone-700">
+            {status}
           </span>
         );
     }
@@ -109,248 +151,245 @@ export default function CustomerTicketDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
+      <div className="min-h-screen flex flex-col justify-between">
         <Navbar />
-        <div className="py-24 text-center text-sm text-stone-500 font-medium">Loading ticket thread...</div>
+        <div className="max-w-md mx-auto py-24 text-center page-transition">
+          <div className="glass-panel p-8 rounded-2xl flex flex-col items-center">
+            <Loader2 className="w-8 h-8 animate-spin text-quantum-600 mb-3" />
+            <p className="text-sm font-semibold text-quantum-900">Loading conversation thread...</p>
+          </div>
+        </div>
+        <footer className="py-6 text-center text-xs text-stone-500">
+          &copy; {new Date().getFullYear()} WILRICH STORE
+        </footer>
       </div>
     );
   }
 
   if (error || !ticket) {
     return (
-      <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
+      <div className="min-h-screen flex flex-col justify-between">
         <Navbar />
-        <main className="max-w-md mx-auto px-4 py-16 text-center">
-          <AlertCircle className="w-12 h-12 text-torch-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-stone-900 mb-2">Ticket Not Found</h2>
-          <p className="text-sm text-stone-600 mb-6">{error || 'This ticket does not exist or you do not have permission to view it.'}</p>
-          <Link
-            to="/app/tickets"
-            className="inline-flex items-center px-4 py-2 bg-torch-500 text-white rounded text-sm font-semibold hover:bg-torch-600 shadow-xs"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" /> Back to My Tickets
-          </Link>
+        <main className="max-w-md mx-auto px-4 py-16 text-center page-transition">
+          <div className="glass-panel-elevated p-8 rounded-2xl">
+            <AlertCircle className="w-12 h-12 text-quantum-600 mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-stone-900 mb-2">Ticket Not Found</h2>
+            <p className="text-sm text-stone-600 mb-6">{error || 'This support ticket does not exist or access is restricted.'}</p>
+            <Link
+              to="/app/tickets"
+              className="inline-flex items-center px-4 py-2 glass-button text-white rounded-lg text-sm font-semibold shadow-xs"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" /> Back to Tickets
+            </Link>
+          </div>
         </main>
+        <footer className="py-6 text-center text-xs text-stone-500">
+          &copy; {new Date().getFullYear()} WILRICH STORE
+        </footer>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between page-transition">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-6">
         {/* Breadcrumb & Actions */}
-        <div className="mb-6 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <Link
             to="/app/tickets"
-            className="inline-flex items-center text-xs font-semibold text-stone-600 hover:text-torch-600 transition-colors"
+            className="inline-flex items-center text-xs font-semibold text-stone-600 hover:text-quantum-600 transition-colors"
           >
-            <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Back to Support Tickets
+            <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Back to My Tickets
           </Link>
 
           {ticket.status !== 'closed' && (
             <button
               onClick={handleCloseTicket}
-              className="px-3 py-1.5 border border-cream-300 rounded text-xs font-semibold text-stone-700 bg-cream-50 hover:bg-cream-200 transition-colors cursor-pointer"
+              className="px-3 py-1.5 border border-stone-300 rounded-lg text-xs font-semibold text-stone-700 hover:bg-white transition-colors"
             >
-              Close Ticket
+              Mark Ticket as Closed
             </button>
           )}
         </div>
 
         {actionSuccess && (
-          <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 mb-6 flex items-center">
-            <CheckCircle2 className="w-4 h-4 mr-1.5" />
+          <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs font-semibold text-emerald-800 flex items-center shadow-xs page-transition">
+            <CheckCircle2 className="w-4 h-4 mr-2 text-emerald-600 shrink-0" />
             {actionSuccess}
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left 2 Columns: Conversation Thread */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Ticket Subject Card */}
-            <div className="bg-white border border-cream-300 rounded-xl p-6 shadow-xs">
-              <div className="flex items-center justify-between pb-3 border-b border-cream-200">
-                <span className="font-mono text-xs font-bold text-torch-700">
+        {/* Ticket Header Card */}
+        <div className="glass-panel-elevated rounded-2xl p-6 sm:p-8 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div>
+              <div className="flex items-center space-x-2 mb-2">
+                <span className="font-mono font-bold text-quantum-700 text-sm">
                   {ticket.public_reference}
                 </span>
-                <span className="text-xs capitalize font-semibold px-2 py-0.5 rounded bg-cream-200 text-stone-800 border border-cream-300">
-                  Status: {ticket.status.replace(/_/g, ' ')}
+                {getStatusBadge(ticket.status)}
+                <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider bg-ice-100 px-2 py-0.5 rounded-full border border-ice-200">
+                  Priority: {ticket.priority}
                 </span>
               </div>
-
-              <h1 className="text-xl font-bold text-stone-900 mt-4 mb-2">
+              <h1 className="text-xl sm:text-2xl font-bold text-stone-900 tracking-tight">
                 {ticket.subject}
               </h1>
-
-              <div className="bg-cream-50 p-4 rounded-lg border border-cream-200 text-xs text-stone-700 whitespace-pre-line leading-relaxed mt-4">
-                {ticket.description}
+              <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-stone-500">
+                <span>Vendor: <strong className="text-stone-900">{ticket.vendor?.store_name || ticket.vendor?.name}</strong></span>
+                {ticket.order && (
+                  <span>Linked Order: <Link to={`/app/orders/${ticket.order.public_reference}`} className="text-quantum-600 font-mono underline">{ticket.order.public_reference}</Link></span>
+                )}
+                <span>Opened: {new Date(ticket.created_at).toLocaleString()}</span>
               </div>
-
-              {/* Initial Attachments */}
-              {ticket.attachments?.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-cream-200">
-                  <div className="text-xs font-bold text-stone-500 mb-2 flex items-center">
-                    <Lock className="w-3.5 h-3.5 text-torch-600 mr-1" /> Private Evidence Files
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {ticket.attachments.map((att) => (
-                      <a
-                        key={att.id}
-                        href={att.download_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center px-3 py-1.5 rounded bg-cream-100 hover:bg-cream-200 border border-cream-300 text-xs font-semibold text-stone-800 transition-colors"
-                      >
-                        <Paperclip className="w-3 h-3 mr-1 text-torch-600" />
-                        {att.file_name}
-                        <Download className="w-3 h-3 ml-2 text-stone-400" />
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
+          </div>
 
-            {/* Conversation Messages */}
-            <div className="space-y-4">
-              <h2 className="text-sm font-bold text-stone-900">
-                Conversation Thread ({ticket.messages?.length || 0})
-              </h2>
+          {/* Initial Ticket Description */}
+          <div className="mt-6 pt-6 border-t border-ice-200 text-xs text-stone-700 leading-relaxed whitespace-pre-line bg-ice-50/70 p-4 rounded-xl border border-ice-200">
+            {ticket.description}
+          </div>
 
-              {ticket.messages?.length === 0 ? (
-                <div className="p-6 bg-white border border-cream-300 rounded-xl text-center text-xs text-stone-500 shadow-xs">
-                  No replies yet. The assigned vendor has been notified.
-                </div>
-              ) : (
-                ticket.messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className="bg-white border border-cream-300 rounded-xl p-5 shadow-xs space-y-2"
+          {/* Ticket Attachments */}
+          {ticket.attachments?.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-ice-200">
+              <span className="text-[11px] font-bold text-stone-400 uppercase tracking-wider block mb-2">
+                Initial Evidence Attachments
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {ticket.attachments.map((att) => (
+                  <a
+                    key={att.id}
+                    href={att.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-1.5 bg-white border border-ice-300 rounded-lg text-xs font-medium text-stone-800 hover:text-quantum-600 hover:border-quantum-400 transition-colors shadow-2xs"
                   >
-                    <div className="flex items-center justify-between pb-2 border-b border-cream-200">
-                      <div className="flex items-center space-x-2">
-                        <span className="font-bold text-xs text-stone-900">{msg.sender.name}</span>
-                        {getSenderBadge(msg.sender.role)}
-                      </div>
-                      <span className="text-[11px] font-mono text-stone-400">
-                        {new Date(msg.created_at).toLocaleString()}
-                      </span>
-                    </div>
-
-                    <div className="text-xs text-stone-700 whitespace-pre-line leading-relaxed pt-1">
-                      {msg.message}
-                    </div>
-                  </div>
-                ))
-              )}
+                    <Paperclip className="w-3.5 h-3.5 mr-1.5 text-quantum-600" />
+                    {att.file_name}
+                  </a>
+                ))}
+              </div>
             </div>
+          )}
+        </div>
 
-            {/* Reply Box */}
-            {ticket.status !== 'closed' ? (
-              <form onSubmit={handleReplySubmit} className="bg-white border border-cream-300 rounded-xl p-5 shadow-xs space-y-3">
-                <h3 className="text-xs font-bold text-stone-900 uppercase tracking-wider">
-                  Post a Reply
-                </h3>
+        {/* Message Thread */}
+        <div className="space-y-4">
+          <h2 className="text-sm font-bold text-stone-900 uppercase tracking-wider">
+            Discussion Thread ({ticket.messages?.length || 0})
+          </h2>
 
-                <textarea
-                  required
-                  rows={3}
-                  value={replyMessage}
-                  onChange={(e) => setReplyMessage(e.target.value)}
-                  placeholder="Type your message to the vendor or moderator..."
-                  className="w-full px-3 py-2 border border-cream-300 rounded text-xs bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
+          {ticket.messages?.length === 0 ? (
+            <div className="glass-panel rounded-2xl p-8 text-center text-xs text-stone-500">
+              No replies yet. The vendor or a support moderator will review your issue shortly.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {ticket.messages?.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`glass-panel rounded-2xl p-5 ${
+                    msg.sender?.role === 'super_admin'
+                      ? 'border-quantum-300 bg-quantum-50/40'
+                      : ''
+                  }`}
+                >
+                  <div className="flex items-center justify-between pb-3 border-b border-ice-200 mb-3 text-xs">
+                    <div className="flex items-center space-x-2">
+                      <span className="font-bold text-stone-900">{msg.sender?.name}</span>
+                      {getSenderBadge(msg.sender?.role)}
+                    </div>
+                    <span className="text-stone-400 font-mono text-[11px]">
+                      {new Date(msg.created_at).toLocaleString()}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-stone-800 whitespace-pre-line leading-relaxed">
+                    {msg.message}
+                  </p>
+
+                  {/* Message Attachments */}
+                  {msg.attachments?.length > 0 && (
+                    <div className="mt-3 pt-3 border-t border-ice-200 flex flex-wrap gap-2">
+                      {msg.attachments.map((att) => (
+                        <a
+                          key={att.id}
+                          href={att.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center px-2.5 py-1 bg-white border border-ice-300 rounded-lg text-[11px] font-medium text-stone-800 hover:text-quantum-600"
+                        >
+                          <Paperclip className="w-3 h-3 mr-1 text-quantum-600" />
+                          {att.file_name}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Reply Composer */}
+        {ticket.status !== 'closed' ? (
+          <div className="glass-panel-elevated rounded-2xl p-6 shadow-xs">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-3">
+              Post Reply
+            </h3>
+
+            <form onSubmit={handleReplySubmit} className="space-y-4">
+              <textarea
+                required
+                rows={3}
+                value={replyMessage}
+                onChange={(e) => setReplyMessage(e.target.value)}
+                placeholder="Type your message to the vendor or moderator..."
+                className="w-full px-3 py-2 border border-ice-300 rounded-xl text-xs bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
+              />
+
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
+                <input
+                  type="file"
+                  multiple
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={(e) => setReplyAttachments(Array.from(e.target.files))}
+                  className="block text-xs text-stone-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-quantum-50 file:text-quantum-700 hover:file:bg-quantum-100 cursor-pointer"
                 />
 
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/jpeg,image/png,image/webp"
-                    onChange={(e) => setReplyAttachments(Array.from(e.target.files))}
-                    className="text-xs text-stone-500 file:mr-2 file:py-1 file:px-2.5 file:rounded file:border-0 file:text-[11px] file:font-semibold file:bg-cream-200 file:text-stone-800 hover:file:bg-cream-300 cursor-pointer"
-                  />
-
-                  <button
-                    type="submit"
-                    disabled={submittingReply}
-                    className="inline-flex items-center justify-center px-4 py-2 bg-torch-500 hover:bg-torch-600 text-white rounded text-xs font-semibold transition-colors shadow-xs disabled:opacity-50 shrink-0"
-                  >
-                    <Send className="w-3.5 h-3.5 mr-1.5" />
-                    {submittingReply ? 'Posting...' : 'Send Message'}
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div className="p-4 bg-cream-200 border border-cream-300 rounded-xl text-center text-xs text-stone-700">
-                This ticket is closed. If you have a new inquiry, please open a new support ticket.
-              </div>
-            )}
-          </div>
-
-          {/* Right Column: Vendor & Order Context */}
-          <div className="space-y-6">
-            {/* Vendor Card */}
-            <div className="bg-white border border-cream-300 rounded-xl p-5 shadow-xs">
-              <div className="text-xs uppercase font-bold text-stone-400 mb-3">Concerned Vendor</div>
-              <div className="flex items-center space-x-3 mb-3">
-                <div className="w-10 h-10 rounded-lg bg-torch-500 text-white font-bold flex items-center justify-center text-sm shadow-xs">
-                  {ticket.vendor?.store_name?.charAt(0) || 'V'}
-                </div>
-                <div>
-                  <div className="font-bold text-stone-900 text-sm">
-                    {ticket.vendor?.store_name || ticket.vendor?.name}
-                  </div>
-                  <div className="text-xs font-mono text-stone-500">
-                    @{ticket.vendor?.store_slug}
-                  </div>
-                </div>
-              </div>
-
-              {ticket.vendor?.whatsapp_number && (
-                <div className="pt-3 border-t border-cream-200 text-xs text-stone-600 font-mono">
-                  WhatsApp: +{ticket.vendor.whatsapp_number}
-                </div>
-              )}
-            </div>
-
-            {/* Linked Order Card (if present) */}
-            {ticket.order && (
-              <div className="bg-white border border-cream-300 rounded-xl p-5 shadow-xs">
-                <div className="text-xs uppercase font-bold text-stone-400 mb-3">Linked Order</div>
-                <div className="font-mono text-xs font-bold text-torch-700 mb-1">
-                  {ticket.order.public_reference}
-                </div>
-                <div className="text-xs font-semibold text-stone-800 mb-2">
-                  {ticket.order.item_title_snapshot}
-                </div>
-                <div className="text-xs text-stone-600 mb-4">
-                  Snapshot Price: {ticket.order.price_currency} {Number(ticket.order.total_price_amount).toLocaleString()}
-                </div>
-                <Link
-                  to={`/app/orders/${ticket.order.public_reference}`}
-                  className="w-full inline-flex items-center justify-center px-3 py-1.5 bg-cream-100 hover:bg-cream-200 border border-cream-300 rounded text-xs font-semibold text-stone-800 transition-colors"
+                <button
+                  type="submit"
+                  disabled={submittingReply || !replyMessage.trim()}
+                  className="inline-flex items-center justify-center px-4 py-2 glass-button text-white rounded-xl text-xs font-semibold shadow-xs disabled:opacity-50"
                 >
-                  View Order Details
-                </Link>
+                  {submittingReply ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                      Posting...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-3.5 h-3.5 mr-1.5" />
+                      Send Reply
+                    </>
+                  )}
+                </button>
               </div>
-            )}
-
-            {/* Private Storage Guarantee */}
-            <div className="bg-cream-50 border border-cream-300 rounded-xl p-4 text-xs text-stone-600">
-              <div className="font-semibold text-stone-900 mb-1 flex items-center">
-                <Lock className="w-3.5 h-3.5 text-torch-600 mr-1.5" />
-                Strict Privacy Guarantee
-              </div>
-              All messages and evidence files are restricted to you, the selected vendor, and Super Admins. Other vendors on the platform cannot view or access this ticket.
-            </div>
+            </form>
           </div>
-        </div>
+        ) : (
+          <div className="glass-panel rounded-2xl p-4 text-center text-xs text-stone-500 flex items-center justify-center space-x-2">
+            <Lock className="w-4 h-4 text-stone-400" />
+            <span>This ticket has been marked as closed. Open a new ticket if further assistance is required.</span>
+          </div>
+        )}
       </main>
 
-      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
-        <p>&copy; {new Date().getFullYear()} WILRICH STORE. Ticket: {ticket.public_reference}.</p>
+      <footer className="glass-panel border-t border-ice-200 py-6 text-center text-xs text-stone-500 mt-12">
+        <p>&copy; {new Date().getFullYear()} WILRICH STORE. Ticket Thread.</p>
       </footer>
     </div>
   );

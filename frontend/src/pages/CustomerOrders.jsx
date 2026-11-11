@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
 import PriceDisplay from '../components/common/PriceDisplay';
 import apiClient from '../api/client';
-import { ShoppingBag, ArrowRight, Clock, CheckCircle2, AlertCircle, XCircle } from 'lucide-react';
+import { ShoppingBag, ArrowRight, Clock, CheckCircle2, AlertCircle, XCircle, Loader2 } from 'lucide-react';
 
 export default function CustomerOrders() {
   const [orders, setOrders] = useState([]);
@@ -32,31 +32,31 @@ export default function CustomerOrders() {
     switch (status) {
       case 'pending':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
             <Clock className="w-3 h-3 mr-1" /> Pending WhatsApp Contact
           </span>
         );
       case 'processing':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-800 border border-blue-200">
-            <Clock className="w-3 h-3 mr-1" /> Processing / In Progress
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-quantum-50 text-quantum-800 border border-quantum-200">
+            <Clock className="w-3 h-3 mr-1 text-quantum-600" /> Processing / In Progress
           </span>
         );
       case 'completed':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
-            <CheckCircle2 className="w-3 h-3 mr-1" /> Completed
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+            <CheckCircle2 className="w-3 h-3 mr-1" /> Completed (Sold)
           </span>
         );
       case 'cancelled':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-700 border border-cream-300">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-700 border border-stone-200">
             <XCircle className="w-3 h-3 mr-1" /> Cancelled
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-700">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-ice-100 text-stone-700">
             {status}
           </span>
         );
@@ -69,15 +69,15 @@ export default function CustomerOrders() {
   });
 
   return (
-    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between page-transition">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         {/* Header */}
-        <div className="bg-white border border-cream-300 rounded-xl p-6 mb-8 shadow-xs">
+        <div className="glass-panel-elevated rounded-2xl p-6 sm:p-8 mb-8 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
+              <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
                 Customer Account
               </span>
               <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
@@ -89,15 +89,15 @@ export default function CustomerOrders() {
             </div>
 
             {/* Filter buttons */}
-            <div className="flex items-center space-x-1.5 bg-cream-200 p-1 rounded-lg border border-cream-300 text-xs font-medium">
+            <div className="flex items-center space-x-1.5 bg-white/70 p-1.5 rounded-xl border border-ice-200 text-xs font-medium backdrop-blur-xs">
               {['all', 'pending', 'processing', 'completed', 'cancelled'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setStatusFilter(tab)}
-                  className={`px-3 py-1.5 rounded capitalize transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg capitalize transition-all ${
                     statusFilter === tab
-                      ? 'bg-torch-500 text-white shadow-xs font-semibold'
-                      : 'text-stone-700 hover:text-torch-600'
+                      ? 'glass-button font-semibold shadow-xs'
+                      : 'text-stone-700 hover:text-quantum-600'
                   }`}
                 >
                   {tab}
@@ -107,43 +107,56 @@ export default function CustomerOrders() {
           </div>
         </div>
 
-        {/* Content */}
+        {/* Content (Loading, Error, and Populated/Empty States) */}
         {loading ? (
-          <div className="py-20 text-center text-sm text-stone-500 font-medium">Loading your orders...</div>
+          <div className="py-20 text-center text-sm font-medium page-transition">
+            <div className="glass-panel p-8 rounded-2xl max-w-sm mx-auto flex flex-col items-center">
+              <Loader2 className="w-8 h-8 animate-spin text-quantum-600 mb-3" />
+              <p className="text-stone-700">Loading your orders...</p>
+            </div>
+          </div>
         ) : error ? (
-          <div className="p-4 bg-torch-50 border border-torch-200 rounded-xl text-sm text-torch-800 mb-6 flex items-center">
-            <AlertCircle className="w-5 h-5 mr-2 shrink-0 text-torch-600" />
-            {error}
+          <div className="glass-panel p-6 rounded-2xl text-sm text-red-800 border-red-200 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+              <span>{error}</span>
+            </div>
+            <button
+              onClick={fetchOrders}
+              className="px-3 py-1.5 glass-button text-xs rounded-lg"
+            >
+              Retry
+            </button>
           </div>
         ) : filteredOrders.length === 0 ? (
-          <div className="bg-white border border-cream-300 rounded-xl p-12 text-center shadow-xs">
-            <ShoppingBag className="w-12 h-12 text-stone-400 mx-auto mb-3" />
+          <div className="glass-panel-elevated rounded-2xl p-12 text-center max-w-md mx-auto shadow-xs page-transition">
+            <ShoppingBag className="w-12 h-12 text-quantum-500 mx-auto mb-3 opacity-60" />
             <h3 className="text-base font-bold text-stone-900">No orders found</h3>
             <p className="text-sm text-stone-500 mt-1 mb-6">
               {statusFilter === 'all'
                 ? "You haven't placed any orders yet."
                 : `No orders currently matching status "${statusFilter}".`}
             </p>
-            <div className="flex justify-center space-x-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-3">
               <Link
                 to="/app/accounts"
-                className="px-4 py-2 bg-torch-500 text-white rounded text-xs font-semibold hover:bg-torch-600 shadow-xs transition-colors"
+                className="px-4 py-2.5 glass-button text-xs font-semibold rounded-xl"
               >
                 Browse CODM Accounts
               </Link>
               <Link
                 to="/app/cp"
-                className="px-4 py-2 border border-cream-300 bg-cream-200 text-stone-800 rounded text-xs font-semibold hover:bg-cream-300 transition-colors"
+                className="px-4 py-2.5 border border-ice-300 bg-white/80 hover:bg-white text-stone-800 rounded-xl text-xs font-semibold transition-colors"
               >
                 Browse CP Bundles
               </Link>
             </div>
           </div>
         ) : (
-          <div className="bg-white border border-cream-300 rounded-xl overflow-hidden shadow-xs">
+          <div className="glass-panel rounded-2xl overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-cream-200 text-left text-sm">
-                <thead className="bg-cream-100 text-stone-700 text-xs uppercase font-semibold">
+              <table className="min-w-full divide-y divide-ice-200 text-left text-sm">
+                <thead className="bg-ice-50/70 text-stone-700 text-xs uppercase font-semibold">
                   <tr>
                     <th scope="col" className="px-6 py-3.5">Order Reference</th>
                     <th scope="col" className="px-6 py-3.5">Item Details</th>
@@ -154,11 +167,11 @@ export default function CustomerOrders() {
                     <th scope="col" className="px-6 py-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-cream-200">
+                <tbody className="divide-y divide-ice-100">
                   {filteredOrders.map((order) => (
-                    <tr key={order.id} className="hover:bg-cream-50/75 transition-colors">
+                    <tr key={order.id} className="hover:bg-white/60 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="font-mono font-bold text-torch-700 text-xs">
+                        <span className="font-mono font-bold text-quantum-700 text-xs">
                           {order.public_reference}
                         </span>
                       </td>
@@ -191,7 +204,7 @@ export default function CustomerOrders() {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-xs">
                         <Link
                           to={`/app/orders/${order.public_reference}`}
-                          className="inline-flex items-center font-semibold text-torch-700 hover:text-torch-800 bg-cream-200 hover:bg-cream-300 px-3 py-1.5 rounded transition-colors"
+                          className="inline-flex items-center font-semibold text-quantum-700 hover:text-quantum-900 bg-quantum-50 hover:bg-quantum-100 px-3 py-1.5 rounded-lg border border-quantum-200 transition-colors"
                         >
                           View Details <ArrowRight className="w-3.5 h-3.5 ml-1" />
                         </Link>
@@ -205,7 +218,7 @@ export default function CustomerOrders() {
         )}
       </main>
 
-      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
+      <footer className="glass-panel border-t border-ice-200 py-6 text-center text-xs text-stone-500 mt-12">
         <p>&copy; {new Date().getFullYear()} WILRICH STORE. Customer Orders.</p>
       </footer>
     </div>

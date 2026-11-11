@@ -26,6 +26,7 @@ import AdminRates from './pages/AdminRates';
 import AdminTickets from './pages/AdminTickets';
 import Unauthorized from './pages/Unauthorized';
 import TermsAndPolicies from './pages/TermsAndPolicies';
+import NotFound from './pages/NotFound';
 import { Loader2 } from 'lucide-react';
 
 function RootRedirect() {
@@ -33,8 +34,15 @@ function RootRedirect() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-cream-100">
-        <Loader2 className="w-8 h-8 animate-spin text-torch-600" />
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <div className="glass-panel-elevated p-8 rounded-2xl flex flex-col items-center space-y-4 shadow-xl">
+          <div className="w-12 h-12 rounded-xl bg-quantum-500/10 flex items-center justify-center">
+            <Loader2 className="w-7 h-7 animate-spin text-quantum-600" />
+          </div>
+          <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700">
+            Initializing Session...
+          </span>
+        </div>
       </div>
     );
   }
@@ -235,8 +243,8 @@ export default function App() {
               }
             />
 
-            {/* Catch-all */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+            {/* Catch-all 404 Route */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </CurrencyProvider>
       </AuthProvider>

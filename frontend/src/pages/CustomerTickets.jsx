@@ -13,6 +13,7 @@ import {
   Paperclip,
   X,
   Store,
+  Loader2,
 } from 'lucide-react';
 
 export default function CustomerTickets() {
@@ -100,27 +101,38 @@ export default function CustomerTickets() {
       setSubmitting(true);
       setFormError('');
 
-      const data = new FormData();
-      data.append('vendor_id', formData.vendor_id);
-      if (formData.order_id) data.append('order_id', formData.order_id);
-      data.append('subject', formData.subject);
-      data.append('description', formData.description);
-      data.append('priority', formData.priority);
+      const postData = new FormData();
+      postData.append('vendor_id', formData.vendor_id);
+      if (formData.order_id) postData.append('order_id', formData.order_id);
+      postData.append('subject', formData.subject);
+      postData.append('description', formData.description);
+      postData.append('priority', formData.priority);
 
       attachments.forEach((file) => {
-        data.append('attachments[]', file);
+        postData.append('attachments[]', file);
       });
 
-      const res = await apiClient.post('/tickets', data, {
+      const res = await apiClient.post('/tickets', postData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       setShowModal(false);
-      setFormData({ vendor_id: '', order_id: '', subject: '', description: '', priority: 'normal' });
+      setFormData({
+        vendor_id: '',
+        order_id: '',
+        subject: '',
+        description: '',
+        priority: 'normal',
+      });
       setAttachments([]);
       navigate(`/app/tickets/${res.data.data.public_reference}`);
     } catch (err) {
-      setFormError(err.response?.data?.message || 'Failed to submit ticket. Please check input.');
+      const errors = err.response?.data?.errors;
+      if (errors) {
+        setFormError(Object.values(errors)[0][0]);
+      } else {
+        setFormError(err.response?.data?.message || 'Failed to submit ticket.');
+      }
     } finally {
       setSubmitting(false);
     }
@@ -130,37 +142,37 @@ export default function CustomerTickets() {
     switch (status) {
       case 'open':
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
             <Clock className="w-3 h-3 mr-1" /> Open
           </span>
         );
       case 'in_progress':
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-800 border border-blue-200">
-            <Clock className="w-3 h-3 mr-1" /> In Progress
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-quantum-50 text-quantum-800 border border-quantum-200">
+            <Clock className="w-3 h-3 mr-1 text-quantum-600" /> In Progress
           </span>
         );
       case 'waiting_for_customer':
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-torch-50 text-torch-700 border border-torch-200">
-            Action Required
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-800 border border-purple-200">
+            Waiting for Reply
           </span>
         );
       case 'resolved':
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
             <CheckCircle2 className="w-3 h-3 mr-1" /> Resolved
           </span>
         );
       case 'closed':
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-700 border border-cream-300">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-700 border border-stone-200">
             Closed
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-700">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-ice-100 text-stone-700">
             {status}
           </span>
         );
@@ -170,13 +182,13 @@ export default function CustomerTickets() {
   const getPriorityBadge = (priority) => {
     switch (priority) {
       case 'urgent':
-        return <span className="text-[11px] font-bold text-torch-700 bg-torch-50 px-2 py-0.5 rounded border border-torch-200">Urgent</span>;
+        return <span className="text-[11px] font-bold text-red-700 bg-red-50 px-2 py-0.5 rounded-full border border-red-200">Urgent</span>;
       case 'high':
-        return <span className="text-[11px] font-semibold text-orange-700 bg-orange-50 px-2 py-0.5 rounded border border-orange-200">High</span>;
+        return <span className="text-[11px] font-semibold text-orange-700 bg-orange-50 px-2 py-0.5 rounded-full border border-orange-200">High</span>;
       case 'low':
-        return <span className="text-[11px] font-semibold text-stone-500 bg-cream-200 px-2 py-0.5 rounded">Low</span>;
+        return <span className="text-[11px] font-semibold text-stone-500 bg-ice-100 px-2 py-0.5 rounded-full">Low</span>;
       default:
-        return <span className="text-[11px] font-semibold text-stone-700 bg-cream-200 px-2 py-0.5 rounded border border-cream-300">Normal</span>;
+        return <span className="text-[11px] font-semibold text-quantum-700 bg-quantum-50 px-2 py-0.5 rounded-full border border-quantum-200">Normal</span>;
     }
   };
 
@@ -186,15 +198,15 @@ export default function CustomerTickets() {
   });
 
   return (
-    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between page-transition">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         {/* Header */}
-        <div className="bg-white border border-cream-300 rounded-xl p-6 mb-8 shadow-xs">
+        <div className="glass-panel-elevated rounded-2xl p-6 mb-8 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
+              <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
                 Customer Support &amp; Disputes
               </span>
               <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
@@ -207,7 +219,7 @@ export default function CustomerTickets() {
 
             <button
               onClick={handleOpenModal}
-              className="inline-flex items-center justify-center px-4 py-2.5 bg-torch-500 hover:bg-torch-600 text-white rounded text-xs font-semibold transition-colors shadow-xs"
+              className="inline-flex items-center justify-center px-4 py-2.5 glass-button text-white rounded-xl text-xs font-semibold shadow-xs"
             >
               <Plus className="w-4 h-4 mr-1.5" />
               Open Support Ticket
@@ -215,15 +227,15 @@ export default function CustomerTickets() {
           </div>
 
           {/* Filter Bar */}
-          <div className="mt-6 pt-6 border-t border-cream-200 flex items-center space-x-1.5 overflow-x-auto text-xs font-medium">
+          <div className="mt-6 pt-6 border-t border-ice-200 flex items-center space-x-1.5 overflow-x-auto text-xs font-medium">
             {['all', 'open', 'in_progress', 'waiting_for_customer', 'resolved', 'closed'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setStatusFilter(tab)}
-                className={`px-3 py-1.5 rounded capitalize whitespace-nowrap transition-colors ${
+                className={`px-3 py-1.5 rounded-lg capitalize whitespace-nowrap transition-all ${
                   statusFilter === tab
-                    ? 'bg-torch-500 text-white font-semibold shadow-xs'
-                    : 'bg-cream-200 text-stone-700 hover:text-torch-600'
+                    ? 'glass-button font-semibold shadow-xs'
+                    : 'bg-white/70 text-stone-700 hover:text-quantum-600'
                 }`}
               >
                 {tab.replace(/_/g, ' ')}
@@ -232,17 +244,30 @@ export default function CustomerTickets() {
           </div>
         </div>
 
-        {/* Content */}
+        {/* Content (Loading, Empty, Populated States) */}
         {loading ? (
-          <div className="py-20 text-center text-sm text-stone-500 font-medium">Loading support tickets...</div>
+          <div className="py-20 text-center text-sm font-medium page-transition">
+            <div className="glass-panel p-8 rounded-2xl max-w-sm mx-auto flex flex-col items-center">
+              <Loader2 className="w-8 h-8 animate-spin text-quantum-600 mb-3" />
+              <p className="text-stone-700">Loading support tickets...</p>
+            </div>
+          </div>
         ) : error ? (
-          <div className="p-4 bg-torch-50 border border-torch-200 rounded-xl text-sm text-torch-800 mb-6 flex items-center">
-            <AlertCircle className="w-5 h-5 mr-2 shrink-0 text-torch-600" />
-            {error}
+          <div className="glass-panel p-6 rounded-2xl text-sm text-red-800 border-red-200 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+              <span>{error}</span>
+            </div>
+            <button
+              onClick={fetchTickets}
+              className="px-3 py-1.5 glass-button text-xs rounded-lg"
+            >
+              Retry
+            </button>
           </div>
         ) : filteredTickets.length === 0 ? (
-          <div className="bg-white border border-cream-300 rounded-xl p-12 text-center shadow-xs">
-            <LifeBuoy className="w-12 h-12 text-stone-400 mx-auto mb-3" />
+          <div className="glass-panel-elevated rounded-2xl p-12 text-center max-w-md mx-auto shadow-xs page-transition">
+            <LifeBuoy className="w-12 h-12 text-quantum-500 mx-auto mb-3 opacity-60" />
             <h3 className="text-base font-bold text-stone-900">No support tickets</h3>
             <p className="text-sm text-stone-500 mt-1 mb-6">
               {statusFilter === 'all'
@@ -251,16 +276,16 @@ export default function CustomerTickets() {
             </p>
             <button
               onClick={handleOpenModal}
-              className="px-4 py-2 bg-torch-500 text-white rounded text-xs font-semibold hover:bg-torch-600 shadow-xs transition-colors"
+              className="px-4 py-2 glass-button text-xs font-semibold rounded-xl"
             >
               Submit a Ticket
             </button>
           </div>
         ) : (
-          <div className="bg-white border border-cream-300 rounded-xl overflow-hidden shadow-xs">
+          <div className="glass-panel rounded-2xl overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-cream-200 text-left text-sm">
-                <thead className="bg-cream-100 text-stone-700 text-xs uppercase font-semibold">
+              <table className="min-w-full divide-y divide-ice-200 text-left text-sm">
+                <thead className="bg-ice-50/70 text-stone-700 text-xs uppercase font-semibold">
                   <tr>
                     <th scope="col" className="px-6 py-3.5">Reference</th>
                     <th scope="col" className="px-6 py-3.5">Subject</th>
@@ -271,11 +296,11 @@ export default function CustomerTickets() {
                     <th scope="col" className="px-6 py-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-cream-200">
+                <tbody className="divide-y divide-ice-100">
                   {filteredTickets.map((ticket) => (
-                    <tr key={ticket.id} className="hover:bg-cream-50/75 transition-colors">
+                    <tr key={ticket.id} className="hover:bg-white/60 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="font-mono font-bold text-torch-700 text-xs">
+                        <span className="font-mono font-bold text-quantum-700 text-xs">
                           {ticket.public_reference}
                         </span>
                       </td>
@@ -304,7 +329,7 @@ export default function CustomerTickets() {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-xs">
                         <Link
                           to={`/app/tickets/${ticket.public_reference}`}
-                          className="inline-flex items-center font-semibold text-torch-700 hover:text-torch-800 bg-cream-200 hover:bg-cream-300 px-3 py-1.5 rounded transition-colors"
+                          className="inline-flex items-center font-semibold text-quantum-700 hover:text-quantum-900 bg-quantum-50 hover:bg-quantum-100 px-3 py-1.5 rounded-lg border border-quantum-200 transition-colors"
                         >
                           View Thread <ArrowRight className="w-3.5 h-3.5 ml-1" />
                         </Link>
@@ -319,21 +344,21 @@ export default function CustomerTickets() {
 
         {/* Create Ticket Modal */}
         {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/60 p-4">
-            <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-xl space-y-4 max-h-[90vh] overflow-y-auto border border-cream-300">
-              <div className="flex items-center justify-between pb-3 border-b border-cream-200">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/60 backdrop-blur-xs p-4 page-transition">
+            <div className="glass-panel-elevated rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between pb-3 border-b border-ice-200">
                 <h3 className="text-base font-bold text-stone-900">Open New Support Ticket</h3>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="text-stone-400 hover:text-stone-600 text-base font-bold"
+                  className="text-stone-400 hover:text-stone-600 text-lg font-bold"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
 
               {formError && (
-                <div className="p-3 bg-torch-50 border border-torch-200 rounded text-xs text-torch-800 flex items-start">
-                  <AlertCircle className="w-4 h-4 mr-1.5 shrink-0 mt-0.5 text-torch-600" />
+                <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-800 flex items-start space-x-2">
+                  <AlertCircle className="w-4 h-4 mr-1 shrink-0 mt-0.5 text-red-600" />
                   <span>{formError}</span>
                 </div>
               )}
@@ -346,7 +371,7 @@ export default function CustomerTickets() {
                     required
                     value={formData.vendor_id}
                     onChange={(e) => setFormData({ ...formData, vendor_id: e.target.value })}
-                    className="w-full px-3 py-2 border border-cream-300 rounded text-xs bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
+                    className="w-full px-3 py-2 border border-ice-300 rounded-xl text-xs bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                   >
                     <option value="">Select Vendor Store</option>
                     {vendors.map((v) => (
@@ -364,7 +389,7 @@ export default function CustomerTickets() {
                     <select
                       value={formData.order_id}
                       onChange={(e) => setFormData({ ...formData, order_id: e.target.value })}
-                      className="w-full px-3 py-2 border border-cream-300 rounded text-xs bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 font-mono text-stone-800"
+                      className="w-full px-3 py-2 border border-ice-300 rounded-xl text-xs bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 font-mono text-stone-800"
                     >
                       <option value="">None / General Inquiry</option>
                       {orders.map((o) => (
@@ -376,21 +401,6 @@ export default function CustomerTickets() {
                   </div>
                 )}
 
-                {/* Priority */}
-                <div>
-                  <label className="block font-semibold text-stone-700 mb-1">Priority</label>
-                  <select
-                    value={formData.priority}
-                    onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                    className="w-full px-3 py-2 border border-cream-300 rounded text-xs bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
-                  >
-                    <option value="low">Low - General Question</option>
-                    <option value="normal">Normal - Standard Verification</option>
-                    <option value="high">High - Credential Issue</option>
-                    <option value="urgent">Urgent - Transaction Discrepancy</option>
-                  </select>
-                </div>
-
                 {/* Subject */}
                 <div>
                   <label className="block font-semibold text-stone-700 mb-1">Subject *</label>
@@ -400,54 +410,72 @@ export default function CustomerTickets() {
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     placeholder="Brief description of the problem..."
-                    className="w-full px-3 py-2 border border-cream-300 rounded text-xs bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
+                    className="w-full px-3 py-2 border border-ice-300 rounded-xl bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                   />
+                </div>
+
+                {/* Priority */}
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">Priority</label>
+                  <select
+                    value={formData.priority}
+                    onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+                    className="w-full px-3 py-2 border border-ice-300 rounded-xl text-xs bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
+                  >
+                    <option value="low">Low &bull; Non-urgent question</option>
+                    <option value="normal">Normal &bull; Standard inquiry or fulfillment query</option>
+                    <option value="high">High &bull; Delayed delivery or verification failure</option>
+                    <option value="urgent">Urgent &bull; Credential issue or dispute</option>
+                  </select>
                 </div>
 
                 {/* Description */}
                 <div>
-                  <label className="block font-semibold text-stone-700 mb-1">Detailed Description *</label>
+                  <label className="block font-semibold text-stone-700 mb-1">Description *</label>
                   <textarea
                     required
                     rows={4}
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     placeholder="Provide full context, chat logs summary, or details for the vendor and moderator..."
-                    className="w-full px-3 py-2 border border-cream-300 rounded text-xs bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
+                    className="w-full px-3 py-2 border border-ice-300 rounded-xl bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                   />
                 </div>
 
                 {/* Attachments */}
                 <div>
-                  <label className="block font-semibold text-stone-700 mb-1">
-                    Private Evidence Images (Max 5MB each, JPEG/PNG/WebP)
-                  </label>
+                  <label className="block font-semibold text-stone-700 mb-1">Evidence Attachments (Optional, Max 5MB per file)</label>
                   <input
                     type="file"
                     multiple
                     accept="image/jpeg,image/png,image/webp"
                     onChange={handleFileChange}
-                    className="w-full text-xs text-stone-500 file:mr-2 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-cream-200 file:text-stone-800 hover:file:bg-cream-300 cursor-pointer"
+                    className="block w-full text-xs text-stone-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-quantum-50 file:text-quantum-700 hover:file:bg-quantum-100 cursor-pointer"
                   />
-                  <p className="text-[11px] text-stone-500 mt-1">
-                    Evidence is stored privately and accessible only to you, the selected vendor, and Super Admins.
-                  </p>
                 </div>
 
-                <div className="flex items-center space-x-3 pt-3 border-t border-cream-200">
+                {/* Submit Actions */}
+                <div className="flex items-center space-x-3 pt-3 border-t border-ice-200">
                   <button
                     type="button"
                     onClick={() => setShowModal(false)}
-                    className="w-1/2 py-2 px-3 border border-cream-300 rounded text-xs font-semibold text-stone-700 hover:bg-cream-100"
+                    className="w-1/2 py-2 px-3 border border-ice-300 rounded-xl font-semibold text-stone-700 hover:bg-white transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-1/2 py-2 px-3 bg-torch-500 hover:bg-torch-600 text-white rounded text-xs font-semibold transition-colors shadow-xs disabled:opacity-50"
+                    className="w-1/2 py-2 px-3 glass-button text-white rounded-xl font-semibold shadow-xs disabled:opacity-50 flex items-center justify-center"
                   >
-                    {submitting ? 'Submitting...' : 'Create Ticket'}
+                    {submitting ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                        Submitting...
+                      </>
+                    ) : (
+                      'Submit Ticket'
+                    )}
                   </button>
                 </div>
               </form>
@@ -456,8 +484,8 @@ export default function CustomerTickets() {
         )}
       </main>
 
-      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
-        <p>&copy; {new Date().getFullYear()} WILRICH STORE. Customer Support &amp; Disputes.</p>
+      <footer className="glass-panel border-t border-ice-200 py-6 text-center text-xs text-stone-500 mt-12">
+        <p>&copy; {new Date().getFullYear()} WILRICH STORE. Customer Support.</p>
       </footer>
     </div>
   );

@@ -9,10 +9,10 @@ export default function RoleRoute({ children, allowedRoles = [] }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-cream-100">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-torch-600 mx-auto mb-3" />
-          <p className="text-sm font-medium text-stone-600">Verifying session...</p>
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="glass-panel-elevated p-8 rounded-2xl flex flex-col items-center space-y-3 shadow-lg">
+          <Loader2 className="w-8 h-8 animate-spin text-quantum-600" />
+          <p className="text-xs font-semibold text-quantum-900 tracking-wide">Verifying credentials...</p>
         </div>
       </div>
     );
@@ -26,5 +26,5 @@ export default function RoleRoute({ children, allowedRoles = [] }) {
     return <Navigate to="/unauthorized" replace />;
   }
 
-  return children;
+  return <div className="page-transition">{children}</div>;
 }

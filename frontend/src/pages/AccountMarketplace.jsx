@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/common/Navbar';
 import PriceDisplay from '../components/common/PriceDisplay';
 import apiClient from '../api/client';
-import { Gamepad2, Search, Store, ArrowRight, ShieldCheck, Filter } from 'lucide-react';
+import { Gamepad2, Search, Store, ArrowRight, FilterX, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function AccountMarketplace() {
@@ -51,15 +51,21 @@ export default function AccountMarketplace() {
     return () => clearTimeout(timer);
   }, [search, selectedVendor, sort]);
 
+  const resetFilters = () => {
+    setSearch('');
+    setSelectedVendor('');
+    setSort('newest');
+  };
+
   return (
-    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between page-transition">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         {/* Header & Filters */}
-        <div className="bg-white border border-cream-300 rounded-xl p-6 sm:p-8 mb-8 shadow-xs">
+        <div className="glass-panel-elevated rounded-2xl p-6 sm:p-8 mb-8 shadow-xs">
           <div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
+            <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
               Verified Marketplace
             </span>
             <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
@@ -71,18 +77,18 @@ export default function AccountMarketplace() {
           </div>
 
           {/* Filters Bar */}
-          <div className="mt-6 pt-6 border-t border-cream-200 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="mt-6 pt-6 border-t border-ice-200 grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Search */}
             <div className="md:col-span-2 relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
-                <Search className="w-4 h-4" />
+                <Search className="w-4 h-4 text-quantum-600" />
               </div>
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search weapons, mythics, skins..."
-                className="w-full pl-9 pr-4 py-2 border border-cream-300 rounded text-sm placeholder-stone-400 bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 transition-colors"
+                className="w-full pl-9 pr-4 py-2 border border-ice-300 rounded-xl text-sm placeholder-stone-400 bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 transition-colors"
               />
             </div>
 
@@ -91,7 +97,7 @@ export default function AccountMarketplace() {
               <select
                 value={selectedVendor}
                 onChange={(e) => setSelectedVendor(e.target.value)}
-                className="w-full px-3 py-2 border border-cream-300 rounded text-sm bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 transition-colors cursor-pointer text-stone-800"
+                className="w-full px-3 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 transition-colors cursor-pointer text-stone-800"
               >
                 <option value="">All Vendors</option>
                 {vendors.map((v) => (
@@ -107,7 +113,7 @@ export default function AccountMarketplace() {
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="w-full px-3 py-2 border border-cream-300 rounded text-sm bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 transition-colors cursor-pointer text-stone-800"
+                className="w-full px-3 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 focus:border-quantum-500 transition-colors cursor-pointer text-stone-800"
               >
                 <option value="newest">Sort: Newest First</option>
                 <option value="price_asc">Price: Low to High</option>
@@ -117,25 +123,38 @@ export default function AccountMarketplace() {
           </div>
         </div>
 
-        {/* Listings Grid */}
+        {/* Listings Grid (Loading, Empty, and Populated States) */}
         {loading ? (
-          <div className="py-16 text-center text-sm text-stone-500 font-medium">Loading accounts...</div>
+          <div className="py-20 text-center text-sm font-medium page-transition">
+            <div className="glass-panel p-8 rounded-2xl max-w-sm mx-auto flex flex-col items-center">
+              <Loader2 className="w-8 h-8 animate-spin text-quantum-600 mb-3" />
+              <p className="text-stone-700">Loading accounts...</p>
+            </div>
+          </div>
         ) : listings.length === 0 ? (
-          <div className="bg-white border border-cream-300 rounded-xl p-12 text-center shadow-xs">
-            <Gamepad2 className="w-12 h-12 text-stone-400 mx-auto mb-3" />
+          <div className="glass-panel-elevated rounded-2xl p-12 text-center max-w-md mx-auto shadow-xs page-transition">
+            <Gamepad2 className="w-12 h-12 text-quantum-500 mx-auto mb-3 opacity-60" />
             <h3 className="text-base font-bold text-stone-900">No accounts match your criteria</h3>
-            <p className="text-sm text-stone-500 mt-1">
-              Try modifying your search keywords or removing filters.
+            <p className="text-sm text-stone-500 mt-1 mb-6">
+              Try modifying your search keywords or resetting filters.
             </p>
+            {(search || selectedVendor || sort !== 'newest') && (
+              <button
+                onClick={resetFilters}
+                className="inline-flex items-center px-4 py-2 glass-button text-xs font-semibold rounded-xl"
+              >
+                <FilterX className="w-3.5 h-3.5 mr-1.5" /> Reset Filters
+              </button>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {listings.map((account) => (
               <div
                 key={account.id}
-                className="group bg-white border border-cream-300 rounded-xl overflow-hidden flex flex-col justify-between hover:border-torch-400 hover:shadow-sm transition-all"
+                className="group glass-panel rounded-2xl overflow-hidden flex flex-col justify-between hover:border-quantum-400 hover:shadow-md transition-all"
               >
-                {/* Image Placeholder or Real Image */}
+                {/* Image */}
                 <div className="h-48 bg-stone-900 relative flex items-center justify-center overflow-hidden">
                   {account.primary_image_url ? (
                     <img
@@ -149,7 +168,7 @@ export default function AccountMarketplace() {
                       <span className="text-xs font-medium text-stone-400">Verified CODM Account</span>
                     </div>
                   )}
-                  <span className="absolute top-3 right-3 px-2 py-0.5 rounded text-[11px] font-semibold bg-torch-500 text-white shadow-xs">
+                  <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-quantum-600 text-white shadow-xs">
                     Available
                   </span>
                 </div>
@@ -158,11 +177,11 @@ export default function AccountMarketplace() {
                 <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center space-x-1.5 text-xs text-stone-500 mb-2">
-                      <Store className="w-3.5 h-3.5 text-torch-600" />
+                      <Store className="w-3.5 h-3.5 text-quantum-600" />
                       <span className="font-medium">{account.vendor?.store_name || 'Verified Vendor'}</span>
                     </div>
 
-                    <h3 className="text-base font-bold text-stone-900 line-clamp-1 mb-2 group-hover:text-torch-600 transition-colors">
+                    <h3 className="text-base font-bold text-stone-900 line-clamp-1 mb-2 group-hover:text-quantum-600 transition-colors">
                       {account.title}
                     </h3>
 
@@ -171,7 +190,7 @@ export default function AccountMarketplace() {
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-cream-200 flex items-center justify-between">
+                  <div className="pt-4 border-t border-ice-200 flex items-center justify-between">
                     <div>
                       <div className="text-[10px] uppercase font-bold text-stone-400 mb-0.5">Sale Price</div>
                       <PriceDisplay
@@ -183,7 +202,7 @@ export default function AccountMarketplace() {
 
                     <Link
                       to={`/app/accounts/${account.id}`}
-                      className="inline-flex items-center text-xs font-semibold px-3 py-2 bg-torch-500 hover:bg-torch-600 text-white rounded shadow-xs transition-colors"
+                      className="inline-flex items-center text-xs font-semibold px-3 py-2 glass-button rounded-xl shadow-xs"
                     >
                       View Details <ArrowRight className="w-3.5 h-3.5 ml-1" />
                     </Link>
@@ -195,7 +214,7 @@ export default function AccountMarketplace() {
         )}
       </main>
 
-      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
+      <footer className="glass-panel border-t border-ice-200 py-6 text-center text-xs text-stone-500 mt-12">
         <p>&copy; {new Date().getFullYear()} WILRICH STORE. CODM Accounts Marketplace.</p>
       </footer>
     </div>

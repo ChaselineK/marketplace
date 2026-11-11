@@ -48,6 +48,8 @@ class AdminDashboardController extends Controller
             ->limit(10)
             ->get();
 
+        $salesChart = DailyReportingService::getSalesChartData(14);
+
         return response()->json([
             'data' => [
                 'daily_sales' => $dailySales,
@@ -55,6 +57,7 @@ class AdminDashboardController extends Controller
                 'vendor_breakdown' => $vendorBreakdown,
                 'platform_totals' => $platformTotals,
                 'recent_audit_logs' => $recentLogs,
+                'sales_chart' => $salesChart,
             ],
         ]);
     }

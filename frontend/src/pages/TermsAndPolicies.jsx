@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 
 export default function TermsAndPolicies() {
   return (
-    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between page-transition">
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-8">
         {/* Header */}
-        <div className="bg-white border border-cream-300 rounded-xl p-6 sm:p-8 shadow-xs">
-          <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
+        <div className="glass-panel-elevated rounded-2xl p-6 sm:p-8 shadow-xs">
+          <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
             Legal, Privacy &amp; Marketplace Governance
           </span>
           <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
@@ -23,9 +23,9 @@ export default function TermsAndPolicies() {
         </div>
 
         {/* Publisher Compliance Notice */}
-        <div className="bg-cream-200 border border-cream-300 rounded-xl p-5 text-xs text-stone-800 space-y-2 shadow-2xs">
+        <div className="glass-panel rounded-2xl p-5 text-xs text-stone-800 space-y-2 shadow-2xs">
           <div className="font-bold flex items-center text-stone-900">
-            <AlertTriangle className="w-4 h-4 mr-1.5 text-torch-600" />
+            <AlertTriangle className="w-4 h-4 mr-1.5 text-quantum-600" />
             Publisher &amp; Trademark Notice
           </div>
           <p className="leading-relaxed">
@@ -37,10 +37,10 @@ export default function TermsAndPolicies() {
         </div>
 
         {/* Terms of Service Sections */}
-        <div className="bg-white border border-cream-300 rounded-xl p-6 sm:p-8 shadow-xs space-y-6 text-xs text-stone-700 leading-relaxed">
+        <div className="glass-panel-elevated rounded-2xl p-6 sm:p-8 shadow-xs space-y-6 text-xs text-stone-700 leading-relaxed">
           <section className="space-y-2">
             <h2 className="text-sm font-bold text-stone-900 flex items-center">
-              <Scale className="w-4 h-4 mr-2 text-torch-600" />
+              <Scale className="w-4 h-4 mr-2 text-quantum-600" />
               1. Marketplace Structure &amp; WhatsApp Handoff
             </h2>
             <p>
@@ -51,9 +51,9 @@ export default function TermsAndPolicies() {
             </p>
           </section>
 
-          <section className="space-y-2 pt-4 border-t border-cream-200">
+          <section className="space-y-2 pt-4 border-t border-ice-200">
             <h2 className="text-sm font-bold text-stone-900 flex items-center">
-              <Shield className="w-4 h-4 mr-2 text-torch-600" />
+              <Shield className="w-4 h-4 mr-2 text-quantum-600" />
               2. Authoritative Pricing &amp; Currency Estimates
             </h2>
             <p>
@@ -64,9 +64,9 @@ export default function TermsAndPolicies() {
             </p>
           </section>
 
-          <section className="space-y-2 pt-4 border-t border-cream-200">
+          <section className="space-y-2 pt-4 border-t border-ice-200">
             <h2 className="text-sm font-bold text-stone-900 flex items-center">
-              <Lock className="w-4 h-4 mr-2 text-torch-600" />
+              <Lock className="w-4 h-4 mr-2 text-quantum-600" />
               3. Privacy Policy &amp; Evidence Storage
             </h2>
             <p>
@@ -77,9 +77,9 @@ export default function TermsAndPolicies() {
             </p>
           </section>
 
-          <section className="space-y-2 pt-4 border-t border-cream-200">
+          <section className="space-y-2 pt-4 border-t border-ice-200">
             <h2 className="text-sm font-bold text-stone-900 flex items-center">
-              <HelpCircle className="w-4 h-4 mr-2 text-torch-600" />
+              <HelpCircle className="w-4 h-4 mr-2 text-quantum-600" />
               4. Dispute Resolution &amp; Refunds
             </h2>
             <p>
@@ -95,7 +95,7 @@ export default function TermsAndPolicies() {
         </div>
       </main>
 
-      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
+      <footer className="glass-panel border-t border-ice-200 py-6 text-center text-xs text-stone-500 mt-12">
         <p>&copy; {new Date().getFullYear()} WILRICH STORE. All rights reserved.</p>
       </footer>
     </div>

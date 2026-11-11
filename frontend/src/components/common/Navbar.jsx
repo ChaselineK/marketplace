@@ -23,8 +23,8 @@ export default function Navbar() {
 
   const navLinkClass = (path) => {
     return isActive(path)
-      ? 'text-sm font-semibold text-torch-600 border-b-2 border-torch-500 pb-1 transition-colors'
-      : 'text-sm font-medium text-stone-600 hover:text-torch-600 transition-colors pb-1';
+      ? 'text-sm font-semibold text-quantum-600 border-b-2 border-quantum-600 pb-1 transition-all'
+      : 'text-sm font-medium text-stone-600 hover:text-quantum-600 transition-colors pb-1';
   };
 
   const getRoleBadge = () => {
@@ -32,28 +32,28 @@ export default function Navbar() {
     switch (user.role) {
       case 'super_admin':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-torch-50 text-torch-700 border border-torch-200">
-            <Shield className="w-3 h-3 mr-1" /> Super Admin
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-quantum-50 text-quantum-700 border border-quantum-200">
+            <Shield className="w-3 h-3 mr-1 text-quantum-600" /> Super Admin
           </span>
         );
       case 'vendor':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-800 border border-cream-300">
-            <Store className="w-3 h-3 mr-1 text-torch-600" /> Vendor
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-ice-100 text-ice-800 border border-ice-300">
+            <Store className="w-3 h-3 mr-1 text-quantum-600" /> Vendor
           </span>
         );
       case 'customer':
       default:
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-cream-200 text-stone-800 border border-cream-300">
-            <ShoppingBag className="w-3 h-3 mr-1 text-torch-600" /> Customer
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-ice-100 text-ice-800 border border-ice-300">
+            <ShoppingBag className="w-3 h-3 mr-1 text-quantum-600" /> Customer
           </span>
         );
     }
   };
 
   return (
-    <header className="bg-cream-50/95 backdrop-blur-xs border-b border-cream-300 sticky top-0 z-30 shadow-2xs">
+    <header className="glass-nav sticky top-0 z-30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Brand */}
@@ -62,14 +62,14 @@ export default function Navbar() {
               to={user ? (isSuperAdmin ? '/admin' : isVendor ? '/vendor' : '/app') : '/login'}
               className="flex items-center space-x-3 group"
             >
-              <div className="w-9 h-9 bg-torch-500 text-white rounded flex items-center justify-center font-bold text-base tracking-wider shadow-xs group-hover:bg-torch-600 transition-colors">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-base tracking-wider glass-button shadow-sm group-hover:scale-105 transition-transform">
                 WS
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-bold text-stone-900 tracking-tight leading-none group-hover:text-torch-600 transition-colors">
+                <span className="text-lg font-bold text-stone-900 tracking-tight leading-none group-hover:text-quantum-600 transition-colors">
                   WILRICH STORE
                 </span>
-                <span className="text-[10px] uppercase font-semibold tracking-wider text-stone-500">
+                <span className="text-[10px] uppercase font-semibold tracking-wider text-quantum-700">
                   CODM Marketplace
                 </span>
               </div>
@@ -147,8 +147,8 @@ export default function Navbar() {
           {/* Right Actions */}
           <div className="flex items-center space-x-3 sm:space-x-4">
             {/* Currency Selector */}
-            <div className="flex items-center space-x-1.5 border border-cream-300 rounded px-2.5 py-1 bg-cream-100 text-xs shadow-2xs">
-              <Globe className="w-3.5 h-3.5 text-torch-600" />
+            <div className="flex items-center space-x-1.5 border border-ice-300 rounded-lg px-2.5 py-1 bg-white/70 text-xs shadow-2xs backdrop-blur-xs">
+              <Globe className="w-3.5 h-3.5 text-quantum-600" />
               <select
                 value={displayCurrency}
                 onChange={(e) => setDisplayCurrency(e.target.value)}
@@ -156,7 +156,7 @@ export default function Navbar() {
                 title="Select Display Currency"
               >
                 {supportedCurrencies.map((c) => (
-                  <option key={c} value={c} className="bg-cream-50 text-stone-900">
+                  <option key={c} value={c} className="bg-white text-stone-900">
                     {c}
                   </option>
                 ))}
@@ -173,7 +173,7 @@ export default function Navbar() {
                 <button
                   onClick={handleLogout}
                   title="Sign out"
-                  className="p-2 text-stone-500 hover:text-torch-600 hover:bg-cream-200 rounded transition-colors"
+                  className="p-2 text-stone-500 hover:text-quantum-600 hover:bg-quantum-50 rounded-lg transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -182,13 +182,13 @@ export default function Navbar() {
               <div className="flex items-center space-x-3">
                 <Link
                   to="/login"
-                  className="text-sm font-medium text-stone-700 hover:text-torch-600 px-3 py-1.5 rounded transition-colors"
+                  className="text-sm font-medium text-stone-700 hover:text-quantum-600 px-3 py-1.5 rounded-lg transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="text-sm font-semibold text-white bg-torch-500 hover:bg-torch-600 px-3.5 py-1.5 rounded shadow-xs transition-colors"
+                  className="text-sm font-semibold glass-button px-4 py-1.5 rounded-lg shadow-sm transition-all"
                 >
                   Register
                 </Link>

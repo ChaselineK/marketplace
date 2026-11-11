@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/common/Navbar';
 import { useAuth } from '../context/AuthContext';
 import apiClient from '../api/client';
-import { Store, Phone, CheckCircle, AlertCircle, ExternalLink, Save } from 'lucide-react';
+import { Store, Phone, CheckCircle, AlertCircle, ExternalLink, Save, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function VendorSettings() {
@@ -75,14 +75,14 @@ export default function VendorSettings() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between page-transition">
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
-        <div className="bg-white border border-cream-300 rounded-xl p-6 sm:p-8 mb-8 shadow-xs">
+        <div className="glass-panel-elevated rounded-2xl p-6 sm:p-8 mb-8 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
+              <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
                 Storefront Settings
               </span>
               <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
@@ -97,124 +97,134 @@ export default function VendorSettings() {
               <Link
                 to={`/app/vendors/${profile.store_slug}`}
                 target="_blank"
-                className="inline-flex items-center text-xs font-semibold text-stone-800 hover:text-torch-600 border border-cream-300 rounded px-3 py-2 bg-cream-100 hover:bg-cream-200 transition-colors"
+                className="inline-flex items-center text-xs font-semibold text-stone-800 hover:text-quantum-600 border border-ice-300 rounded-xl px-3 py-2 bg-white/80 hover:bg-white transition-colors"
               >
-                <ExternalLink className="w-3.5 h-3.5 mr-1.5 text-torch-600" />
-                View Public Storefront
+                <ExternalLink className="w-3.5 h-3.5 mr-1.5 text-quantum-600" />
+                Live Storefront
               </Link>
             )}
           </div>
         </div>
 
         {success && (
-          <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-sm flex items-center justify-between">
+          <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 text-sm flex items-center justify-between shadow-xs">
             <div className="flex items-center">
               <CheckCircle className="w-4 h-4 mr-2 text-emerald-600" />
               <span>{success}</span>
             </div>
-            <button onClick={() => setSuccess('')} className="text-xs text-emerald-700 underline font-semibold cursor-pointer">
+            <button onClick={() => setSuccess('')} className="text-xs text-emerald-700 underline font-semibold">
               Dismiss
             </button>
           </div>
         )}
 
         {error && (
-          <div className="mb-6 p-4 bg-torch-50 border border-torch-200 rounded-xl text-torch-800 text-sm flex items-center">
-            <AlertCircle className="w-4 h-4 mr-2 text-torch-600 shrink-0" />
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl text-red-800 text-sm flex items-center shadow-xs">
+            <AlertCircle className="w-4 h-4 mr-2 text-red-600" />
             <span>{error}</span>
           </div>
         )}
 
         {loading ? (
-          <div className="py-12 text-center text-sm text-stone-500 font-medium">Loading settings...</div>
+          <div className="py-12 text-center text-sm font-medium">
+            <Loader2 className="w-8 h-8 animate-spin text-quantum-600 mx-auto mb-2" />
+            <p className="text-stone-700">Loading profile...</p>
+          </div>
         ) : (
-          <div className="bg-white border border-cream-300 rounded-xl p-6 sm:p-8 shadow-xs">
+          <div className="glass-panel rounded-2xl p-6 sm:p-8 shadow-xs">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-1">
-                  Public Store Name
+                <label className="block text-xs font-semibold text-stone-700 mb-1" htmlFor="store_name">
+                  Store Display Name *
                 </label>
                 <input
-                  name="store_name"
+                  id="store_name"
                   type="text"
+                  name="store_name"
                   required
                   value={formData.store_name}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-cream-300 rounded text-sm bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
+                  className="w-full px-3 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-1">
-                  Store Slug (Public URL Identifier)
+                <label className="block text-xs font-semibold text-stone-700 mb-1" htmlFor="store_slug">
+                  Storefront Slug (Permanent Identifier)
                 </label>
                 <input
+                  id="store_slug"
                   type="text"
                   disabled
                   value={profile?.store_slug || ''}
-                  className="w-full px-3 py-2 border border-cream-300 rounded text-sm bg-cream-100 text-stone-500 font-mono cursor-not-allowed"
+                  className="w-full px-3 py-2 border border-ice-200 rounded-xl text-sm bg-ice-50 font-mono text-stone-500 cursor-not-allowed"
                 />
-                <span className="text-xs text-stone-500 mt-1 block">
-                  Store slugs are assigned and guarded by the platform.
+                <span className="text-[11px] text-stone-400 mt-1 block">
+                  Public URL: /app/vendors/{profile?.store_slug}
                 </span>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-1">
-                  WhatsApp Contact Number (International Format)
+                <label className="block text-xs font-semibold text-stone-700 mb-1" htmlFor="whatsapp_number">
+                  WhatsApp Contact Number (Without + or spaces) *
                 </label>
-                <div className="relative">
+                <div className="relative rounded-xl shadow-2xs">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
                     <Phone className="w-4 h-4" />
                   </div>
                   <input
-                    name="whatsapp_number"
+                    id="whatsapp_number"
                     type="text"
+                    name="whatsapp_number"
                     required
                     value={formData.whatsapp_number}
                     onChange={handleChange}
                     placeholder="255712345678"
-                    className="w-full pl-10 pr-3 py-2 border border-cream-300 rounded text-sm font-mono bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
+                    className="block w-full pl-10 pr-3 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800 font-mono"
                   />
                 </div>
-                <span className="text-xs text-stone-500 mt-1 block">
-                  Digits only without + or spaces (e.g. 255712345678). Used for prefilled WhatsApp order handoff.
+                <span className="text-[11px] text-stone-500 mt-1 block">
+                  Format: Country code + number (e.g., 255712345678). Used for automated handoff chat links.
                 </span>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-1">
-                  Storefront Description
+                <label className="block text-xs font-semibold text-stone-700 mb-1" htmlFor="description">
+                  Storefront Description &amp; Policies
                 </label>
                 <textarea
+                  id="description"
                   name="description"
                   rows={4}
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Tell customers about your accounts, CP delivery speed, and operational hours..."
-                  className="w-full px-3 py-2 border border-cream-300 rounded text-sm bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
+                  className="w-full px-3 py-2 border border-ice-300 rounded-xl text-sm bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                 />
               </div>
 
-              <div className="pt-4 border-t border-cream-200 flex items-center justify-between">
-                <label className="flex items-center text-sm font-semibold text-stone-700 select-none cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="is_published"
-                    checked={formData.is_published}
-                    onChange={handleChange}
-                    className="rounded border-cream-300 text-torch-600 focus:ring-torch-500 mr-2"
-                  />
-                  Publish storefront to marketplace
+              <div className="flex items-center space-x-2 pt-2">
+                <input
+                  id="is_published"
+                  type="checkbox"
+                  name="is_published"
+                  checked={formData.is_published}
+                  onChange={handleChange}
+                  className="rounded border-ice-300 text-quantum-600 focus:ring-quantum-500 cursor-pointer"
+                />
+                <label htmlFor="is_published" className="text-xs font-semibold text-stone-700 cursor-pointer select-none">
+                  Publish Storefront (Visible in public Vendor Directory and search)
                 </label>
+              </div>
 
+              <div className="pt-4 border-t border-ice-200 flex justify-end">
                 <button
                   type="submit"
                   disabled={saving}
-                  className="inline-flex items-center px-4 py-2 rounded text-sm font-semibold text-white bg-torch-500 hover:bg-torch-600 disabled:opacity-50 transition-colors shadow-xs"
+                  className="inline-flex items-center px-4 py-2.5 glass-button text-white rounded-xl text-sm font-semibold shadow-xs disabled:opacity-50"
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  {saving ? 'Saving...' : 'Save Settings'}
+                  {saving ? 'Saving...' : 'Save Store Profile'}
                 </button>
               </div>
             </form>
@@ -222,7 +232,7 @@ export default function VendorSettings() {
         )}
       </main>
 
-      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
+      <footer className="glass-panel border-t border-ice-200 py-6 text-center text-xs text-stone-500 mt-12">
         <p>&copy; {new Date().getFullYear()} WILRICH STORE. Vendor Settings.</p>
       </footer>
     </div>

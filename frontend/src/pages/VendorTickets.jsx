@@ -9,10 +9,10 @@ import {
   Paperclip,
   Send,
   Shield,
-  Download,
   Lock,
   ChevronRight,
   User,
+  Loader2,
 } from 'lucide-react';
 
 export default function VendorTickets() {
@@ -99,7 +99,6 @@ export default function VendorTickets() {
       setActionSuccess('Vendor response posted.');
       setTimeout(() => setActionSuccess(''), 3000);
       loadTicketDetail(selectedTicket.public_reference);
-      fetchTickets();
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to post reply.');
     } finally {
@@ -110,17 +109,41 @@ export default function VendorTickets() {
   const getStatusBadge = (status) => {
     switch (status) {
       case 'open':
-        return <span className="text-[11px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Open</span>;
+        return (
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+            <Clock className="w-2.5 h-2.5 mr-1" /> Open
+          </span>
+        );
       case 'in_progress':
-        return <span className="text-[11px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">In Progress</span>;
+        return (
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-quantum-50 text-quantum-800 border border-quantum-200">
+            In Progress
+          </span>
+        );
       case 'waiting_for_customer':
-        return <span className="text-[11px] font-semibold text-torch-700 bg-torch-50 px-2 py-0.5 rounded border border-torch-200">Awaiting Customer</span>;
+        return (
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-50 text-purple-800 border border-purple-200">
+            Waiting for Reply
+          </span>
+        );
       case 'resolved':
-        return <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Resolved</span>;
+        return (
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+            Resolved
+          </span>
+        );
       case 'closed':
-        return <span className="text-[11px] font-semibold text-stone-500 bg-cream-200 px-2 py-0.5 rounded border border-cream-300">Closed</span>;
+        return (
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-stone-100 text-stone-700 border border-stone-200">
+            Closed
+          </span>
+        );
       default:
-        return <span className="text-[11px] font-semibold text-stone-700 bg-cream-200 px-2 py-0.5 rounded">{status}</span>;
+        return (
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-ice-100 text-stone-700">
+            {status}
+          </span>
+        );
     }
   };
 
@@ -130,35 +153,35 @@ export default function VendorTickets() {
   });
 
   return (
-    <div className="min-h-screen bg-cream-100 flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between page-transition">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-6">
         {/* Header */}
-        <div className="bg-white border border-cream-300 rounded-xl p-6 mb-8 shadow-xs">
+        <div className="glass-panel-elevated rounded-2xl p-6 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-torch-700 bg-torch-50 px-2.5 py-1 rounded border border-torch-200">
-                Vendor Workspace
+              <span className="text-xs font-semibold uppercase tracking-wider text-quantum-700 bg-quantum-50 px-2.5 py-1 rounded-full border border-quantum-200">
+                Vendor Dispute Center
               </span>
               <h1 className="text-2xl font-bold text-stone-900 tracking-tight mt-2.5">
-                Support Tickets &amp; Disputes
+                Support &amp; Dispute Inquiries
               </h1>
               <p className="text-sm text-stone-600 mt-1">
-                Respond to customer disputes, review evidence files, and manage resolution statuses.
+                Respond to customer claims, exchange evidence, and arbitrate order issues with moderators.
               </p>
             </div>
 
-            {/* Filter Buttons */}
-            <div className="flex items-center space-x-1.5 bg-cream-200 p-1 rounded-lg border border-cream-300 text-xs font-medium overflow-x-auto">
-              {['all', 'open', 'in_progress', 'waiting_for_customer', 'resolved', 'closed'].map((tab) => (
+            {/* Filter buttons */}
+            <div className="flex items-center space-x-1.5 bg-white/70 p-1.5 rounded-xl border border-ice-200 text-xs font-medium">
+              {['all', 'open', 'in_progress', 'resolved', 'closed'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setStatusFilter(tab)}
-                  className={`px-3 py-1.5 rounded capitalize whitespace-nowrap transition-colors cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-lg capitalize transition-all ${
                     statusFilter === tab
-                      ? 'bg-torch-500 text-white shadow-xs font-semibold'
-                      : 'text-stone-700 hover:text-torch-600'
+                      ? 'glass-button font-semibold shadow-xs'
+                      : 'text-stone-700 hover:text-quantum-600'
                   }`}
                 >
                   {tab.replace(/_/g, ' ')}
@@ -169,234 +192,216 @@ export default function VendorTickets() {
         </div>
 
         {actionSuccess && (
-          <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 mb-6 flex items-center">
-            <CheckCircle2 className="w-4 h-4 mr-1.5" />
+          <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs font-semibold text-emerald-800 flex items-center shadow-xs">
+            <CheckCircle2 className="w-4 h-4 mr-2 text-emerald-600" />
             {actionSuccess}
           </div>
         )}
 
-        {/* Master-Detail Layout */}
+        {/* Master-Detail Split Workspace */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Column: Tickets Queue (5 cols) */}
-          <div className="lg:col-span-5 bg-white border border-cream-300 rounded-xl overflow-hidden shadow-xs">
-            <div className="p-4 bg-cream-100 border-b border-cream-200 text-xs font-bold text-stone-700 uppercase tracking-wider">
-              Assigned Tickets ({filteredTickets.length})
+          {/* Left Column: Ticket List */}
+          <div className="lg:col-span-5 space-y-3">
+            <div className="glass-panel rounded-2xl p-4">
+              <span className="text-xs uppercase font-bold text-stone-400">Assigned Queue</span>
+              <div className="font-bold text-stone-900 text-sm mt-0.5">
+                {filteredTickets.length} Tickets Found
+              </div>
             </div>
 
             {loading ? (
-              <div className="p-8 text-center text-xs text-stone-500 font-medium">Loading tickets...</div>
+              <div className="py-12 text-center text-sm font-medium">
+                <Loader2 className="w-8 h-8 animate-spin text-quantum-600 mx-auto mb-2" />
+                <p className="text-stone-700">Loading queue...</p>
+              </div>
             ) : filteredTickets.length === 0 ? (
-              <div className="p-8 text-center text-xs text-stone-500">
-                No tickets matching current filter.
+              <div className="glass-panel rounded-2xl p-8 text-center text-xs text-stone-500">
+                No tickets in this status filter.
               </div>
             ) : (
-              <div className="divide-y divide-cream-100 max-h-[700px] overflow-y-auto">
+              <div className="space-y-2">
                 {filteredTickets.map((t) => (
-                  <button
+                  <div
                     key={t.id}
                     onClick={() => loadTicketDetail(t.public_reference)}
-                    className={`w-full text-left p-4 transition-colors hover:bg-cream-50 flex items-start justify-between cursor-pointer ${
+                    className={`glass-panel p-4 rounded-2xl cursor-pointer transition-all ${
                       selectedTicket?.public_reference === t.public_reference
-                        ? 'bg-torch-50/70 border-l-4 border-torch-500'
-                        : ''
+                        ? 'border-quantum-500 ring-2 ring-quantum-200 bg-quantum-50/40'
+                        : 'hover:border-quantum-300'
                     }`}
                   >
-                    <div className="space-y-1">
-                      <div className="flex items-center space-x-2">
-                        <span className="font-mono text-[11px] font-bold text-torch-700">
-                          {t.public_reference}
-                        </span>
-                        {getStatusBadge(t.status)}
-                      </div>
-                      <div className="font-bold text-xs text-stone-900 line-clamp-1">
-                        {t.subject}
-                      </div>
-                      <div className="text-[11px] text-stone-500">
-                        Customer: {t.customer?.name}
-                      </div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-mono font-bold text-quantum-700 text-xs">
+                        {t.public_reference}
+                      </span>
+                      {getStatusBadge(t.status)}
                     </div>
-                    <ChevronRight className="w-4 h-4 text-stone-400 shrink-0 mt-1" />
-                  </button>
+
+                    <div className="font-semibold text-stone-900 text-xs line-clamp-1 mb-1">
+                      {t.subject}
+                    </div>
+
+                    <div className="flex items-center justify-between text-[11px] text-stone-500">
+                      <span>Customer: {t.customer?.name}</span>
+                      <span className="font-mono">{new Date(t.created_at).toLocaleDateString()}</span>
+                    </div>
+                  </div>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Right Column: Ticket Conversation & Actions (7 cols) */}
-          <div className="lg:col-span-7 space-y-6">
-            {!selectedTicket ? (
-              <div className="bg-white border border-cream-300 rounded-xl p-12 text-center text-stone-500 text-xs shadow-xs">
-                Select a ticket from the left queue to view details and reply.
+          {/* Right Column: Ticket Detail & Reply Thread */}
+          <div className="lg:col-span-7 space-y-4">
+            {detailLoading ? (
+              <div className="glass-panel rounded-2xl p-12 text-center text-sm font-medium">
+                <Loader2 className="w-8 h-8 animate-spin text-quantum-600 mx-auto mb-2" />
+                <p className="text-stone-700">Loading discussion thread...</p>
               </div>
-            ) : detailLoading ? (
-              <div className="bg-white border border-cream-300 rounded-xl p-12 text-center text-stone-500 text-xs shadow-xs">
-                Loading ticket thread...
-              </div>
-            ) : (
-              <>
-                {/* Ticket Header & Status Switcher Card */}
-                <div className="bg-white border border-cream-300 rounded-xl p-6 shadow-xs space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-4 border-b border-cream-200">
+            ) : selectedTicket ? (
+              <div className="space-y-4">
+                {/* Active Ticket Banner */}
+                <div className="glass-panel-elevated rounded-2xl p-6 shadow-xs space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 pb-4 border-b border-ice-200">
                     <div>
-                      <span className="font-mono text-xs font-bold text-torch-700">
-                        {selectedTicket.public_reference}
-                      </span>
-                      <h2 className="text-lg font-bold text-stone-900 mt-1">
+                      <div className="flex items-center space-x-2 mb-1.5">
+                        <span className="font-mono font-bold text-quantum-700 text-xs">
+                          {selectedTicket.public_reference}
+                        </span>
+                        {getStatusBadge(selectedTicket.status)}
+                      </div>
+                      <h2 className="text-lg font-bold text-stone-900 tracking-tight">
                         {selectedTicket.subject}
                       </h2>
-                    </div>
-                    <div>
-                      {getStatusBadge(selectedTicket.status)}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 text-xs text-stone-700 bg-cream-100 p-3.5 rounded-lg border border-cream-200">
-                    <div>
-                      <span className="text-stone-400 block text-[10px] uppercase font-bold">Customer</span>
-                      <span className="font-semibold text-stone-900">{selectedTicket.customer?.name}</span>
-                      <div className="text-[11px] font-mono text-stone-500">{selectedTicket.customer?.email}</div>
-                    </div>
-                    {selectedTicket.order && (
-                      <div>
-                        <span className="text-stone-400 block text-[10px] uppercase font-bold">Linked Order</span>
-                        <span className="font-mono font-bold text-torch-700">{selectedTicket.order.public_reference}</span>
-                        <div className="text-[11px] text-stone-500">{selectedTicket.order.item_title_snapshot}</div>
+                      <div className="text-xs text-stone-500 mt-1">
+                        Opened by <strong>{selectedTicket.customer?.name}</strong> ({selectedTicket.customer?.email})
                       </div>
-                    )}
+                    </div>
+
+                    {/* Status Transitions */}
+                    <div className="flex items-center space-x-2 shrink-0">
+                      {selectedTicket.status !== 'in_progress' && (
+                        <button
+                          onClick={() => handleUpdateStatus('in_progress')}
+                          className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-quantum-50 text-quantum-700 border border-quantum-200 hover:bg-quantum-100"
+                        >
+                          Mark In Progress
+                        </button>
+                      )}
+                      {selectedTicket.status !== 'resolved' && (
+                        <button
+                          onClick={() => handleUpdateStatus('resolved')}
+                          className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100"
+                        >
+                          Mark Resolved
+                        </button>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="text-xs text-stone-700 bg-white p-3.5 border border-cream-200 rounded-lg whitespace-pre-line leading-relaxed">
+                  {/* Description */}
+                  <div className="text-xs text-stone-700 whitespace-pre-line leading-relaxed bg-ice-50/70 p-4 rounded-xl border border-ice-200">
                     {selectedTicket.description}
                   </div>
 
-                  {/* Private Evidence Attachments */}
+                  {/* Initial Attachments */}
                   {selectedTicket.attachments?.length > 0 && (
                     <div className="pt-2">
-                      <span className="text-[11px] uppercase font-bold text-stone-400 block mb-2">
-                        Attached Evidence
+                      <span className="text-[10px] uppercase font-bold text-stone-400 block mb-1.5">
+                        Claim Attachments
                       </span>
                       <div className="flex flex-wrap gap-2">
                         {selectedTicket.attachments.map((att) => (
                           <a
                             key={att.id}
-                            href={att.download_url}
+                            href={att.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center px-2.5 py-1.5 rounded bg-cream-100 hover:bg-cream-200 border border-cream-300 text-xs font-medium text-stone-800 transition-colors"
+                            className="inline-flex items-center px-2.5 py-1 bg-white border border-ice-300 rounded-lg text-xs font-medium text-stone-800 hover:text-quantum-600 shadow-2xs"
                           >
-                            <Paperclip className="w-3 h-3 mr-1 text-torch-600" />
+                            <Paperclip className="w-3 h-3 mr-1 text-quantum-600" />
                             {att.file_name}
-                            <Download className="w-3 h-3 ml-2 text-stone-400" />
                           </a>
                         ))}
                       </div>
                     </div>
                   )}
-
-                  {/* Status Transition Controls */}
-                  <div className="pt-3 border-t border-cream-200 flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-bold text-stone-500 mr-2">Set Status:</span>
-                    <button
-                      onClick={() => handleUpdateStatus('in_progress')}
-                      className="px-2.5 py-1 bg-blue-50 text-blue-800 border border-blue-200 rounded text-xs font-semibold hover:bg-blue-100 cursor-pointer"
-                    >
-                      In Progress
-                    </button>
-                    <button
-                      onClick={() => handleUpdateStatus('waiting_for_customer')}
-                      className="px-2.5 py-1 bg-torch-50 text-torch-700 border border-torch-200 rounded text-xs font-semibold hover:bg-torch-100 cursor-pointer"
-                    >
-                      Awaiting Customer
-                    </button>
-                    <button
-                      onClick={() => handleUpdateStatus('resolved')}
-                      className="px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded text-xs font-semibold hover:bg-emerald-100 cursor-pointer"
-                    >
-                      Resolve
-                    </button>
-                    <button
-                      onClick={() => handleUpdateStatus('closed')}
-                      className="px-2.5 py-1 bg-cream-200 text-stone-700 border border-cream-300 rounded text-xs font-semibold hover:bg-cream-300 cursor-pointer"
-                    >
-                      Close
-                    </button>
-                  </div>
                 </div>
 
-                {/* Conversation Thread */}
-                <div className="bg-white border border-cream-300 rounded-xl p-6 shadow-xs space-y-4">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-stone-700 pb-2 border-b border-cream-200">
-                    Thread History ({selectedTicket.messages?.length || 0})
+                {/* Conversation History */}
+                <div className="space-y-3">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-stone-500">
+                    Thread Activity ({selectedTicket.messages?.length || 0})
                   </h3>
 
-                  {selectedTicket.messages?.length === 0 ? (
-                    <div className="text-center py-6 text-xs text-stone-400">
-                      No replies on this ticket yet.
+                  {selectedTicket.messages?.map((msg) => (
+                    <div
+                      key={msg.id}
+                      className={`glass-panel p-4 rounded-2xl ${
+                        msg.sender?.role === 'super_admin'
+                          ? 'border-quantum-300 bg-quantum-50/40'
+                          : ''
+                      }`}
+                    >
+                      <div className="flex items-center justify-between pb-2 border-b border-ice-200 mb-2 text-xs">
+                        <span className="font-bold text-stone-900">{msg.sender?.name}</span>
+                        <span className="text-stone-400 font-mono text-[10px]">
+                          {new Date(msg.created_at).toLocaleString()}
+                        </span>
+                      </div>
+                      <p className="text-xs text-stone-800 whitespace-pre-line leading-relaxed">
+                        {msg.message}
+                      </p>
                     </div>
-                  ) : (
-                    <div className="space-y-3">
-                      {selectedTicket.messages.map((m) => (
-                        <div
-                          key={m.id}
-                          className={`p-4 rounded-lg text-xs leading-relaxed ${
-                            m.sender.role === 'vendor'
-                              ? 'bg-torch-50/40 border border-torch-100 ml-6'
-                              : 'bg-cream-50 border border-cream-200 mr-6'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between pb-1 mb-1 border-b border-cream-200/80">
-                            <span className="font-bold text-stone-900">
-                              {m.sender.name} ({m.sender.role})
-                            </span>
-                            <span className="text-[10px] font-mono text-stone-400">
-                              {new Date(m.created_at).toLocaleTimeString()}
-                            </span>
-                          </div>
-                          <div className="whitespace-pre-line text-stone-800">{m.message}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  ))}
+                </div>
 
-                  {/* Reply Form */}
-                  <form onSubmit={handleReplySubmit} className="pt-4 border-t border-cream-200 space-y-3">
-                    <textarea
-                      required
-                      rows={3}
-                      value={replyText}
-                      onChange={(e) => setReplyText(e.target.value)}
-                      placeholder="Write your response to the customer..."
-                      className="w-full px-3 py-2 border border-cream-300 rounded text-xs bg-cream-50/50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-torch-500 focus:border-torch-500 text-stone-800"
-                    />
-
-                    <div className="flex items-center justify-between">
-                      <input
-                        type="file"
-                        multiple
-                        accept="image/jpeg,image/png,image/webp"
-                        onChange={(e) => setReplyFiles(Array.from(e.target.files))}
-                        className="text-xs text-stone-500 file:mr-2 file:py-1 file:px-2.5 file:rounded file:border-0 file:text-[11px] file:font-semibold file:bg-cream-200 file:text-stone-800 hover:file:bg-cream-300 cursor-pointer"
+                {/* Reply Box */}
+                {selectedTicket.status !== 'closed' && (
+                  <div className="glass-panel-elevated rounded-2xl p-5 shadow-xs">
+                    <form onSubmit={handleReplySubmit} className="space-y-3">
+                      <textarea
+                        required
+                        rows={3}
+                        value={replyText}
+                        onChange={(e) => setReplyText(e.target.value)}
+                        placeholder="Write your response to the customer..."
+                        className="w-full px-3 py-2 border border-ice-300 rounded-xl text-xs bg-white/80 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500 text-stone-800"
                       />
 
-                      <button
-                        type="submit"
-                        disabled={submittingReply}
-                        className="inline-flex items-center px-4 py-2 bg-torch-500 hover:bg-torch-600 text-white rounded text-xs font-semibold transition-colors shadow-xs disabled:opacity-50"
-                      >
-                        <Send className="w-3.5 h-3.5 mr-1.5" />
-                        {submittingReply ? 'Posting...' : 'Reply'}
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </>
+                      <div className="flex items-center justify-between">
+                        <input
+                          type="file"
+                          multiple
+                          accept="image/jpeg,image/png,image/webp"
+                          onChange={(e) => setReplyFiles(Array.from(e.target.files))}
+                          className="block text-xs text-stone-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:bg-quantum-50 file:text-quantum-700 cursor-pointer"
+                        />
+
+                        <button
+                          type="submit"
+                          disabled={submittingReply || !replyText.trim()}
+                          className="inline-flex items-center px-4 py-2 glass-button text-white rounded-xl text-xs font-semibold shadow-xs disabled:opacity-50"
+                        >
+                          <Send className="w-3.5 h-3.5 mr-1.5" />
+                          Send Response
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="glass-panel rounded-2xl p-12 text-center text-xs text-stone-500">
+                Select a ticket from the left queue to review case details.
+              </div>
             )}
           </div>
         </div>
       </main>
 
-      <footer className="bg-cream-50 border-t border-cream-300 py-6 text-center text-xs text-stone-500">
-        <p>&copy; {new Date().getFullYear()} WILRICH STORE. Vendor Support Tickets Management.</p>
+      <footer className="glass-panel border-t border-ice-200 py-6 text-center text-xs text-stone-500 mt-12">
+        <p>&copy; {new Date().getFullYear()} WILRICH STORE. Vendor Disputes.</p>
       </footer>
     </div>
   );
