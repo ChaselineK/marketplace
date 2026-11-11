@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCurrency } from '../../context/CurrencyContext';
-import { LogOut, Shield, Store, ShoppingBag, Globe, LifeBuoy } from 'lucide-react';
+import { LogOut, Shield, Store, ShoppingBag, Globe, LifeBuoy, Menu, X } from 'lucide-react';
 import CodmLogo from './CodmLogo';
 
 export default function Navbar() {
@@ -10,6 +10,7 @@ export default function Navbar() {
   const { displayCurrency, setDisplayCurrency, supportedCurrencies } = useCurrency();
   const navigate = useNavigate();
   const location = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     await logout();
@@ -26,6 +27,12 @@ export default function Navbar() {
     return isActive(path)
       ? 'text-sm font-semibold text-quantum-600 border-b-2 border-quantum-600 pb-1 transition-all whitespace-nowrap'
       : 'text-sm font-medium text-stone-600 hover:text-quantum-600 transition-colors pb-1 whitespace-nowrap';
+  };
+
+  const mobileNavLinkClass = (path) => {
+    return isActive(path)
+      ? 'block px-3 py-2 rounded-xl text-sm font-bold text-quantum-700 bg-quantum-50 border border-quantum-200'
+      : 'block px-3 py-2 rounded-xl text-sm font-medium text-stone-700 hover:text-quantum-600 hover:bg-ice-50 transition-colors';
   };
 
   const getRoleBadge = () => {
@@ -74,7 +81,7 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {/* Role-specific Navigation */}
+            {/* Role-specific Desktop Navigation */}
             {user && (
               <nav className="hidden lg:flex items-center space-x-5">
                 {isCustomer && (
@@ -187,6 +194,16 @@ export default function Navbar() {
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
+
+                {/* Mobile Hamburger Toggle for Logged In Users */}
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="lg:hidden p-2 text-stone-600 hover:text-quantum-600 hover:bg-quantum-50 rounded-xl border border-ice-200 transition-colors cursor-pointer"
+                  aria-label="Toggle navigation menu"
+                >
+                  {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                </button>
               </div>
             ) : (
               <div className="flex items-center space-x-2 pl-1 sm:pl-2 border-l border-ice-300">
@@ -206,6 +223,74 @@ export default function Navbar() {
             )}
           </div>
         </div>
+
+        {/* Mobile Navigation Drawer */}
+        {user && mobileMenuOpen && (
+          <div className="lg:hidden pt-2 pb-4 border-t border-ice-200 page-transition space-y-1">
+            {isCustomer && (
+              <>
+                <Link to="/app" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/app')}>
+                  Marketplace
+                </Link>
+                <Link to="/app/vendors" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/app/vendors')}>
+                  Vendors Directory
+                </Link>
+                <Link to="/app/accounts" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/app/accounts')}>
+                  CODM Accounts
+                </Link>
+                <Link to="/app/cp" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/app/cp')}>
+                  CP Bundles
+                </Link>
+                <Link to="/app/orders" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/app/orders')}>
+                  My Orders
+                </Link>
+                <Link to="/app/tickets" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/app/tickets')}>
+                  Support Tickets
+                </Link>
+              </>
+            )}
+
+            {isVendor && (
+              <>
+                <Link to="/vendor" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/vendor')}>
+                  Vendor Dashboard
+                </Link>
+                <Link to="/vendor/accounts" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/vendor/accounts')}>
+                  Account Inventory
+                </Link>
+                <Link to="/vendor/cp" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/vendor/cp')}>
+                  CP Bundles
+                </Link>
+                <Link to="/vendor/orders" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/vendor/orders')}>
+                  Received Orders
+                </Link>
+                <Link to="/vendor/tickets" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/vendor/tickets')}>
+                  Vendor Disputes
+                </Link>
+                <Link to="/vendor/store-settings" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/vendor/store-settings')}>
+                  Store Settings
+                </Link>
+              </>
+            )}
+
+            {isSuperAdmin && (
+              <>
+                <Link to="/admin" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/admin')}>
+                  Admin Dashboard
+                </Link>
+                <Link to="/admin/vendors" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/admin/vendors')}>
+                  Vendors Management
+                </Link>
+                <Link to="/admin/rates" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/admin/rates')}>
+                  Exchange Rates
+                </Link>
+                <Link to="/admin/tickets" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/admin/tickets')}>
+                  Disputes &amp; Mediation
+                </Link>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </header>
   );
