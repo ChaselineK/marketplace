@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Super Admin
-        User::firstOrCreate(
+        // 1. Super Admin (Sells Accounts Only)
+        $admin = User::firstOrCreate(
             ['email' => 'admin@wilrichstore.com'],
             [
                 'name' => 'Wilrich Super Admin',
@@ -31,6 +31,16 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('Password123!'),
                 'role' => UserRole::SUPER_ADMIN,
                 'is_active' => true,
+            ]
+        );
+        VendorProfile::firstOrCreate(
+            ['user_id' => $admin->id],
+            [
+                'store_name' => 'WILRICH STORE Official',
+                'store_slug' => 'wilrich-official',
+                'whatsapp_number' => '255700000001',
+                'description' => 'Official WILRICH STORE executive inventory. Exclusive mythics and verified legendary CODM accounts.',
+                'is_published' => true,
             ]
         );
 
@@ -135,6 +145,29 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // Super Admin Account Listings (Super Admin sells accounts only)
+        AccountListing::firstOrCreate(
+            ['title' => 'Mythic Krig 6 Ice Drake + Full Mythic Spectre Operator'],
+            [
+                'vendor_id' => $admin->id,
+                'description' => 'Exclusive official executive store listing. Features max-upgraded Mythic Krig 6 Ice Drake with custom death effect, full Mythic Spectre operator with color customizations unlocked, and 18 Legendary blueprints. Clean Activision transfer with warranty.',
+                'price_amount' => 750000,
+                'price_currency' => 'TZS',
+                'status' => ListingStatus::PUBLISHED,
+            ]
+        );
+
+        AccountListing::firstOrCreate(
+            ['title' => 'Mythic DL Q33 Lotus Flames + 14 Legendaries Master Account'],
+            [
+                'vendor_id' => $admin->id,
+                'description' => 'Direct from WILRICH STORE Official. Max-level Mythic DL Q33 Lotus Flames, Damascus sniper mastery, Legendary Ghost character, and 14 Legendary blueprints. Safe Activision handoff guaranteed.',
+                'price_amount' => 680000,
+                'price_currency' => 'TZS',
+                'status' => ListingStatus::PUBLISHED,
+            ]
+        );
+
         // 6. Exchange Rates
         ExchangeRate::updateOrCreate(
             ['base_currency' => 'TZS', 'quote_currency' => 'USD'],
@@ -145,35 +178,35 @@ class DatabaseSeeder extends Seeder
             ['rate' => 0.58, 'source' => 'Admin Managed', 'effective_at' => now()]
         );
 
-        // 7. CP Bundles for Vendor 1
+        // 7. CP Bundles for Vendor 1 (Alpha CODM Store)
         $v1Bundles = [
-            ['cp' => 80, 'price' => 2500],
-            ['cp' => 420, 'price' => 12000],
-            ['cp' => 880, 'price' => 24000],
-            ['cp' => 2400, 'price' => 65000],
-            ['cp' => 5000, 'price' => 130000],
-            ['cp' => 10800, 'price' => 270000],
+            ['cp' => 80, 'price' => 2500, 'desc' => 'Direct Activision UID top-up. Ideal for lucky draws and daily crate opens.'],
+            ['cp' => 420, 'price' => 12000, 'desc' => 'Instant battle pass unlock package. Dispatched within 5 minutes over WhatsApp.'],
+            ['cp' => 880, 'price' => 24000, 'desc' => 'Battle pass plus crate tier progression. Fast delivery guarantee.'],
+            ['cp' => 2400, 'price' => 65000, 'desc' => 'Popular mythic draw package. Direct UID top-up with receipt confirmation.'],
+            ['cp' => 5000, 'price' => 130000, 'desc' => 'High-tier lucky draw pack with bonus CP calculation included.'],
+            ['cp' => 10800, 'price' => 270000, 'desc' => 'Maximum value mega vault pack for complete mythic weapon draws.'],
         ];
         foreach ($v1Bundles as $b) {
-            CpBundle::firstOrCreate(
+            CpBundle::updateOrCreate(
                 ['vendor_id' => $vendor1->id, 'cp_amount' => $b['cp']],
-                ['price_amount' => $b['price'], 'price_currency' => 'TZS', 'status' => 'published']
+                ['price_amount' => $b['price'], 'price_currency' => 'TZS', 'description' => $b['desc'], 'status' => 'published']
             );
         }
 
-        // 8. CP Bundles for Vendor 2
+        // 8. CP Bundles for Vendor 2 (Bravo Armory)
         $v2Bundles = [
-            ['cp' => 80, 'price' => 2400],
-            ['cp' => 420, 'price' => 11800],
-            ['cp' => 880, 'price' => 23500],
-            ['cp' => 2400, 'price' => 64000],
-            ['cp' => 5000, 'price' => 128000],
-            ['cp' => 10800, 'price' => 265000],
+            ['cp' => 80, 'price' => 2400, 'desc' => 'Bravo Armory discount starter CP. Global server instant credit.'],
+            ['cp' => 420, 'price' => 11800, 'desc' => 'Premium Pass activation pack. Zero login credentials required - UID only.'],
+            ['cp' => 880, 'price' => 23500, 'desc' => 'Mid-tier bundle for draw spins and crate milestones.'],
+            ['cp' => 2400, 'price' => 64000, 'desc' => 'Competitive rate mythic package. Verified Activision authorized handoff.'],
+            ['cp' => 5000, 'price' => 128000, 'desc' => 'High-roller bundle for legendary operators and vehicle skins.'],
+            ['cp' => 10800, 'price' => 265000, 'desc' => 'Best value in East Africa. Full mythic weapon max out package.'],
         ];
         foreach ($v2Bundles as $b) {
-            CpBundle::firstOrCreate(
+            CpBundle::updateOrCreate(
                 ['vendor_id' => $vendor2->id, 'cp_amount' => $b['cp']],
-                ['price_amount' => $b['price'], 'price_currency' => 'TZS', 'status' => 'published']
+                ['price_amount' => $b['price'], 'price_currency' => 'TZS', 'description' => $b['desc'], 'status' => 'published']
             );
         }
 

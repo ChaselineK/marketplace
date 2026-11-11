@@ -21,6 +21,7 @@ class CpBundleResource extends JsonResource
             'formatted_title' => $this->formatted_title,
             'price_amount' => (float) $this->price_amount,
             'price_currency' => $this->price_currency,
+            'description' => $this->description,
             'status' => $this->status,
             'is_available' => $this->isAvailable(),
             'created_at' => $this->created_at?->toIso8601String(),

@@ -96,22 +96,6 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
     }
   };
 
-  const handleQuickLogin = async (demoEmail, demoPassword) => {
-    setLoginEmail(demoEmail);
-    setLoginPassword(demoPassword);
-    setLoginError('');
-    setLoginSubmitting(true);
-
-    try {
-      const loggedUser = await login(demoEmail, demoPassword, false);
-      redirectAfterAuth(loggedUser);
-    } catch (err) {
-      setLoginError(err.response?.data?.message || 'Quick login failed.');
-    } finally {
-      setLoginSubmitting(false);
-    }
-  };
-
   const handleRegisterChange = (e) => {
     setRegisterData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -155,17 +139,17 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
 
           {/* Top Intro Section */}
           <div className="relative z-10">
-            {/* Official Call of Duty: Mobile Emblem & Branding */}
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-white/10 p-2 backdrop-blur-md border border-white/15 flex items-center justify-center">
-                <CodmLogo className="w-full h-full" />
+            {/* Official Call of Duty: Mobile Black Logo & Branding */}
+            <div className="flex items-center space-x-3.5 mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-black overflow-hidden border border-white/20 flex items-center justify-center shadow-lg shrink-0">
+                <img src="/codm-logo.jpg" alt="Call of Duty: Mobile" className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[11px] font-black uppercase tracking-widest text-quantum-300">
+                <span className="text-xs font-black uppercase tracking-widest text-quantum-300">
                   Call of Duty: Mobile
                 </span>
                 <span className="text-[10px] text-ice-200/80 font-medium">
-                  Verified Intermediary Hub
+                  Authoritative Intermediary Hub
                 </span>
               </div>
             </div>
@@ -316,7 +300,7 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between text-xs pt-1">
+                  <div className="flex items-center text-xs pt-1">
                     <label className="flex items-center text-stone-600 select-none cursor-pointer">
                       <input
                         type="checkbox"
@@ -326,7 +310,6 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
                       />
                       Remember this session
                     </label>
-                    <span className="text-[11px] font-mono text-quantum-700">Quantum Auth</span>
                   </div>
 
                   <button
@@ -346,48 +329,6 @@ export default function AuthSplitPage({ initialMode = 'login' }) {
                     )}
                   </button>
                 </form>
-
-                {/* Quick Seeded Demo Accounts */}
-                <div className="mt-8 pt-6 border-t border-ice-200">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-2.5 flex items-center">
-                    <ShieldCheck className="w-3.5 h-3.5 mr-1.5 text-quantum-600" />
-                    Quick Testing Accounts (Seeded)
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <button
-                      type="button"
-                      onClick={() => handleQuickLogin('admin@wilrichstore.com', 'Password123!')}
-                      className="p-2 border border-quantum-200 bg-quantum-50/70 text-stone-900 rounded-xl font-medium text-left hover:bg-quantum-100 transition-colors cursor-pointer"
-                    >
-                      <div className="font-bold text-quantum-700 text-xs">Super Admin</div>
-                      <div className="text-[10px] text-stone-500 truncate">admin@wilrichstore.com</div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleQuickLogin('vendor1@wilrichstore.com', 'Password123!')}
-                      className="p-2 border border-ice-300 bg-white/70 text-stone-900 rounded-xl font-medium text-left hover:bg-white transition-colors cursor-pointer"
-                    >
-                      <div className="font-bold text-stone-900 text-xs">Vendor 1 (Alpha)</div>
-                      <div className="text-[10px] text-stone-500 truncate">vendor1@wilrichstore.com</div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleQuickLogin('vendor2@wilrichstore.com', 'Password123!')}
-                      className="p-2 border border-ice-300 bg-white/70 text-stone-900 rounded-xl font-medium text-left hover:bg-white transition-colors cursor-pointer"
-                    >
-                      <div className="font-bold text-stone-900 text-xs">Vendor 2 (Bravo)</div>
-                      <div className="text-[10px] text-stone-500 truncate">vendor2@wilrichstore.com</div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleQuickLogin('customer@wilrichstore.com', 'Password123!')}
-                      className="p-2 border border-ice-300 bg-white/70 text-stone-900 rounded-xl font-medium text-left hover:bg-white transition-colors cursor-pointer"
-                    >
-                      <div className="font-bold text-stone-900 text-xs">Customer (John)</div>
-                      <div className="text-[10px] text-stone-500 truncate">customer@wilrichstore.com</div>
-                    </button>
-                  </div>
-                </div>
               </div>
             ) : (
               /* REGISTER FORM */

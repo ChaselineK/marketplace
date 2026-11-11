@@ -163,7 +163,7 @@ export default function App() {
             <Route
               path="/vendor"
               element={
-                <RoleRoute allowedRoles={['vendor']}>
+                <RoleRoute allowedRoles={['vendor', 'super_admin']}>
                   <VendorPortal />
                 </RoleRoute>
               }
@@ -171,7 +171,7 @@ export default function App() {
             <Route
               path="/vendor/accounts"
               element={
-                <RoleRoute allowedRoles={['vendor']}>
+                <RoleRoute allowedRoles={['vendor', 'super_admin']}>
                   <VendorAccounts />
                 </RoleRoute>
               }
@@ -187,7 +187,7 @@ export default function App() {
             <Route
               path="/vendor/orders"
               element={
-                <RoleRoute allowedRoles={['vendor']}>
+                <RoleRoute allowedRoles={['vendor', 'super_admin']}>
                   <VendorOrders />
                 </RoleRoute>
               }
@@ -195,7 +195,7 @@ export default function App() {
             <Route
               path="/vendor/tickets"
               element={
-                <RoleRoute allowedRoles={['vendor']}>
+                <RoleRoute allowedRoles={['vendor', 'super_admin']}>
                   <VendorTickets />
                 </RoleRoute>
               }

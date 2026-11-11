@@ -17,6 +17,7 @@ class UpdateCpBundleRequest extends FormRequest
             'cp_amount' => ['sometimes', 'required', 'integer', 'min:1', 'max:100000'],
             'price_amount' => ['sometimes', 'required', 'numeric', 'min:1'],
             'price_currency' => ['sometimes', 'string', 'in:TZS,USD,NGN'],
+            'description' => ['sometimes', 'nullable', 'string', 'max:1000'],
             'status' => ['sometimes', 'string', 'in:draft,published,unavailable'],
         ];
     }

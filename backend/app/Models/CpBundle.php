@@ -17,6 +17,7 @@ class CpBundle extends Model
         'cp_amount',
         'price_amount',
         'price_currency',
+        'description',
         'status',
     ];
 

@@ -8,7 +8,7 @@ class StoreAccountListingRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->isVendor() && $this->user()?->is_active;
+        return ($this->user()?->isVendor() || $this->user()?->isSuperAdmin()) && $this->user()?->is_active;
     }
 
     public function rules(): array

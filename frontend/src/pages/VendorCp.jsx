@@ -16,6 +16,7 @@ export default function VendorCp() {
     cp_amount: 2400,
     price_amount: '',
     price_currency: 'TZS',
+    description: '',
     status: 'published',
   });
 
@@ -53,6 +54,7 @@ export default function VendorCp() {
         cp_amount: 2400,
         price_amount: '',
         price_currency: 'TZS',
+        description: '',
         status: 'published',
       });
       fetchBundles();
@@ -142,8 +144,18 @@ export default function VendorCp() {
                   {bundles.map((bundle) => (
                     <tr key={bundle.id} className="hover:bg-white/60 transition-colors">
                       <td className="px-6 py-4">
-                        <div className="font-bold text-stone-900">{bundle.formatted_title}</div>
-                        <div className="text-xs text-stone-500">{bundle.cp_amount.toLocaleString()} In-game CP</div>
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 rounded-xl bg-black overflow-hidden shrink-0 border border-ice-200 flex items-center justify-center shadow-2xs">
+                            <img src="/codm-cp.jpg" alt="CP" className="w-full h-full object-contain p-1" />
+                          </div>
+                          <div>
+                            <div className="font-bold text-stone-900">{bundle.formatted_title}</div>
+                            <div className="text-xs text-stone-500">{bundle.cp_amount.toLocaleString()} In-game CP</div>
+                            {bundle.description && (
+                              <div className="text-[11px] text-stone-600 line-clamp-1 mt-0.5">{bundle.description}</div>
+                            )}
+                          </div>
+                        </div>
                       </td>
                       <td className="px-6 py-4 font-mono font-medium text-stone-900">
                         {bundle.price_currency} {Number(bundle.price_amount).toLocaleString()}
@@ -192,6 +204,17 @@ export default function VendorCp() {
               )}
 
               <form onSubmit={handleCreate} className="mt-4 space-y-4 text-xs">
+                {/* Standardized CP Artwork notice & preview */}
+                <div className="flex items-center space-x-3 p-3 bg-quantum-50/70 border border-quantum-200 rounded-xl">
+                  <div className="w-12 h-12 rounded-lg bg-black overflow-hidden shrink-0 border border-quantum-300 shadow-2xs flex items-center justify-center">
+                    <img src="/codm-cp.jpg" alt="CP Coins" className="w-full h-full object-contain p-1" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-quantum-900 text-xs">Standardized CODM Artwork</div>
+                    <div className="text-[11px] text-stone-600">Platform-wide CP image is automatically applied to all vendor bundles. You only set the selling price.</div>
+                  </div>
+                </div>
+
                 <div>
                   <label className="block font-semibold text-stone-700 mb-1">Standard CP Denomination</label>
                   <select
@@ -235,6 +258,18 @@ export default function VendorCp() {
                       <option value="NGN">NGN (Nigerian Naira)</option>
                     </select>
                   </div>
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">Bundle Description</label>
+                  <textarea
+                    name="description"
+                    rows="3"
+                    value={form.description}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-ice-300 rounded-xl bg-white/80 text-stone-800 focus:bg-white focus:outline-none focus:ring-1 focus:ring-quantum-500"
+                  />
+                  <div className="text-[10px] text-stone-500 mt-1">Specify package notes, bonus breakdown, or server delivery instructions. Images are standardized platform-wide.</div>
                 </div>
 
                 <div className="flex items-center justify-end space-x-3 pt-3 border-t border-ice-200">

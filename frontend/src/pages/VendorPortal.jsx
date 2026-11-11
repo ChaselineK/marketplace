@@ -139,7 +139,10 @@ export default function VendorPortal() {
                 {dashboardData.inventory_counts.active_accounts} <span className="text-sm font-normal text-stone-500">Live Accounts</span>
               </div>
               <div className="text-xs text-stone-500 mt-1">
-                {dashboardData.inventory_counts.sold_accounts} sold &bull; {dashboardData.inventory_counts.total_cp_bundles} CP bundles configured
+                {dashboardData.inventory_counts.sold_accounts} sold
+                {user?.role !== 'super_admin' && (
+                  <span> &bull; {dashboardData.inventory_counts.total_cp_bundles} CP bundles configured</span>
+                )}
               </div>
             </div>
 
@@ -158,7 +161,7 @@ export default function VendorPortal() {
         ) : null}
 
         {/* Quick Management Links */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className={`grid grid-cols-1 ${user?.role === 'super_admin' ? 'md:grid-cols-2' : 'md:grid-cols-3'} gap-6`}>
           <Link
             to="/vendor/accounts"
             className="group glass-panel rounded-2xl p-6 hover:border-quantum-400 hover:shadow-md transition-all flex flex-col justify-between"
@@ -182,28 +185,30 @@ export default function VendorPortal() {
             </div>
           </Link>
 
-          <Link
-            to="/vendor/cp"
-            className="group glass-panel rounded-2xl p-6 hover:border-quantum-400 hover:shadow-md transition-all flex flex-col justify-between"
-          >
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-quantum-50 border border-quantum-200 flex items-center justify-center text-quantum-600 mb-4 group-hover:scale-105 group-hover:bg-quantum-600 group-hover:text-white transition-all">
-                <Coins className="w-6 h-6" />
+          {user?.role !== 'super_admin' && (
+            <Link
+              to="/vendor/cp"
+              className="group glass-panel rounded-2xl p-6 hover:border-quantum-400 hover:shadow-md transition-all flex flex-col justify-between"
+            >
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-quantum-50 border border-quantum-200 flex items-center justify-center text-quantum-600 mb-4 group-hover:scale-105 group-hover:bg-quantum-600 group-hover:text-white transition-all">
+                  <Coins className="w-6 h-6" />
+                </div>
+                <h2 className="text-lg font-bold text-stone-900 mb-1 group-hover:text-quantum-600 transition-colors">
+                  CP Bundle Pricing
+                </h2>
+                <p className="text-xs text-stone-600 mb-4 leading-relaxed">
+                  Set authoritative TZS unit prices across standard CP bundle denominations (80 to 10,800 CP).
+                </p>
               </div>
-              <h2 className="text-lg font-bold text-stone-900 mb-1 group-hover:text-quantum-600 transition-colors">
-                CP Bundle Pricing
-              </h2>
-              <p className="text-xs text-stone-600 mb-4 leading-relaxed">
-                Set authoritative TZS unit prices across standard CP bundle denominations (80 to 10,800 CP).
-              </p>
-            </div>
-            <div className="pt-4 border-t border-ice-200 flex items-center justify-between text-xs">
-              <span className="text-stone-500 font-medium">Configure Bundles</span>
-              <span className="inline-flex items-center font-semibold text-quantum-600 group-hover:translate-x-1 transition-transform">
-                Set CP Rates <ArrowRight className="w-3.5 h-3.5 ml-1" />
-              </span>
-            </div>
-          </Link>
+              <div className="pt-4 border-t border-ice-200 flex items-center justify-between text-xs">
+                <span className="text-stone-500 font-medium">Configure Bundles</span>
+                <span className="inline-flex items-center font-semibold text-quantum-600 group-hover:translate-x-1 transition-transform">
+                  Set CP Rates <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                </span>
+              </div>
+            </Link>
+          )}
 
           <Link
             to="/vendor/orders"

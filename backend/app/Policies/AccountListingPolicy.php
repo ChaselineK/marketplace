@@ -30,7 +30,7 @@ class AccountListingPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isVendor() && $user->is_active;
+        return ($user->isVendor() || $user->isSuperAdmin()) && $user->is_active;
     }
 
     /**

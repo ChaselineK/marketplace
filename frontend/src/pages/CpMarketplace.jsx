@@ -214,15 +214,17 @@ export default function CpMarketplace() {
               return (
                 <div
                   key={bundle.id}
-                  className="group glass-panel rounded-2xl p-6 flex flex-col justify-between hover:border-quantum-400 hover:shadow-md transition-all"
+                  className="group glass-panel rounded-2xl p-5 flex flex-col justify-between hover:border-quantum-400 hover:shadow-md transition-all"
                 >
                   <div>
-                    {/* Standardized CP Category Header */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-quantum-50 border border-quantum-200 flex items-center justify-center text-quantum-600 group-hover:scale-105 transition-transform">
-                        <Coins className="w-6 h-6" />
-                      </div>
-                      <span className="text-[11px] font-semibold text-quantum-700 bg-quantum-50 px-2.5 py-0.5 rounded-full border border-quantum-200">
+                    {/* Official CP Coins Image Banner */}
+                    <div className="h-36 sm:h-40 w-full rounded-xl overflow-hidden bg-black mb-4 relative flex items-center justify-center border border-quantum-100 shadow-2xs">
+                      <img
+                        src="/codm-cp.jpg"
+                        alt="Call of Duty: Mobile CP"
+                        className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <span className="absolute top-2.5 right-2.5 text-[10px] font-bold text-white bg-quantum-600/90 backdrop-blur-xs px-2.5 py-0.5 rounded-full shadow-xs">
                         In Stock
                       </span>
                     </div>
@@ -241,6 +243,12 @@ export default function CpMarketplace() {
                         {bundle.vendor?.store_name}
                       </Link>
                     </div>
+
+                    {bundle.description && (
+                      <p className="mt-2 text-xs text-stone-600 line-clamp-2 leading-relaxed">
+                        {bundle.description}
+                      </p>
+                    )}
                   </div>
 
                   <div className="mt-6 pt-4 border-t border-ice-200">
@@ -298,9 +306,17 @@ export default function CpMarketplace() {
               )}
 
               <div className="space-y-3 text-xs bg-ice-100/70 p-4 rounded-xl border border-ice-200">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-stone-900 text-sm">{activeBundle.formatted_title}</span>
-                  <span className="text-stone-500 font-medium">Sold by {activeBundle.vendor?.store_name}</span>
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 rounded-xl bg-black overflow-hidden shrink-0 border border-quantum-200 shadow-xs flex items-center justify-center">
+                    <img src="/codm-cp.jpg" alt="CP Coins" className="w-full h-full object-contain p-1" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-stone-900 text-sm truncate">{activeBundle.formatted_title}</div>
+                    <div className="text-stone-500 font-medium text-[11px]">Sold by {activeBundle.vendor?.store_name}</div>
+                    {activeBundle.description && (
+                      <div className="text-[11px] text-stone-600 mt-1 leading-snug">{activeBundle.description}</div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex justify-between py-1 border-t border-ice-200 text-stone-600">

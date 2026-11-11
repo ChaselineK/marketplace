@@ -132,6 +132,9 @@ export default function Navbar() {
                     <Link to="/admin" className={navLinkClass('/admin')}>
                       Admin Overview
                     </Link>
+                    <Link to="/vendor/accounts" className={navLinkClass('/vendor/accounts')}>
+                      Account Inventory
+                    </Link>
                     <Link to="/admin/vendors" className={navLinkClass('/admin/vendors')}>
                       Vendors Management
                     </Link>
@@ -277,6 +280,9 @@ export default function Navbar() {
               <>
                 <Link to="/admin" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/admin')}>
                   Admin Dashboard
+                </Link>
+                <Link to="/vendor/accounts" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/vendor/accounts')}>
+                  Account Inventory
                 </Link>
                 <Link to="/admin/vendors" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass('/admin/vendors')}>
                   Vendors Management

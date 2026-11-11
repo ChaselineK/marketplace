@@ -95,8 +95,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Private attachment access (authorized by SupportTicketPolicy)
     Route::get('/tickets/{reference}/attachments/{attachment}/download', [TicketAttachmentController::class, 'download']);
 
-    // Vendor Role Group
-    Route::middleware('role:vendor')->prefix('vendor')->group(function () {
+    // Vendor & Seller Role Group (Super Admin sells accounts only; Vendors sell CP and accounts)
+    Route::middleware('role:vendor,super_admin')->prefix('vendor')->group(function () {
         Route::get('/portal-check', function (Request $request) {
             return response()->json([
                 'status' => 'authorized',
@@ -109,7 +109,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/profile', [VendorProfileController::class, 'show']);
         Route::patch('/profile', [VendorProfileController::class, 'update']);
 
-        // Account Listings Management
+        // Account Listings Management (Super Admin & Vendors)
         Route::get('/account-listings', [VendorListingController::class, 'index']);
         Route::post('/account-listings', [VendorListingController::class, 'store']);
         Route::get('/account-listings/{accountListing}', [VendorListingController::class, 'show']);
@@ -119,12 +119,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/account-listings/{accountListing}/images', [VendorListingController::class, 'uploadImage']);
         Route::delete('/account-listings/{accountListing}/images/{image}', [VendorListingController::class, 'deleteImage']);
 
-        // CP Bundles Management
-        Route::get('/cp-bundles', [VendorCpController::class, 'index']);
-        Route::post('/cp-bundles', [VendorCpController::class, 'store']);
-        Route::get('/cp-bundles/{cpBundle}', [VendorCpController::class, 'show']);
-        Route::patch('/cp-bundles/{cpBundle}', [VendorCpController::class, 'update']);
-        Route::delete('/cp-bundles/{cpBundle}', [VendorCpController::class, 'destroy']);
+        // CP Bundles Management (Restricted to Vendors ONLY - Super Admin sells accounts only)
+        Route::middleware('role:vendor')->group(function () {
+            Route::get('/cp-bundles', [VendorCpController::class, 'index']);
+            Route::post('/cp-bundles', [VendorCpController::class, 'store']);
+            Route::get('/cp-bundles/{cpBundle}', [VendorCpController::class, 'show']);
+            Route::patch('/cp-bundles/{cpBundle}', [VendorCpController::class, 'update']);
+            Route::delete('/cp-bundles/{cpBundle}', [VendorCpController::class, 'destroy']);
+        });
 
         // Vendor Orders Queue & Processing
         Route::get('/orders', [VendorOrderController::class, 'index']);

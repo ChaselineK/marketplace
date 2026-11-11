@@ -42,6 +42,7 @@ class VendorCpController extends Controller
             'cp_amount' => $request->validated('cp_amount'),
             'price_amount' => $request->validated('price_amount'),
             'price_currency' => $request->validated('price_currency', 'TZS'),
+            'description' => $request->validated('description'),
             'status' => $request->validated('status', 'published'),
         ]);
 
